@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widdex | Inversiones y Desarrollo de Negocios LATAM</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        logo: ['Fredoka', 'Cooper', 'Cooper Black', 'serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(circle at center, #cbd5e1 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .animate-spin-slow {
+            animation: spin 12s linear infinite;
+        }
+        .animate-pulse-slow {
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        /* Lógica de visualización de idioma */
+        [data-lang]:not(.active-lang) {
+            display: none;
+        }
+        /* Logo style */
+        .widdex-logo {
+            font-family: 'Fredoka', 'Cooper', 'Cooper Black', serif;
+            letter-spacing: -0.03em;
+        }
+
+        /* Abstract Network Styles */
+        .network-node {
+            fill: #6366f1;
+            filter: drop-shadow(0 0 4px rgba(99, 102, 241, 0.6));
+        }
+        .network-line {
+            stroke: url(#lineGradient);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            opacity: 0.3;
+        }
+        .floating-node {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-10px) translateX(5px); }
+        }
+        .path-draw {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: draw 8s linear infinite;
+        }
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-800 antialiased flex flex-col min-h-screen selection:bg-primary-500 selection:text-white">
+
+    <!-- Navegación -->
+    <nav class="fixed w-full z-50 glass-nav border-b border-slate-200/50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo Tipográfico (Cooper Style) -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <span class="widdex-logo text-4xl md:text-5xl font-bold text-dark-900 lowercase leading-none select-none">
+                        widdex<span class="text-red-600">.</span>
+                    </span>
+                </div>
+                
+                <!-- Enlaces Desktop (Centro) -->
+                <div class="hidden md:flex space-x-10 items-center">
+                    <a href="#inicio" class="text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors">
+                        <span data-lang="es" class="active-lang">Inicio</span>
+                        <span data-lang="en">Home</span>
+                    </a>
+                    <a href="#divisiones" class="text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors">
+                        <span data-lang="es" class="active-lang">Divisiones</span>
+                        <span data-lang="en">Divisions</span>
+                    </a>
+                    <a href="#about" class="text-sm font-semibold text-slate-600 hover:text-primary-600 transition-colors">
+                        <span data-lang="es" class="active-lang">About</span>
+                        <span data-lang="en">About</span>
+                    </a>
+                </div>
+
+                <!-- Grupo de Idioma y CTA (Derecha) -->
+                <div class="hidden md:flex items-center gap-6">
+                    <!-- Selector de Idioma -->
+                    <div class="flex items-center gap-2 border-r border-slate-200 pr-6">
+                        <button onclick="setLanguage('es')" id="btn-es" class="text-[10px] font-bold px-2.5 py-1 rounded-md border border-slate-200 bg-dark-900 text-white transition-all">ES</button>
+                        <button onclick="setLanguage('en')" id="btn-en" class="text-[10px] font-bold px-2.5 py-1 rounded-md border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all">EN</button>
+                    </div>
+
+                    <!-- Botón Contacto -->
+                    <a href="#contacto" class="bg-dark-900 hover:bg-primary-600 text-white px-7 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-primary-500/30 hover:-translate-y-0.5">
+                        <span data-lang="es" class="active-lang">Contacto</span>
+                        <span data-lang="en">Contact</span>
+                    </a>
+                </div>
+
+                <!-- Menú Móvil -->
+                <div class="md:hidden flex items-center gap-4">
+                    <div class="flex items-center gap-1">
+                        <button onclick="setLanguage('es')" class="text-[10px] font-bold p-1">ES</button>
+                        <span class="text-slate-300">|</span>
+                        <button onclick="setLanguage('en')" class="text-[10px] font-bold p-1">EN</button>
+                    </div>
+                    <button class="text-slate-900 hover:text-primary-600 focus:outline-none">
+                        <i data-lucide="menu" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
+        <div class="absolute inset-0 bg-grid-pattern opacity-[0.15] pointer-events-none"></div>
+        <div class="absolute top-0 right-0 -translate-y-12 translate-x-1/3 w-[800px] h-[800px] bg-primary-100 rounded-full blur-[120px] opacity-60 pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="text-center max-w-4xl mx-auto">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold uppercase tracking-wider mb-8">
+                    <span class="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
+                    <span data-lang="es" class="active-lang">Sede en Santiago de Chile</span>
+                    <span data-lang="en">Headquarters in Santiago, Chile</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold text-dark-900 leading-tight mb-8 tracking-tight">
+                    <span data-lang="es" class="active-lang">Desarrollo y expansión de negocios en <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-400">Latinoamérica.</span></span>
+                    <span data-lang="en">Business development and expansion in <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-indigo-400">Latin America.</span></span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed max-w-2xl mx-auto">
+                    <span data-lang="es" class="active-lang">Widdex Investments SpA es un holding empresarial con operaciones a nivel continental. Conectamos soluciones de categoría mundial con el mercado sudamericano.</span>
+                    <span data-lang="en">Widdex Investments SpA is a business holding company with continental operations. We connect world-class solutions with the South American market.</span>
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#contacto" class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 rounded-full text-base font-bold text-center transition-all shadow-xl shadow-primary-500/20 flex items-center justify-center gap-2 hover:-translate-y-1">
+                        <span data-lang="es" class="active-lang">Contactar al holding</span>
+                        <span data-lang="en">Contact the holding</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#divisiones" class="bg-white hover:bg-slate-50 text-dark-900 border border-slate-200 px-8 py-4 rounded-full text-base font-bold text-center transition-all flex items-center justify-center hover:-translate-y-1">
+                        <span data-lang="es" class="active-lang">Ver divisiones</span>
+                        <span data-lang="en">View divisions</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Continental Presence: "Gráfico de Red Abstracta" Design -->
+            <div class="mt-20 relative max-w-6xl mx-auto">
+                <div class="rounded-[3rem] bg-dark-900 border border-slate-800 p-8 md:p-12 shadow-2xl relative overflow-hidden group">
+                    <div class="absolute inset-0 opacity-40">
+                        <svg class="w-full h-full" viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#6366f1" />
+                                    <stop offset="50%" stop-color="#a855f7" />
+                                    <stop offset="100%" stop-color="#6366f1" />
+                                </linearGradient>
+                            </defs>
+                            <g class="network-lines">
+                                <path d="M200 100 L400 80 L600 150 L800 120" class="network-line path-draw" />
+                                <path d="M150 250 L350 220 L550 280 L750 240" class="network-line path-draw" style="animation-delay: 1s" />
+                                <path d="M200 100 L150 250" class="network-line" />
+                                <path d="M400 80 L350 220" class="network-line" />
+                                <path d="M600 150 L550 280" class="network-line" />
+                                <path d="M800 120 L750 240" class="network-line" />
+                                <path d="M400 80 L600 150" class="network-line" />
+                                <path d="M350 220 L550 280" class="network-line" />
+                            </g>
+                            <g class="nodes">
+                                <circle cx="200" cy="100" r="4" class="network-node floating-node" />
+                                <circle cx="400" cy="80" r="6" class="network-node floating-node" style="animation-delay: 1s" />
+                                <circle cx="600" cy="150" r="4" class="network-node floating-node" style="animation-delay: 2s" />
+                                <circle cx="800" cy="120" r="5" class="network-node floating-node" style="animation-delay: 0.5s" />
+                                <circle cx="150" cy="250" r="5" class="network-node floating-node" style="animation-delay: 1.5s" />
+                                <circle cx="350" cy="220" r="4" class="network-node floating-node" style="animation-delay: 2.5s" />
+                                <circle cx="550" cy="280" r="7" class="network-node floating-node" style="animation-delay: 3s" />
+                                <circle cx="750" cy="240" r="4" class="network-node floating-node" style="animation-delay: 0.8s" />
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center h-full">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-500/10 border border-primary-500/30 text-primary-400 text-[10px] font-bold uppercase tracking-widest mb-6">
+                                <i data-lucide="network" class="w-3 h-3"></i>
+                                <span data-lang="es">Ecosistema Conectado</span><span data-lang="en">Connected Ecosystem</span>
+                            </div>
+                            <h4 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">
+                                <span data-lang="es" class="active-lang">Operaciones desde <br>México hasta Chile</span>
+                                <span data-lang="en">Operations from <br>Mexico to Chile</span>
+                            </h4>
+                            <p class="text-slate-400 text-base md:text-lg max-w-md font-medium leading-relaxed">
+                                <span data-lang="es" class="active-lang">Nuestra red estratégica de canales y socios locales garantiza una ejecución eficiente en los mercados más dinámicos de Latinoamérica.</span>
+                                <span data-lang="en">Our strategic network of channels and local partners guarantees efficient execution in Latin America's most dynamic markets.</span>
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-2xl">
+                                <p class="text-primary-400 text-xs font-bold uppercase mb-2">México Hub</p>
+                                <div class="w-full h-1 bg-slate-800 rounded-full mb-2 overflow-hidden">
+                                    <div class="h-full bg-primary-500 w-full animate-pulse"></div>
+                                </div>
+                                <p class="text-slate-300 text-[11px]">Norte y Centroamérica</p>
+                            </div>
+                            <div class="bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-2xl">
+                                <p class="text-purple-400 text-xs font-bold uppercase mb-2">Santiago HQ</p>
+                                <div class="w-full h-1 bg-slate-800 rounded-full mb-2 overflow-hidden">
+                                    <div class="h-full bg-purple-500 w-full animate-pulse"></div>
+                                </div>
+                                <p class="text-slate-300 text-[11px]">Centro de Operaciones</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divisiones Section -->
+    <section id="divisiones" class="py-24 bg-slate-50 relative border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div class="max-w-2xl">
+                    <h2 class="text-primary-600 font-bold tracking-widest uppercase text-sm mb-3">
+                        <span data-lang="es" class="active-lang">Nuestra Estructura</span>
+                        <span data-lang="en">Our Structure</span>
+                    </h2>
+                    <h3 class="text-3xl md:text-5xl font-extrabold text-dark-900">
+                        <span data-lang="es" class="active-lang">Empresas y Divisiones.</span>
+                        <span data-lang="en">Companies and Divisions.</span>
+                    </h3>
+                </div>
+                <p class="text-slate-600 text-lg md:max-w-sm">
+                    <span data-lang="es" class="active-lang">Operamos a través de alianzas estratégicas y una maquinaria de servicios corporativos de alto impacto.</span>
+                    <span data-lang="en">We operate through strategic alliances and a high-impact corporate services machinery.</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Rocateq -->
+                <div class="bg-white rounded-3xl p-8 border border-slate-200/60 hover:border-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/5 transition-all duration-300 group flex flex-col">
+                    <div class="h-14 flex items-center mb-6 transition-all duration-300 group-hover:-translate-y-1">
+                        <img src="https://rocateq.com/wp-content/themes/rocateq/img/logo.svg" alt="Rocateq" class="h-10 w-auto object-contain">
+                    </div>
+                    <h4 class="text-xl font-bold text-dark-900 mb-3">Rocateq Sudamerica & México</h4>
+                    <p class="text-slate-600 leading-relaxed text-sm mb-6 flex-grow">
+                        <span data-lang="es" class="active-lang">Responsables del desarrollo de negocio y operaciones comerciales desde México hasta Chile, liderando soluciones de seguridad y tecnología para retail.</span>
+                        <span data-lang="en">Responsible for business development and commercial operations from Mexico to Chile, leading security and technology solutions for retail.</span>
+                    </p>
+                    <div>
+                        <a href="https://rocateq.com/cl/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-primary-600 font-bold text-sm hover:text-primary-700 transition-colors group/link">
+                            <span data-lang="es" class="active-lang">Visitar sitio</span><span data-lang="en">Visit website</span> 
+                            <i data-lucide="external-link" class="w-4 h-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- VARIN Latam -->
+                <div class="bg-white rounded-3xl p-8 border border-slate-200/60 hover:border-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/5 transition-all duration-300 group flex flex-col">
+                    <div class="h-14 flex items-center mb-6 transition-all duration-300 group-hover:-translate-y-1">
+                        <img src="https://varin.nl/cdn/shop/files/logo-varin_524x120.svg?v=1704292157" alt="VARIN" class="h-10 w-auto object-contain">
+                    </div>
+                    <h4 class="text-xl font-bold text-dark-900 mb-3">VARIN Latam</h4>
+                    <p class="text-slate-600 leading-relaxed text-sm mb-6 flex-grow">
+                        <span data-lang="es" class="active-lang">Socios estratégicos impulsando la consolidación de soluciones tecnológicas y de infraestructura en el mercado sudamericano.</span>
+                        <span data-lang="en">Strategic partners driving the consolidation of technological and infrastructure solutions in the South American market.</span>
+                    </p>
+                    <div>
+                        <a href="http://www.varin.cl" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-primary-600 font-bold text-sm hover:text-primary-700 transition-colors group/link">
+                            <span data-lang="es" class="active-lang">Visitar sitio</span><span data-lang="en">Visit website</span> 
+                            <i data-lucide="external-link" class="w-4 h-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Business Engine (Purple for Creativity) -->
+                <div class="bg-white rounded-3xl p-8 border border-slate-200/60 hover:border-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 group flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-5">
+                        <i data-lucide="settings" class="w-20 h-20 text-purple-600 animate-spin-slow"></i>
+                    </div>
+                    <div class="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-purple-500/30">
+                        <i data-lucide="handshake" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-dark-900 mb-3">Business Engine</h4>
+                    <div class="space-y-4 flex-grow">
+                        <div class="flex gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-purple-500 flex-shrink-0"></i>
+                            <p class="text-slate-600 text-xs font-semibold leading-tight">
+                                <span data-lang="es" class="active-lang">Representación de Marcas Internacionales.</span>
+                                <span data-lang="en">International Brand Representation.</span>
+                            </p>
+                        </div>
+                        <div class="flex gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-purple-500 flex-shrink-0"></i>
+                            <p class="text-slate-600 text-xs font-semibold leading-tight">
+                                <span data-lang="es" class="active-lang">Consultoría en Business Development & Go-To-Market LATAM.</span>
+                                <span data-lang="en">Consulting in Business Development & Go-To-Market LATAM.</span>
+                            </p>
+                        </div>
+                        <div class="flex gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-purple-500 flex-shrink-0"></i>
+                            <p class="text-slate-600 text-xs font-semibold leading-tight">
+                                <span data-lang="es" class="active-lang">Servicios de BPO potenciados con IA y SW de categoría mundial.</span>
+                                <span data-lang="en">BPO services powered by AI and world-class software.</span>
+                            </p>
+                        </div>
+                    </div>
+                    <p class="text-purple-500 text-[11px] mt-6 leading-relaxed italic border-t border-purple-50 pt-4">
+                        <span data-lang="es" class="active-lang">Consolidación estratégica de servicios corporativos.</span>
+                        <span data-lang="en">Strategic consolidation of corporate services.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section About -->
+    <section id="about" class="py-24 bg-dark-900 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-600 rounded-full blur-[150px] opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h3 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                        <span data-lang="es" class="active-lang">Un Holding estructurado para el éxito regional.</span>
+                        <span data-lang="en">A Holding structured for regional success.</span>
+                    </h3>
+                    <p class="text-slate-400 mb-8 text-lg leading-relaxed">
+                        <span data-lang="es" class="active-lang">Con nuestras oficinas centrales en Santiago de Chile, coordinamos una extensa red de canales y alianzas estratégicas. Integramos representación, consultoría y optimización de procesos a gran escala.</span>
+                        <span data-lang="en">With our headquarters in Santiago, Chile, we coordinate an extensive network of channels and strategic alliances. We integrate representation, consulting, and large-scale process optimization.</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-4xl font-extrabold text-white mb-2">HQ</p>
+                            <p class="text-slate-400 text-sm">Santiago, Chile</p>
+                        </div>
+                        <div>
+                            <p class="text-4xl font-extrabold text-white mb-2">LATAM</p>
+                            <p class="text-slate-400 text-sm">
+                                <span data-lang="es" class="active-lang">Operaciones Regionales</span>
+                                <span data-lang="en">Regional Operations</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="bg-slate-800/50 backdrop-blur-md border border-slate-700 p-8 rounded-3xl">
+                        <h4 class="text-white font-bold text-xl mb-6">
+                            <span data-lang="es" class="active-lang">Nuestros Pilares de Valor</span>
+                            <span data-lang="en">Our Value Pillars</span>
+                        </h4>
+                        <div class="space-y-6">
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary-500/20">
+                                    <i data-lucide="handshake" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-white font-semibold mb-1">
+                                        <span data-lang="es" class="active-lang">Alianzas Estratégicas</span>
+                                        <span data-lang="en">Strategic Alliances</span>
+                                    </h5>
+                                    <p class="text-slate-400 text-sm">
+                                        <span data-lang="es" class="active-lang">Participación activa en empresas clave como Rocateq y VARIN Latam.</span>
+                                        <span data-lang="en">Active participation in key companies like Rocateq and VARIN Latam.</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-purple-500/30">
+                                    <i data-lucide="bar-chart-4" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-white font-semibold mb-1">Business Engine</h5>
+                                    <p class="text-slate-400 text-sm">
+                                        <span data-lang="es" class="active-lang">Consultoría Go-to-Market y representación para marcas globales en LATAM.</span>
+                                        <span data-lang="en">Go-to-Market consulting and representation for global brands in LATAM.</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-primary-500/30">
+                                    <i data-lucide="cpu" class="w-5 h-5 text-white"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-white font-semibold mb-1">
+                                        <span data-lang="es" class="active-lang">IA & Operaciones</span>
+                                        <span data-lang="en">AI & Operations</span>
+                                    </h5>
+                                    <p class="text-slate-400 text-sm">
+                                        <span data-lang="es" class="active-lang">Externalización de procesos con inteligencia artificial y software mundial.</span>
+                                        <span data-lang="en">Business Process Outsourcing with AI and world-class software.</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto Section -->
+    <section id="contacto" class="py-24 bg-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-slate-50 opacity-50 transform -skew-y-3 origin-top-left"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-dark-900 mb-6">
+                <span data-lang="es" class="active-lang">Contacta a nuestro equipo</span>
+                <span data-lang="en">Contact our team</span>
+            </h2>
+            <p class="text-lg text-slate-600 mb-10 max-w-2xl mx-auto">
+                <span data-lang="es" class="active-lang">Escríbenos para explorar oportunidades de negocio, externalización o representación en la región.</span>
+                <span data-lang="en">Write to us to explore business opportunities, outsourcing, or representation in the region.</span>
+            </p>
+            
+            <div class="bg-white p-8 md:p-10 rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50 text-left max-w-2xl mx-auto relative min-h-[400px]">
+                <!-- Formulario con Formspree -->
+                <form id="contact-form" action="https://formspree.io/f/mqkvvzzq" method="POST" class="space-y-6">
+                    <input type="hidden" name="_to" value="contacto@widdex.com">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                <span data-lang="es" class="active-lang">Nombre completo</span><span data-lang="en">Full Name</span>
+                            </label>
+                            <input type="text" name="nombre" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white" placeholder="...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                <span data-lang="es" class="active-lang">Empresa</span><span data-lang="en">Company</span>
+                            </label>
+                            <input type="text" name="empresa" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white" placeholder="...">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            <span data-lang="es" class="active-lang">Correo electrónico</span><span data-lang="en">Email Address</span>
+                        </label>
+                        <input type="email" name="email" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white" placeholder="...">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            <span data-lang="es" class="active-lang">¿Con qué división deseas hablar?</span>
+                            <span data-lang="en">Which division would you like to speak with?</span>
+                        </label>
+                        <select name="division" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white">
+                            <option data-lang="es" class="active-lang">Consultas Generales (Holding)</option>
+                            <option data-lang="en">General Inquiries (Holding)</option>
+                            <option>Rocateq Sudamerica & México</option>
+                            <option>VARIN Latam</option>
+                            <option>Business Engine</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            <span data-lang="es" class="active-lang">Mensaje</span><span data-lang="en">Message</span>
+                        </label>
+                        <textarea name="mensaje" rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all bg-slate-50 focus:bg-white resize-none" placeholder="..."></textarea>
+                    </div>
+                    <button type="submit" id="form-submit" class="w-full bg-dark-900 hover:bg-primary-600 text-white font-bold py-4 rounded-xl transition-all shadow-lg hover:shadow-primary-500/30 flex justify-center items-center gap-2">
+                        <span id="btn-text">
+                            <span data-lang="es" class="active-lang">Enviar mensaje</span>
+                            <span data-lang="en">Send message</span>
+                        </span>
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </form>
+
+                <!-- Pantalla de Éxito (Oculta por defecto) -->
+                <div id="success-screen" class="hidden absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-white rounded-3xl z-20">
+                    <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
+                        <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+                    </div>
+                    <h4 class="text-2xl font-extrabold text-dark-900 mb-4">
+                        <span data-lang="es" class="active-lang">¡Mensaje enviado!</span>
+                        <span data-lang="en">Message sent!</span>
+                    </h4>
+                    <p class="text-slate-600 mb-8">
+                        <span data-lang="es" class="active-lang">Gracias por contactarnos. Un especialista de nuestro equipo se comunicará contigo a la brevedad.</span>
+                        <span data-lang="en">Thank you for contacting us. A specialist from our team will reach out to you shortly.</span>
+                    </p>
+                    <button onclick="resetForm()" class="text-primary-600 font-bold hover:underline">
+                        <span data-lang="es" class="active-lang">Enviar otro mensaje</span>
+                        <span data-lang="en">Send another message</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 pt-16 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center mb-6">
+                        <span class="widdex-logo text-4xl font-bold text-dark-900 lowercase leading-none select-none">
+                            widdex<span class="text-red-600">.</span>
+                        </span>
+                    </div>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                        <span data-lang="es" class="active-lang">Holding de empresas con matriz en Santiago de Chile y operaciones comerciales en toda Latinoamérica.</span>
+                        <span data-lang="en">Business holding company headquartered in Santiago, Chile with commercial operations throughout Latin America.</span>
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 hover:text-primary-600 hover:bg-primary-50 transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-dark-900 mb-6">
+                        <span data-lang="es" class="active-lang">Divisiones</span><span data-lang="en">Divisions</span>
+                    </h4>
+                    <ul class="space-y-4 text-sm text-slate-500 font-medium">
+                        <li><a href="#divisiones" class="hover:text-primary-600 transition-colors">Rocateq Sudamerica & México</a></li>
+                        <li><a href="#divisiones" class="hover:text-primary-600 transition-colors">VARIN Latam</a></li>
+                        <li><a href="#divisiones" class="hover:text-primary-600 transition-colors">Business Engine</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-dark-900 mb-6">Holding</h4>
+                    <ul class="space-y-4 text-sm text-slate-500 font-medium">
+                        <li><a href="#about" class="hover:text-primary-600 transition-colors">
+                            <span data-lang="es" class="active-lang">About</span><span data-lang="en">About</span>
+                        </a></li>
+                        <li><a href="#" class="hover:text-primary-600 transition-colors">
+                            <span data-lang="es" class="active-lang">Noticias</span><span data-lang="en">News</span>
+                        </a></li>
+                        <li><a href="#" class="hover:text-primary-600 transition-colors">
+                            <span data-lang="es" class="active-lang">Inversiones</span><span data-lang="en">Investments</span>
+                        </a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-dark-900 mb-6">
+                        <span data-lang="es" class="active-lang">Oficina Central</span><span data-lang="en">Central Office</span>
+                    </h4>
+                    <ul class="space-y-4 text-sm text-slate-500 font-medium">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="map-pin" class="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5"></i>
+                            <span>Santiago de Chile, Región Metropolitana</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="mail" class="w-5 h-5 text-slate-400 flex-shrink-0"></i>
+                            <span>contacto@widdex.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-200 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-slate-400 text-sm font-medium">
+                    <span data-lang="es" class="active-lang">© 2026 Widdex Investments SpA. Todos los derechos reservados.</span>
+                    <span data-lang="en">© 2026 Widdex Investments SpA. All rights reserved.</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts de Funcionalidad -->
+    <script>
+        // Cambio de Idioma
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[data-lang]');
+            elements.forEach(el => {
+                if (el.getAttribute('data-lang') === lang) {
+                    el.classList.add('active-lang');
+                    el.style.display = (el.tagName === 'SPAN' || el.tagName === 'A') ? 'inline' : 'block';
+                    if(el.tagName === 'OPTION') el.style.display = 'block';
+                } else {
+                    el.classList.remove('active-lang');
+                    el.style.display = 'none';
+                }
+            });
+
+            const btnEs = document.getElementById('btn-es');
+            const btnEn = document.getElementById('btn-en');
+            
+            if (lang === 'es') {
+                btnEs.classList.add('bg-dark-900', 'text-white');
+                btnEs.classList.remove('bg-white', 'text-slate-600');
+                btnEn.classList.add('bg-white', 'text-slate-600');
+                btnEn.classList.remove('bg-dark-900', 'text-white');
+            } else {
+                btnEn.classList.add('bg-dark-900', 'text-white');
+                btnEn.classList.remove('bg-white', 'text-slate-600');
+                btnEs.classList.add('bg-white', 'text-slate-600');
+                btnEs.classList.remove('bg-dark-900', 'text-white');
+            }
+            document.documentElement.lang = lang;
+        }
+
+        // Manejo del Formulario de Contacto
+        const form = document.getElementById('contact-form');
+        const successScreen = document.getElementById('success-screen');
+        const btnSubmit = document.getElementById('form-submit');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Efecto visual de carga
+            btnSubmit.disabled = true;
+            btnSubmit.classList.add('opacity-70', 'cursor-not-allowed');
+            
+            const formData = new FormData(form);
+            
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Mostrar pantalla de éxito
+                    form.classList.add('hidden');
+                    successScreen.classList.remove('hidden');
+                    form.reset();
+                } else {
+                    alert('Hubo un error al enviar el mensaje. Por favor intenta de nuevo.');
+                }
+            } catch (error) {
+                alert('Error de conexión. Revisa tu internet.');
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        });
+
+        function resetForm() {
+            successScreen.classList.add('hidden');
+            form.classList.remove('hidden');
+        }
+
+        window.onload = function() {
+            lucide.createIcons();
+            setLanguage('es');
+        };
+    </script>
+</body>
+</html>
