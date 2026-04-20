@@ -1067,7 +1067,10 @@
     <div class="topbar">
       <div class="page-title" id="page-title">Dashboard</div>
       <div class="topbar-actions">
-        <button class="btn btn-ghost btn-sm" onclick="exportarDatos()">⬇️ Exportar</button>
+        <button class="btn btn-ghost btn-sm" onclick="exportarDatos()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Exportar Excel
+        </button>
         <button class="btn btn-primary" onclick="abrirNuevaDeal()">+ Nueva Oportunidad</button>
       </div>
     </div>
@@ -2330,11 +2333,62 @@ function toast(msg, type = 'success') {
 // ═══════════════════════════════════════════════
  
 function exportarDatos() {
-  const data = JSON.stringify(db, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
+  // Configuración de encabezados del CSV
+  const headers = [
+    'ID', 'Empresa', 'Contacto', 'Cargo', 'Correo', 'Account Executive',
+    'Etapa Bowtie', 'Valor (USD)', 'Probabilidad (%)', 'Cierre Estimado',
+    'S - Situación', 'P - Dolor', 'I - Impacto', 'C - Evento Crítico', 'D - Decisión',
+    'Notas', 'Fecha Creación'
+  ];
+
+  // Extraer las filas a partir de la base de datos
+  const rows = db.deals.map(d => [
+    d.id,
+    d.company,
+    d.contact,
+    d.role,
+    d.email,
+    d.owner || 'Sin asignar',
+    d.stage,
+    d.value,
+    d.prob,
+    d.closeDate || '',
+    d.spiced.s || '',
+    d.spiced.p || '',
+    d.spiced.i || '',
+    d.spiced.c || '',
+    d.spiced.d || '',
+    d.notes || '',
+    d.createdAt || ''
+  ]);
+
+  // Función para escapar comillas dobles y textos que puedan romper el CSV
+  const escapeCSV = (val) => {
+    if (val === null || val === undefined) return '""';
+    const str = String(val).replace(/"/g, '""');
+    return `"${str}"`;
+  };
+
+  // Construir el contenido CSV (usando coma y retornos de carro de Excel)
+  const csvContent = [
+    headers.map(escapeCSV).join(','),
+    ...rows.map(row => row.map(escapeCSV).join(','))
+  ].join('\r\n');
+
+  // \uFEFF añade el BOM (Byte Order Mark) para forzar a Excel a leer el CSV en UTF-8 y no dañar los acentos.
+  const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = 'crm-wbd-export.json'; a.click();
-  toast('⬇️ Datos exportados correctamente', 'success');
+  
+  // Forzar la descarga
+  const a = document.createElement('a'); 
+  a.href = url; 
+  a.download = 'Widdex-Oportunidades.csv'; 
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  toast('⬇️ Oportunidades exportadas a Excel (CSV)', 'success');
 }
  
 // ═══════════════════════════════════════════════
