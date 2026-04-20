@@ -25,14 +25,16 @@
         
         <!-- Cabecera: Logo, Buscador y Datos de Tiempo -->
         <header class="flex flex-col lg:flex-row justify-between items-center mb-12 gap-6 glass-panel p-5 rounded-3xl shadow-xl">
-            <div class="flex items-center gap-3 shrink-0">
-                <!-- Logotipo Principal -->
-                <img 
-                    src="Logo widdex 2026.jpeg" 
-                    alt="Widdex Logo 2026" 
-                    class="h-9 w-auto object-contain brightness-125"
-                    onerror="this.src='https://via.placeholder.com/150x50/1e293b/f1f5f9?text=WIDDEX'"
-                >
+            <div class="flex items-center gap-4 shrink-0">
+                <!-- Logotipo Principal SVG (Sustituye al archivo JPEG para que funcione en GitHub) -->
+                <div class="flex items-center gap-2 group cursor-default">
+                    <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                        <svg viewBox="0 0 100 100" class="w-6 h-6 fill-none stroke-white stroke-[12] stroke-linecap-round stroke-linejoin-round">
+                            <path d="M20 30L40 75L50 55L60 75L80 30" />
+                        </svg>
+                    </div>
+                    <span class="text-xl font-black tracking-tighter text-white">WIDDEX</span>
+                </div>
                 <div class="h-6 w-[1px] bg-slate-700/50 hidden sm:block"></div>
                 <h1 class="text-xs font-black tracking-[0.2em] text-slate-500 hidden sm:block uppercase">Control Hub</h1>
             </div>
