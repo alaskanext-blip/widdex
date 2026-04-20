@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM · Widdex · SPICED</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f4f5f8;
+    --surface: #ffffff;
+    --surface2: #f8fafc;
+    --surface3: #f1f5f9;
+    --border: #e2e8f0;
+    --border2: #cbd5e1;
+    --accent: #4f7cff;
+    --accent2: #7c5cff;
+    --accent3: #00a884;
+    --gold: #f59e0b;
+    --red: #ef4444;
+    --orange: #f97316;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #64748b;
+ 
+    /* SPICED colors */
+    --s-color: #4f7cff;
+    --p-color: #ef4444;
+    --i-color: #f59e0b;
+    --c-color: #f97316;
+    --d-color: #00a884;
+ 
+    /* Bowtie stages */
+    --st1: #6366f1;
+    --st2: #4f7cff;
+    --st3: #0ea5e9;
+    --st4: #00a884;
+    --st5: #10b981;
+    --st6: #f59e0b;
+    --st7: #f97316;
+  }
+ 
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+ 
+  /* ─── LAYOUT ─────────────────────────────────────── */
+  .app { display: flex; min-height: 100vh; }
+ 
+  /* ─── SIDEBAR ──────────────────────────────────────── */
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+ 
+  .sidebar-logo {
+    padding: 24px 20px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+ 
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+ 
+  .logo-icon {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+ 
+  .logo-sub {
+    font-size: 10px;
+    color: var(--text3);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+ 
+  .sidebar-nav { padding: 12px 0; flex: 1; }
+ 
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 10px 20px 6px;
+  }
+ 
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 13.5px;
+    font-weight: 400;
+    transition: all 0.15s;
+    border-left: 2px solid transparent;
+    position: relative;
+  }
+ 
+  .nav-item:hover { color: var(--text); background: var(--surface2); }
+ 
+  .nav-item.active {
+    color: var(--accent);
+    background: rgba(79,124,255,0.08);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+ 
+  .nav-item .nav-icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .nav-item .nav-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+ 
+  .nav-badge {
+    margin-left: auto;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+ 
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+ 
+  .user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+ 
+  .user-avatar {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+ 
+  .user-info { flex: 1; min-width: 0; }
+  .user-name { font-size: 13px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-role { font-size: 11px; color: var(--text3); }
+ 
+  /* ─── MAIN CONTENT ─────────────────────────────────── */
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+ 
+  .topbar {
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+ 
+  .page-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    flex: 1;
+  }
+ 
+  .topbar-actions { display: flex; gap: 8px; align-items: center; }
+ 
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+  }
+ 
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #3d6aff; transform: translateY(-1px); }
+ 
+  .btn-ghost {
+    background: transparent;
+    color: var(--text2);
+    border: 1px solid var(--border2);
+  }
+  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+ 
+  .btn-danger {
+    background: rgba(255,79,106,0.15);
+    color: var(--red);
+    border: 1px solid rgba(255,79,106,0.3);
+  }
+  .btn-danger:hover { background: rgba(255,79,106,0.25); }
+ 
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+ 
+  /* ─── PAGE CONTENT ─────────────────────────────────── */
+  .page { display: none; padding: 24px 28px; flex: 1; }
+  .page.active { display: block; }
+ 
+  /* ─── DASHBOARD ─────────────────────────────────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+ 
+  .kpi-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .kpi-card:hover { border-color: var(--border2); box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .kpi-card.blue::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .kpi-card.green::before { background: linear-gradient(90deg, var(--accent3), #34d399); }
+  .kpi-card.gold::before { background: linear-gradient(90deg, var(--gold), var(--orange)); }
+  .kpi-card.red::before { background: linear-gradient(90deg, var(--red), var(--orange)); }
+ 
+  .kpi-label { font-size: 11px; color: var(--text3); letter-spacing: 0.5px; text-transform: uppercase; font-weight: 500; margin-bottom: 8px; }
+  .kpi-value {
+    font-family: 'Inter', sans-serif;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -1px;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .kpi-delta { font-size: 12px; }
+  .kpi-delta.up { color: var(--accent3); }
+  .kpi-delta.down { color: var(--red); }
+ 
+  /* BOWTIE VISUALIZATION */
+  .bowtie-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+ 
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+ 
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+ 
+  .section-title svg {
+    flex-shrink: 0;
+  }
+ 
+  .section-subtitle { font-size: 12px; color: var(--text3); margin-top: 2px; }
+ 
+  .bowtie-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+ 
+  .bowtie-stage {
+    flex: 1;
+    min-width: 90px;
+    text-align: center;
+  }
+ 
+  .bowtie-bar-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+    height: 60px;
+    align-items: flex-end;
+  }
+ 
+  .bowtie-bar {
+    width: 70%;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: height 0.6s cubic-bezier(.34,1.56,.64,1);
+    cursor: pointer;
+  }
+ 
+  .bowtie-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text3);
+    font-size: 14px;
+    padding-top: 30px;
+  }
+ 
+  .bowtie-label { font-size: 11px; color: var(--text2); font-weight: 500; margin-bottom: 4px; }
+  .bowtie-count {
+    font-family: 'Inter', sans-serif;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.5px;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+  .bowtie-pct { font-size: 10px; color: var(--text3); }
+ 
+  .bowtie-divider {
+    width: 1px;
+    height: 60px;
+    background: var(--border2);
+    margin: 0 8px;
+    align-self: flex-end;
+    margin-bottom: 8px;
+  }
+ 
+  /* 2-col grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+ 
+  /* ─── TABLE ─────────────────────────────────────────── */
+  .table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+ 
+  .table-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+ 
+  .search-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px 7px 34px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    width: 240px;
+    outline: none;
+    position: relative;
+    transition: border-color 0.15s;
+  }
+  .search-input:focus { border-color: var(--accent); }
+ 
+  .search-wrap { position: relative; }
+  .search-wrap::before {
+    content: '🔍';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    pointer-events: none;
+  }
+ 
+  table { width: 100%; border-collapse: collapse; }
+ 
+  th {
+    text-align: left;
+    padding: 12px 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+ 
+  td {
+    padding: 13px 20px;
+    font-size: 13px;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+ 
+  tr:last-child td { border-bottom: none; }
+ 
+  tr:hover td { background: var(--surface2); }
+ 
+  .td-name { color: var(--text); font-weight: 500; cursor: pointer; }
+  .td-name:hover { color: var(--accent); }
+ 
+  /* Tags/Badges */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+ 
+  .tag-blue { background: rgba(79,124,255,0.15); color: #7fa3ff; border: 1px solid rgba(79,124,255,0.3); }
+  .tag-green { background: rgba(0,212,170,0.12); color: #00d4aa; border: 1px solid rgba(0,212,170,0.25); }
+  .tag-gold { background: rgba(245,200,66,0.12); color: #f5c842; border: 1px solid rgba(245,200,66,0.25); }
+  .tag-orange { background: rgba(255,140,66,0.12); color: #ff8c42; border: 1px solid rgba(255,140,66,0.25); }
+  .tag-red { background: rgba(255,79,106,0.12); color: #ff4f6a; border: 1px solid rgba(255,79,106,0.25); }
+  .tag-purple { background: rgba(124,92,255,0.12); color: #a07cff; border: 1px solid rgba(124,92,255,0.25); }
+  .tag-gray { background: rgba(139,149,176,0.1); color: var(--text3); border: 1px solid var(--border); }
+ 
+  /* SPICED indicator dots */
+  .spiced-dots { display: flex; gap: 3px; }
+  .spiced-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    opacity: 0.3;
+    transition: opacity 0.2s;
+  }
+  .spiced-dot.filled { opacity: 1; }
+  .spiced-dot.s { background: var(--s-color); }
+  .spiced-dot.p { background: var(--p-color); }
+  .spiced-dot.i { background: var(--i-color); }
+  .spiced-dot.c { background: var(--c-color); }
+  .spiced-dot.d { background: var(--d-color); }
+ 
+  /* Probability bar */
+  .prob-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .prob-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    min-width: 60px;
+  }
+  .prob-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.4s;
+  }
+ 
+  /* ─── MODAL ─────────────────────────────────────────── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s; }
+ 
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+ 
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.25s cubic-bezier(.34,1.56,.64,1);
+  }
+ 
+  .modal-header {
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+ 
+  .modal-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+ 
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+ 
+  .modal-sub { font-size: 12px; color: var(--text3); }
+ 
+  .modal-close {
+    margin-left: auto;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text3);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all 0.15s;
+  }
+  .modal-close:hover { background: var(--surface2); color: var(--text); }
+ 
+  .modal-body { padding: 20px 24px; }
+  .modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+ 
+  /* FORM */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group.full { grid-column: 1 / -1; }
+ 
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+ 
+  input[type="text"], input[type="number"], input[type="date"], input[type="email"], select, textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.15s;
+    appearance: none;
+  }
+ 
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+ 
+  textarea { resize: vertical; min-height: 80px; }
+ 
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b95b0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+  }
+ 
+  /* SPICED FORM SECTION */
+  .spiced-section {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+ 
+  .spiced-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+ 
+  .spiced-letter {
+    width: 28px; height: 28px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+ 
+  .spiced-section-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .spiced-section-sub { font-size: 11px; color: var(--text3); }
+ 
+  /* ACTIVITY FEED */
+  .activity-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .activity-item:last-child { border-bottom: none; }
+ 
+  .activity-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+ 
+  .activity-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .activity-time { font-size: 11px; color: var(--text3); margin-top: 2px; }
+ 
+  /* PROGRESS RING */
+  .score-ring {
+    position: relative;
+    width: 64px; height: 64px;
+  }
+ 
+  .score-ring svg { transform: rotate(-90deg); }
+ 
+  .score-ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+  }
+ 
+  /* PIPELINE KANBAN */
+  .kanban-wrap {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+  }
+ 
+  .kanban-col {
+    min-width: 240px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+ 
+  .kanban-col-header {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+ 
+  .kanban-col-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+ 
+  .kanban-col-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+  }
+ 
+  .kanban-col-count {
+    font-size: 11px;
+    color: var(--text3);
+    background: var(--surface2);
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+ 
+  .kanban-cards { padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 100px; }
+ 
+  .deal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .deal-card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+ 
+  .deal-card-company { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .deal-card-contact { font-size: 11px; color: var(--text3); margin-bottom: 8px; }
+  .deal-card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .deal-card-value {
+    font-family: 'Inter', sans-serif;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.5px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+ 
+  /* SPICED mini score on card */
+  .card-spiced { display: flex; gap: 2px; margin-bottom: 8px; }
+  .card-spiced-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    opacity: 0.25;
+  }
+  .card-spiced-dot.filled { opacity: 1; }
+ 
+  /* DETAIL PANEL */
+  .detail-panel {
+    position: fixed;
+    top: 0; right: -480px;
+    width: 480px;
+    height: 100vh;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    z-index: 500;
+    overflow-y: auto;
+    transition: right 0.3s cubic-bezier(.4,0,.2,1);
+  }
+  .detail-panel.open { right: 0; }
+ 
+  .detail-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 499;
+    display: none;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(2px);
+  }
+  .detail-backdrop.open { display: block; }
+ 
+  .detail-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+ 
+  .detail-company {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+ 
+  .detail-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+ 
+  .detail-actions { display: flex; gap: 8px; }
+ 
+  .detail-body { padding: 20px 24px; }
+ 
+  .detail-section { margin-bottom: 24px; }
+ 
+  .detail-section-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text3);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+ 
+  .detail-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+ 
+  .spiced-full { display: flex; flex-direction: column; gap: 10px; }
+ 
+  .spiced-row {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+ 
+  .spiced-row-letter {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+ 
+  .spiced-row-content { flex: 1; }
+  .spiced-row-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+  .spiced-row-text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+  .spiced-row-text.empty { color: var(--text3); font-style: italic; }
+ 
+  /* Timeline */
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 0; bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+ 
+  .timeline-item {
+    position: relative;
+    padding-bottom: 16px;
+    padding-left: 16px;
+  }
+ 
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 4px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+  }
+ 
+  .timeline-text { font-size: 13px; color: var(--text2); }
+  .timeline-time { font-size: 11px; color: var(--text3); margin-top: 2px; }
+ 
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text3);
+  }
+  .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-state-title { font-size: 15px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
+  .empty-state-sub { font-size: 13px; }
+ 
+  /* NOTIFICATION */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+    z-index: 9999;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(.34,1.56,.64,1);
+    max-width: 320px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast-icon { font-size: 16px; }
+ 
+  /* CHIPS filter */
+  .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .chip {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    color: var(--text3);
+    background: transparent;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .chip:hover { border-color: var(--border2); color: var(--text2); }
+  .chip.active { border-color: var(--accent); color: var(--accent); background: rgba(79,124,255,0.1); }
+ 
+  /* ── RESPONSIVE ──────────────────────────────────────── */
+  @media (max-width: 1100px) {
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+ 
+  @media (max-width: 768px) {
+    .sidebar { width: 60px; min-width: 60px; }
+    .sidebar .nav-item span, .sidebar .nav-section-label,
+    .sidebar .logo-badge span:not(.logo-icon),
+    .sidebar .logo-sub, .sidebar .user-info, .sidebar .nav-badge { display: none; }
+    .sidebar-logo { padding: 16px 10px; }
+    .sidebar .logo-badge { justify-content: center; }
+    .sidebar .nav-item { justify-content: center; padding: 12px; }
+    .sidebar .user-card { justify-content: center; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .page { padding: 16px; }
+    .topbar { padding: 12px 16px; }
+    .detail-panel { width: 100%; right: -100%; }
+    .form-grid { grid-template-columns: 1fr; }
+  }
+ 
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+</style>
+</head>
+<body>
+<div class="app">
+ 
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-badge">
+        <div class="logo-icon">W</div>
+        <div>
+          <div>Revenue CRM</div>
+          <div class="logo-sub">Widdex</div>
+        </div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Principal</div>
+      <div class="nav-item active" data-page="dashboard" onclick="navigate('dashboard')">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+        </span>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-section-label">Ventas</div>
+      <div class="nav-item" data-page="pipeline" onclick="navigate('pipeline')">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+        </span>
+        <span>Pipeline</span>
+        <span class="nav-badge" id="pipeline-badge">0</span>
+      </div>
+      <div class="nav-item" data-page="deals" onclick="navigate('deals')">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+        </span>
+        <span>Oportunidades</span>
+      </div>
+      <div class="nav-item" data-page="contacts" onclick="navigate('contacts')">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </span>
+        <span>Contactos</span>
+      </div>
+      <div class="nav-section-label">Éxito del Cliente</div>
+      <div class="nav-item" data-page="customers" onclick="navigate('customers')">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </span>
+        <span>Clientes</span>
+      </div>
+      <div class="nav-section-label">Análisis</div>
+      <div class="nav-item" data-page="bowtie" onclick="navigate('bowtie')">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+        </span>
+        <span>Bowtie</span>
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="user-avatar">AV</div>
+        <div class="user-info">
+          <div class="user-name">Ana Vargas</div>
+          <div class="user-role">Account Executive</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+ 
+  <!-- MAIN -->
+  <main class="main">
+ 
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-sm" onclick="exportarDatos()">⬇️ Exportar</button>
+        <button class="btn btn-primary" onclick="abrirNuevaDeal()">+ Nueva Oportunidad</button>
+      </div>
+    </div>
+ 
+    <!-- ─── PAGE: DASHBOARD ─────────────────────────── -->
+    <div class="page active" id="page-dashboard">
+ 
+      <!-- KPIs -->
+      <div class="kpi-grid" id="kpi-grid"></div>
+ 
+      <!-- Bowtie summary -->
+      <div class="bowtie-section">
+        <div class="section-header">
+          <div>
+            <div class="section-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+              Modelo Bowtie de Revenue
+            </div>
+            <div class="section-subtitle">Embudo de adquisición + expansión del cliente · Widdex</div>
+          </div>
+        </div>
+        <div class="bowtie-wrapper" id="bowtie-mini"></div>
+      </div>
+ 
+      <div class="grid-2">
+        <!-- Recent deals -->
+        <div class="table-card">
+          <div class="table-header">
+            <div class="section-title" style="flex:1">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              Oportunidades recientes
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Empresa</th>
+                <th>Etapa</th>
+                <th>Valor</th>
+                <th>SPICED</th>
+              </tr>
+            </thead>
+            <tbody id="recent-deals-table"></tbody>
+          </table>
+        </div>
+ 
+        <!-- Activity feed -->
+        <div class="table-card">
+          <div class="table-header">
+            <div class="section-title" style="flex:1">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Actividad reciente
+            </div>
+          </div>
+          <div style="padding:8px 16px" id="activity-feed"></div>
+        </div>
+      </div>
+ 
+    </div>
+ 
+    <!-- ─── PAGE: PIPELINE (KANBAN) ────────────────── -->
+    <div class="page" id="page-pipeline">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
+        <div class="filter-chips" id="pipeline-filters" style="margin-bottom:0;">
+          <button class="chip active" onclick="filterPipeline('all',this)">Todas las etapas</button>
+          <button class="chip" onclick="filterPipeline('Prospecto',this)">Prospecto</button>
+          <button class="chip" onclick="filterPipeline('Leads',this)">Leads</button>
+          <button class="chip" onclick="filterPipeline('Propuesta',this)">Propuesta</button>
+          <button class="chip" onclick="filterPipeline('Negociación',this)">Negociación</button>
+          <button class="chip" onclick="filterPipeline('Cierre',this)">Etapa de Cierre</button>
+        </div>
+        <div>
+          <select style="width:auto;padding:7px 28px 7px 12px" id="pipeline-owner-filter" onchange="filterPipelineOwner(this.value)">
+            <option value="all">Todos los ejecutivos</option>
+            <option value="Ana Vargas">Ana Vargas</option>
+            <option value="Carlos Ruiz">Carlos Ruiz</option>
+            <option value="Elena Gómez">Elena Gómez</option>
+            <option value="Miguel Ángel">Miguel Ángel</option>
+          </select>
+        </div>
+      </div>
+      <div class="kanban-wrap" id="kanban-board"></div>
+    </div>
+ 
+    <!-- ─── PAGE: OPORTUNIDADES ─────────────────────── -->
+    <div class="page" id="page-deals">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="search-wrap">
+            <input type="text" class="search-input" placeholder="Buscar oportunidad..." id="deals-search" oninput="renderDealsTable()">
+          </div>
+          <div style="display:flex;gap:6px;margin-left:auto">
+            <select style="width:auto;padding:7px 28px 7px 12px" id="deals-owner-filter" onchange="renderDealsTable()">
+              <option value="">Todos los ejecutivos</option>
+              <option value="Ana Vargas">Ana Vargas</option>
+              <option value="Carlos Ruiz">Carlos Ruiz</option>
+              <option value="Elena Gómez">Elena Gómez</option>
+              <option value="Miguel Ángel">Miguel Ángel</option>
+            </select>
+            <select style="width:auto;padding:7px 28px 7px 12px" id="deals-stage-filter" onchange="renderDealsTable()">
+              <option value="">Todas las etapas</option>
+              <option value="Prospecto">Prospecto</option>
+              <option value="Leads">Leads</option>
+              <option value="Propuesta">Propuesta</option>
+              <option value="Negociación">Negociación</option>
+              <optgroup label="Etapa de Cierre">
+                <option value="Ganada">Ganada</option>
+                <option value="Perdida">Perdida</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Oportunidad</th>
+              <th>Contacto</th>
+              <th>Account Executive</th>
+              <th>Etapa Bowtie</th>
+              <th>SPICED</th>
+              <th>Valor</th>
+              <th>Prob.</th>
+              <th>Cierre est.</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="deals-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+ 
+    <!-- ─── PAGE: CONTACTOS ─────────────────────────── -->
+    <div class="page" id="page-contacts">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="search-wrap">
+            <input type="text" class="search-input" placeholder="Buscar contacto..." id="contacts-search" oninput="renderContactsTable()">
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="abrirNuevoContacto()">+ Nuevo Contacto</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Empresa</th>
+              <th>Cargo</th>
+              <th>Correo</th>
+              <th>Oportunidades</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="contacts-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+ 
+    <!-- ─── PAGE: CLIENTES ──────────────────────────── -->
+    <div class="page" id="page-customers">
+      <div class="table-card">
+        <div class="table-header">
+          <div class="section-title" style="flex:1">🌟 Clientes activos — Etapa Post-Venta (Bowtie Derecho)</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Empresa</th>
+              <th>Valor ARR</th>
+              <th>Etapa CS</th>
+              <th>NPS</th>
+              <th>Próxima renovación</th>
+              <th>Health</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="customers-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+ 
+    <!-- ─── PAGE: BOWTIE ANALYTICS ──────────────────── -->
+    <div class="page" id="page-bowtie">
+      <div class="bowtie-section" style="margin-bottom:24px">
+        <div class="section-header">
+          <div>
+            <div class="section-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+              Bowtie Analytics — Modelo Revenue Completo
+            </div>
+            <div class="section-subtitle">Visualización completa del funnel de adquisición y expansión · Widdex</div>
+          </div>
+        </div>
+        <div class="bowtie-wrapper" id="bowtie-full"></div>
+      </div>
+ 
+      <div class="grid-3">
+        <div class="table-card">
+          <div class="table-header"><div class="section-title">📉 Conversión por etapa</div></div>
+          <div style="padding:16px" id="conversion-table"></div>
+        </div>
+        <div class="table-card">
+          <div class="table-header"><div class="section-title">🏆 Top deals por valor</div></div>
+          <div style="padding:16px" id="top-deals-list"></div>
+        </div>
+        <div class="table-card">
+          <div class="table-header"><div class="section-title">⏱️ Tiempo promedio por etapa</div></div>
+          <div style="padding:16px" id="time-in-stage"></div>
+        </div>
+      </div>
+    </div>
+ 
+  </main>
+</div>
+ 
+<!-- ─── DETAIL PANEL ───────────────────────────────── -->
+<div class="detail-backdrop" id="detail-backdrop" onclick="cerrarDetalle()"></div>
+<div class="detail-panel" id="detail-panel">
+  <div class="detail-header">
+    <div class="detail-company" id="dp-company">–</div>
+    <div class="detail-meta" id="dp-meta"></div>
+    <div class="detail-actions">
+      <button class="btn btn-ghost btn-sm" onclick="editarDeal(currentDealId)">✏️ Editar</button>
+      <button class="btn btn-danger btn-sm" onclick="eliminarDeal(currentDealId)">🗑️</button>
+      <button class="btn btn-ghost btn-sm" onclick="cerrarDetalle()">✕</button>
+    </div>
+  </div>
+  <div class="detail-body" id="dp-body"></div>
+</div>
+ 
+<!-- ─── MODAL NUEVA OPORTUNIDAD ───────────────────── -->
+<div class="modal-overlay" id="modal-deal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-icon" style="background:rgba(79,124,255,0.15)">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+      </div>
+      <div>
+        <div class="modal-title" id="modal-deal-title">Nueva Oportunidad</div>
+        <div class="modal-sub">Completa el marco SPICED para calificar correctamente</div>
+      </div>
+      <button class="modal-close" onclick="cerrarModal('modal-deal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Empresa *</label>
+          <input type="text" id="f-company" placeholder="Nombre de la empresa">
+        </div>
+        <div class="form-group">
+          <label>Account Executive</label>
+          <select id="f-owner">
+            <option value="Ana Vargas">Ana Vargas</option>
+            <option value="Carlos Ruiz">Carlos Ruiz</option>
+            <option value="Elena Gómez">Elena Gómez</option>
+            <option value="Miguel Ángel">Miguel Ángel</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Contacto principal</label>
+          <input type="text" id="f-contact" placeholder="Nombre del contacto">
+        </div>
+        <div class="form-group">
+          <label>Cargo del contacto</label>
+          <input type="text" id="f-role" placeholder="ej. VP de Ventas">
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="f-email" placeholder="contacto@empresa.com">
+        </div>
+        <div class="form-group">
+          <label>Valor estimado (USD)</label>
+          <input type="number" id="f-value" placeholder="0" min="0">
+        </div>
+        <div class="form-group">
+          <label>Etapa del Bowtie</label>
+          <select id="f-stage">
+            <option value="Prospecto">Prospecto</option>
+            <option value="Leads">Leads</option>
+            <option value="Propuesta">Propuesta</option>
+            <option value="Negociación">Negociación</option>
+            <optgroup label="Etapa de Cierre">
+              <option value="Ganada">Ganada</option>
+              <option value="Perdida">Perdida</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Probabilidad (%)</label>
+          <input type="number" id="f-prob" placeholder="20" min="0" max="100">
+        </div>
+        <div class="form-group">
+          <label>Fecha estimada de cierre</label>
+          <input type="date" id="f-close-date">
+        </div>
+      </div>
+ 
+      <!-- SPICED Framework -->
+      <div style="margin-top:8px;margin-bottom:12px">
+        <div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <span>Marco SPICED</span>
+          <span style="font-size:11px;color:var(--text3);font-weight:400">— Widdex</span>
+        </div>
+ 
+        <div class="spiced-section">
+          <div class="spiced-section-header">
+            <div class="spiced-letter" style="background:var(--s-color)">S</div>
+            <div>
+              <div class="spiced-section-title">Situation — Situación</div>
+              <div class="spiced-section-sub">Contexto del prospecto: industria, tamaño, stack tecnológico, momento</div>
+            </div>
+          </div>
+          <textarea id="f-s" placeholder="ej. Empresa de 200 empleados en sector retail, actualmente usando hojas de cálculo para gestionar ventas. Planean escalar a 300 en Q2..."></textarea>
+        </div>
+ 
+        <div class="spiced-section">
+          <div class="spiced-section-header">
+            <div class="spiced-letter" style="background:var(--p-color)">P</div>
+            <div>
+              <div class="spiced-section-title">Pain — Dolor</div>
+              <div class="spiced-section-sub">Problema o necesidad implícita que el prospecto experimenta</div>
+            </div>
+          </div>
+          <textarea id="f-p" placeholder="ej. El equipo pierde 3 horas/día en reportes manuales. El VP de Ventas no tiene visibilidad del pipeline en tiempo real..."></textarea>
+        </div>
+ 
+        <div class="spiced-section">
+          <div class="spiced-section-header">
+            <div class="spiced-letter" style="background:var(--i-color)">I</div>
+            <div>
+              <div class="spiced-section-title">Impact — Impacto</div>
+              <div class="spiced-section-sub">Consecuencia cuantificable del dolor en el negocio</div>
+            </div>
+          </div>
+          <textarea id="f-i" placeholder="ej. Estiman perder ~$150K/año en oportunidades no seguidas. El ciclo de ventas es 40% más largo que el promedio de industria..."></textarea>
+        </div>
+ 
+        <div class="spiced-section">
+          <div class="spiced-section-header">
+            <div class="spiced-letter" style="background:var(--c-color)">C</div>
+            <div>
+              <div class="spiced-section-title">Critical Event — Evento Crítico</div>
+              <div class="spiced-section-sub">Fecha límite o trigger que crea urgencia real en el cliente</div>
+            </div>
+          </div>
+          <textarea id="f-c" placeholder="ej. El CEO presentará resultados al directorio en junio. Si para mayo no tienen el sistema, el presupuesto se reasigna..."></textarea>
+        </div>
+ 
+        <div class="spiced-section">
+          <div class="spiced-section-header">
+            <div class="spiced-letter" style="background:var(--d-color)">D</div>
+            <div>
+              <div class="spiced-section-title">Decision — Decisión</div>
+              <div class="spiced-section-sub">Proceso de decisión, tomadores, criterios de evaluación</div>
+            </div>
+          </div>
+          <textarea id="f-d" placeholder="ej. Decisión en manos del CFO y VP IT. Evaluando 3 proveedores. Criterio principal: integración con Salesforce y precio/usuario..."></textarea>
+        </div>
+      </div>
+ 
+      <div class="form-group">
+        <label>Notas adicionales</label>
+        <textarea id="f-notes" placeholder="Contexto adicional, próximos pasos..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cerrarModal('modal-deal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarDeal()">💾 Guardar oportunidad</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- ─── MODAL NUEVO CONTACTO ─────────────────────── -->
+<div class="modal-overlay" id="modal-contact">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <div class="modal-icon" style="background:rgba(0,212,170,0.15)">👤</div>
+      <div>
+        <div class="modal-title">Nuevo Contacto</div>
+        <div class="modal-sub">Agrega un contacto a tu red de ventas</div>
+      </div>
+      <button class="modal-close" onclick="cerrarModal('modal-contact')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>Nombre *</label><input type="text" id="cf-name" placeholder="Juan García"></div>
+        <div class="form-group"><label>Empresa</label><input type="text" id="cf-company" placeholder="Empresa S.A."></div>
+        <div class="form-group"><label>Cargo</label><input type="text" id="cf-role" placeholder="VP de Ventas"></div>
+        <div class="form-group"><label>Correo</label><input type="email" id="cf-email" placeholder="juan@empresa.com"></div>
+        <div class="form-group full"><label>Notas</label><textarea id="cf-notes" placeholder="Notas sobre el contacto..."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cerrarModal('modal-contact')">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarContacto()">💾 Guardar contacto</button>
+    </div>
+  </div>
+</div>
+ 
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toast-icon">✅</span>
+  <span id="toast-msg">Guardado correctamente</span>
+</div>
+ 
+<script>
+// ═══════════════════════════════════════════════
+// DATA STORE
+// ═══════════════════════════════════════════════
+ 
+const DB_KEY = 'wbd_crm_data';
+ 
+const DEFAULT_DATA = {
+  deals: [
+    {
+      id: 'd1', company: 'TechCorp México', contact: 'Carlos Mendoza', role: 'VP de Ventas',
+      email: 'cmendoza@techcorp.mx', value: 85000, stage: 'Propuesta', prob: 60, owner: 'Ana Vargas',
+      closeDate: '2025-06-30',
+      spiced: {
+        s: 'Empresa tecnológica de 500 empleados. Actualmente usan un CRM legacy sin integraciones. Están en proceso de transformación digital.',
+        p: 'El equipo comercial dedica 4h/día a actualizar manualmente reportes. Alta rotación de vendedores por frustración con herramientas.',
+        i: 'Pierden estimado $200K anuales por leads sin seguimiento. El ciclo de ventas es 35% más largo que competidores directos.',
+        c: 'El CEO presentará la estrategia de crecimiento al directorio en julio. Necesitan mostrar resultados para entonces.',
+        d: 'Decisión: VP Ventas + CFO. Evaluando 2 competidores. Criterio: integración con ERP SAP y precio por usuario.'
+      },
+      notes: 'Demo completada con éxito. Esperando propuesta formal.',
+      createdAt: '2025-04-01',
+      activities: [
+        { text: 'Demo enviada y bien recibida por el equipo', time: 'Hace 2 días' },
+        { text: 'Llamada de descubrimiento completada', time: 'Hace 5 días' },
+        { text: 'Primer contacto establecido', time: 'Hace 10 días' }
+      ]
+    },
+    {
+      id: 'd2', company: 'Retail Latino', contact: 'María Fernández', role: 'Directora de Operaciones',
+      email: 'mfernandez@retaillatino.com', value: 42000, stage: 'Negociación', prob: 75, owner: 'Carlos Ruiz',
+      closeDate: '2025-05-15',
+      spiced: {
+        s: 'Cadena de retail con 80 puntos de venta en LATAM. Expansión agresiva prevista para Q3.',
+        p: 'Sin visibilidad de KPIs de ventas en tiempo real. Cada gerente de tienda reporta en formatos diferentes.',
+        i: 'Estiman pérdida de $80K/año por decisiones tardías. Auditores pidieron estandarización urgente.',
+        c: 'Auditoría interna programada para el 30 de mayo. Necesitan sistema antes de esa fecha.',
+        d: 'Decisión unilateral de la Directora. Presupuesto aprobado. Solo evalúan condiciones de implementación.'
+      },
+      notes: 'En fase de negociación de contrato. Cliente muy motivado.',
+      createdAt: '2025-03-15',
+      activities: [
+        { text: 'Propuesta económica enviada', time: 'Ayer' },
+        { text: 'Segunda demo con equipo técnico', time: 'Hace 3 días' }
+      ]
+    },
+    {
+      id: 'd3', company: 'FinServ Argentina', contact: 'Roberto Silva', role: 'CTO',
+      email: 'rsilva@finserv.ar', value: 120000, stage: 'Leads', prob: 30, owner: 'Elena Gómez',
+      closeDate: '2025-08-01',
+      spiced: {
+        s: 'Fintech de 200 empleados, Serie B. Crecimiento del 200% YoY. Stack técnico moderno (AWS, Salesforce).',
+        p: 'El equipo de ventas creció de 5 a 25 personas en 6 meses. No tienen proceso estandarizado de ventas.',
+        i: 'Tasa de conversión dropped de 28% a 14% con el crecimiento del equipo.',
+        c: '',
+        d: 'Proceso largo. Múltiples stakeholders: CTO, VP Sales, Head of RevOps. Comité de evaluación técnica.'
+      },
+      notes: 'Gran oportunidad pero ciclo largo. Identificar un champion interno.',
+      createdAt: '2025-04-10',
+      activities: [
+        { text: 'Primera reunión de descubrimiento', time: 'Hace 1 semana' }
+      ]
+    },
+    {
+      id: 'd4', company: 'EdTech Colombia', contact: 'Diana Rojas', role: 'CEO',
+      email: 'drojas@edtech.co', value: 28000, stage: 'Prospecto', prob: 20, owner: 'Miguel Ángel',
+      closeDate: '2025-07-15',
+      spiced: {
+        s: 'Startup EdTech, 40 empleados. Pre-serie A. Creciendo en mercado B2B con escuelas.',
+        p: 'No tienen proceso de ventas definido. Ventas reactivas.',
+        i: '',
+        c: '',
+        d: ''
+      },
+      notes: 'En fase inicial. Falta completar SPICED.',
+      createdAt: '2025-04-15',
+      activities: [
+        { text: 'Contacto inicial via LinkedIn', time: 'Hace 3 días' }
+      ]
+    },
+    {
+      id: 'd5', company: 'LogiPro Chile', contact: 'Andrés Morales', role: 'Gerente Comercial',
+      email: 'amorales@logipro.cl', value: 65000, stage: 'Ganada', prob: 100, owner: 'Ana Vargas',
+      closeDate: '2025-03-01',
+      spiced: {
+        s: 'Empresa logística con 300 empleados. Presencia en Chile, Perú y Bolivia.',
+        p: 'Visibilidad nula del pipeline comercial. Forecasting inexacto.',
+        i: 'Perdieron $300K en Q4 por forecast incorrecto. Inversión sobreestimada.',
+        c: 'Fin de año fiscal el 31 de marzo. Necesitaban cerrar antes.',
+        d: 'Gerente Comercial con autorización directa del CEO. Proceso rápido.'
+      },
+      notes: 'Contrato firmado. En proceso de onboarding.',
+      createdAt: '2025-02-01',
+      activities: [
+        { text: '✅ Contrato firmado', time: 'Hace 30 días' },
+        { text: 'Propuesta aceptada', time: 'Hace 35 días' }
+      ]
+    }
+  ],
+  contacts: [
+    { id: 'c1', name: 'Carlos Mendoza', company: 'TechCorp México', role: 'VP de Ventas', email: 'cmendoza@techcorp.mx', notes: 'Champion interno. Muy activo.' },
+    { id: 'c2', name: 'María Fernández', company: 'Retail Latino', role: 'Directora de Operaciones', email: 'mfernandez@retaillatino.com', notes: 'Decisora final.' },
+    { id: 'c3', name: 'Roberto Silva', company: 'FinServ Argentina', role: 'CTO', email: 'rsilva@finserv.ar', notes: 'Técnico, muy detallista.' },
+    { id: 'c4', name: 'Diana Rojas', company: 'EdTech Colombia', role: 'CEO', email: 'drojas@edtech.co', notes: 'Contacto inicial.' },
+    { id: 'c5', name: 'Andrés Morales', company: 'LogiPro Chile', role: 'Gerente Comercial', email: 'amorales@logipro.cl', notes: 'Cliente cerrado. Muy satisfecho.' }
+  ],
+  customers: [
+    { id: 'cu1', company: 'LogiPro Chile', arr: 65000, csStage: 'Adopción', nps: 9, renewal: '2026-03-01', health: 'verde' },
+    { id: 'cu2', company: 'Distribuidora Norte', arr: 38000, csStage: 'Expansión', nps: 8, renewal: '2025-12-01', health: 'verde' },
+    { id: 'cu3', company: 'Salud Digital', arr: 22000, csStage: 'Onboarding', nps: 7, renewal: '2026-02-01', health: 'amarillo' }
+  ]
+};
+ 
+function cargarDB() {
+  try {
+    const raw = localStorage.getItem(DB_KEY);
+    return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+  } catch { return JSON.parse(JSON.stringify(DEFAULT_DATA)); }
+}
+ 
+function guardarDB(db) {
+  localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+ 
+let db = cargarDB();
+ 
+// Migración de nombres de etapas guardados localmente
+db.deals.forEach(d => {
+  if (d.stage === 'Calificación') d.stage = 'Prospecto';
+  if (d.stage === 'Descubrimiento') d.stage = 'Leads';
+  if (d.stage === 'Cierre') d.stage = 'Negociación';
+});
+guardarDB(db);
+ 
+// ═══════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════
+ 
+const PAGE_TITLES = {
+  dashboard: 'Dashboard',
+  pipeline: 'Pipeline — Vista Kanban',
+  deals: 'Oportunidades',
+  contacts: 'Contactos',
+  customers: 'Clientes Activos',
+  bowtie: 'Bowtie Analytics'
+};
+ 
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelector('[data-page="' + page + '"]').classList.add('active');
+  document.getElementById('page-title').textContent = PAGE_TITLES[page];
+  renderPage(page);
+}
+ 
+function renderPage(page) {
+  switch(page) {
+    case 'dashboard': renderDashboard(); break;
+    case 'pipeline': renderKanban(); break;
+    case 'deals': renderDealsTable(); break;
+    case 'contacts': renderContactsTable(); break;
+    case 'customers': renderCustomers(); break;
+    case 'bowtie': renderBowtie(); break;
+  }
+}
+ 
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+ 
+function fmt(n) {
+  return '$' + Number(n).toLocaleString('es-MX');
+}
+ 
+const STAGE_COLORS = {
+  'Prospecto': '#6366f1',
+  'Leads': '#4f7cff',
+  'Propuesta': '#00b4d8',
+  'Negociación': '#00d4aa',
+  'Cierre': '#f5c842',
+  'Ganada': '#34d399',
+  'Perdida': '#ff4f6a'
+};
+ 
+const STAGE_TAGS = {
+  'Prospecto': 'tag-purple',
+  'Leads': 'tag-blue',
+  'Propuesta': 'tag-blue',
+  'Negociación': 'tag-gold',
+  'Cierre': 'tag-orange',
+  'Ganada': 'tag-green',
+  'Perdida': 'tag-red'
+};
+ 
+function spicedScore(deal) {
+  const keys = ['s','p','i','c','d'];
+  return keys.filter(k => deal.spiced[k] && deal.spiced[k].trim()).length;
+}
+ 
+function spicedDots(deal, size = 8) {
+  const filled = { s: !!(deal.spiced.s?.trim()), p: !!(deal.spiced.p?.trim()), i: !!(deal.spiced.i?.trim()), c: !!(deal.spiced.c?.trim()), d: !!(deal.spiced.d?.trim()) };
+  const colors = { s: 'var(--s-color)', p: 'var(--p-color)', i: 'var(--i-color)', c: 'var(--c-color)', d: 'var(--d-color)' };
+  return `<div class="spiced-dots">${['s','p','i','c','d'].map(k =>
+    `<div class="spiced-dot ${k} ${filled[k]?'filled':''}" title="${k.toUpperCase()}" style="width:${size}px;height:${size}px;background:${colors[k]}"></div>`
+  ).join('')}</div>`;
+}
+ 
+function probColor(p) {
+  if (p >= 70) return 'var(--accent3)';
+  if (p >= 40) return 'var(--gold)';
+  return 'var(--red)';
+}
+ 
+function healthBadge(h) {
+  if (h === 'verde') return '<span class="tag tag-green">🟢 Saludable</span>';
+  if (h === 'amarillo') return '<span class="tag tag-gold">🟡 Atención</span>';
+  return '<span class="tag tag-red">🔴 En riesgo</span>';
+}
+ 
+function genId() { return 'x' + Date.now().toString(36); }
+ 
+// ═══════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════
+ 
+function renderDashboard() {
+  const activeDeals = db.deals.filter(d => !['Ganada','Perdida'].includes(d.stage));
+  const wonDeals = db.deals.filter(d => d.stage === 'Ganada');
+  const pipeline = activeDeals.reduce((a,d) => a + Number(d.value), 0);
+  const revenue = wonDeals.reduce((a,d) => a + Number(d.value), 0);
+  const avgScore = db.deals.length ? (db.deals.reduce((a,d) => a + spicedScore(d),0) / db.deals.length).toFixed(1) : 0;
+ 
+  document.getElementById('kpi-grid').innerHTML = `
+    <div class="kpi-card blue">
+      <div class="kpi-label">Pipeline activo</div>
+      <div class="kpi-value">${fmt(pipeline)}</div>
+      <div class="kpi-delta up">↑ ${activeDeals.length} oportunidades abiertas</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Revenue ganado</div>
+      <div class="kpi-value">${fmt(revenue)}</div>
+      <div class="kpi-delta up">↑ ${wonDeals.length} deals cerradas</div>
+    </div>
+    <div class="kpi-card gold">
+      <div class="kpi-label">Calidad SPICED avg.</div>
+      <div class="kpi-value">${avgScore}<span style="font-size:14px;color:var(--text3)">/5</span></div>
+      <div class="kpi-delta ${avgScore >= 3 ? 'up':'down'}">${avgScore >= 3 ? '↑ Buena calificación' : '↓ Mejorar calificación'}</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Total oportunidades</div>
+      <div class="kpi-value">${db.deals.length}</div>
+      <div class="kpi-delta up">↑ ${db.contacts.length} contactos en CRM</div>
+    </div>
+  `;
+ 
+  renderBowtieWidget('bowtie-mini');
+  renderRecentDeals();
+  renderActivity();
+  updatePipelineBadge();
+}
+ 
+function renderBowtieWidget(containerId) {
+  const stages = getBowtieStageCounts();
+  const container = document.getElementById(containerId);
+  if (!container) return;
+ 
+  container.innerHTML = stages.map((s, i) => {
+    const maxH = 50;
+    const maxCount = Math.max(...stages.map(x=>x.count), 1);
+    const h = Math.max(8, Math.round((s.count / maxCount) * maxH));
+    const isMiddle = i === 3; // Cierre es el centro del bowtie
+    const arrow = i < stages.length - 1 ? `<div class="bowtie-arrow">›</div>` : '';
+ 
+    return `
+      <div class="bowtie-stage">
+        <div class="bowtie-bar-wrap">
+          <div class="bowtie-bar" style="background:${s.color};height:${h}px;opacity:${0.6 + (s.count/maxCount)*0.4}" onclick="navigate('pipeline')"></div>
+        </div>
+        <div class="bowtie-label">${s.label}</div>
+        <div class="bowtie-count" style="color:${s.color}">${s.count}</div>
+        <div class="bowtie-pct">${s.value ? fmt(s.value) : '–'}</div>
+      </div>
+      ${i < stages.length - 1 ? `<div class="bowtie-arrow" style="padding-top:20px;color:var(--text3);font-size:18px">›</div>` : ''}
+    `;
+  }).join('');
+}
+ 
+function getBowtieStageCounts() {
+  const stageOrder = ['Prospecto','Leads','Propuesta','Negociación','Ganada'];
+  return stageOrder.map(s => ({
+    label: s,
+    color: STAGE_COLORS[s],
+    count: db.deals.filter(d => d.stage === s).length,
+    value: db.deals.filter(d => d.stage === s).reduce((a,d) => a+Number(d.value),0)
+  }));
+}
+ 
+function renderRecentDeals() {
+  const recent = [...db.deals].slice(-5).reverse();
+  document.getElementById('recent-deals-table').innerHTML = recent.map(d => `
+    <tr>
+      <td class="td-name" onclick="abrirDetalle('${d.id}')">${d.company}</td>
+      <td><span class="tag ${STAGE_TAGS[d.stage]}">${d.stage}</span></td>
+      <td style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-weight:700;color:var(--text)">${fmt(d.value)}</td>
+      <td>${spicedDots(d)}</td>
+    </tr>
+  `).join('');
+}
+ 
+function renderActivity() {
+  const allActivities = [];
+  db.deals.forEach(d => {
+    if (d.activities) d.activities.forEach(a => allActivities.push({ ...a, company: d.company, dealId: d.id }));
+  });
+ 
+  document.getElementById('activity-feed').innerHTML = allActivities.slice(0,6).map(a => `
+    <div class="activity-item">
+      <div class="activity-dot" style="background:var(--accent)"></div>
+      <div>
+        <div class="activity-text"><strong style="color:var(--text)">${a.company}</strong> — ${a.text}</div>
+        <div class="activity-time">${a.time}</div>
+      </div>
+    </div>
+  `).join('') || '<div style="color:var(--text3);padding:20px;text-align:center">Sin actividad reciente</div>';
+}
+ 
+function updatePipelineBadge() {
+  const active = db.deals.filter(d => !['Ganada','Perdida'].includes(d.stage)).length;
+  document.getElementById('pipeline-badge').textContent = active;
+}
+ 
+// ═══════════════════════════════════════════════
+// KANBAN PIPELINE
+// ═══════════════════════════════════════════════
+ 
+let pipelineFilter = 'all';
+let pipelineOwnerFilter = 'all';
+ 
+function renderKanban() {
+  const baseStages = ['Prospecto','Leads','Propuesta','Negociación'];
+  const activeStages = pipelineFilter === 'all' ? baseStages : (baseStages.includes(pipelineFilter) ? [pipelineFilter] : []);
+ 
+  let html = activeStages.map(stage => {
+    let deals = db.deals.filter(d => d.stage === stage);
+    if (pipelineOwnerFilter !== 'all') {
+      deals = deals.filter(d => d.owner === pipelineOwnerFilter);
+    }
+    const totalVal = deals.reduce((a,d) => a+Number(d.value),0);
+    return `
+      <div class="kanban-col">
+        <div class="kanban-col-header">
+          <div class="kanban-col-dot" style="background:${STAGE_COLORS[stage]}"></div>
+          <div class="kanban-col-title">${stage}</div>
+          <div class="kanban-col-count">${deals.length}</div>
+        </div>
+        ${totalVal > 0 ? `<div style="padding:8px 16px 4px;font-size:11px;color:var(--text3)">${fmt(totalVal)} en pipeline</div>` : ''}
+        <div class="kanban-cards">
+          ${deals.map(d => renderDealCard(d)).join('') || `<div style="color:var(--text3);font-size:12px;text-align:center;padding:16px">Sin oportunidades</div>`}
+        </div>
+      </div>
+    `;
+  }).join('');
+ 
+  // Bloque agrupado de "Cierre" (Sub-columnas)
+  if (pipelineFilter === 'all' || pipelineFilter === 'Cierre') {
+    const subStages = ['Ganada', 'Perdida'];
+    
+    let cierreHtml = `
+      <div style="display:flex; flex-direction:column; gap:12px; background:var(--surface3); padding:16px; border-radius:14px; border:1px solid var(--border); flex-shrink: 0;">
+        <div style="font-family:'Syne',sans-serif; font-weight:700; color:var(--text); font-size:14px; display:flex; align-items:center; gap:8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          Etapa de Cierre
+        </div>
+        <div style="display:flex; gap:14px;">
+    `;
+    
+    subStages.forEach(stage => {
+      let deals = db.deals.filter(d => d.stage === stage);
+      if (pipelineOwnerFilter !== 'all') {
+        deals = deals.filter(d => d.owner === pipelineOwnerFilter);
+      }
+      const totalVal = deals.reduce((a,d) => a+Number(d.value),0);
+      
+      let title = stage;
+      
+      cierreHtml += `
+        <div class="kanban-col" style="background:var(--surface); min-width:240px;">
+          <div class="kanban-col-header" style="border-bottom-color:var(--border2);">
+            <div class="kanban-col-dot" style="background:${STAGE_COLORS[stage]}"></div>
+            <div class="kanban-col-title">${title}</div>
+            <div class="kanban-col-count">${deals.length}</div>
+          </div>
+          ${totalVal > 0 ? `<div style="padding:8px 16px 4px;font-size:11px;color:var(--text3)">${fmt(totalVal)} en pipeline</div>` : ''}
+          <div class="kanban-cards">
+            ${deals.map(d => renderDealCard(d)).join('') || `<div style="color:var(--text3);font-size:12px;text-align:center;padding:16px">Sin oportunidades</div>`}
+          </div>
+        </div>
+      `;
+    });
+    
+    cierreHtml += `</div></div>`;
+    html += cierreHtml;
+  }
+ 
+  document.getElementById('kanban-board').innerHTML = html;
+}
+ 
+function renderDealCard(d) {
+  const sc = spicedScore(d);
+  const spicedColors = { s:'var(--s-color)', p:'var(--p-color)', i:'var(--i-color)', c:'var(--c-color)', d:'var(--d-color)' };
+  return `
+    <div class="deal-card" onclick="abrirDetalle('${d.id}')" style="border-left-color:${STAGE_COLORS[d.stage]}">
+      <div class="deal-card-company">${d.company}</div>
+      <div class="deal-card-contact" style="margin-bottom:4px">${d.contact} · ${d.role}</div>
+      <div style="font-size:10.5px;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:4px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        ${d.owner || 'Sin asignar'}
+      </div>
+      <div class="card-spiced">
+        ${['s','p','i','c','d'].map(k => `<div class="card-spiced-dot ${d.spiced[k]?.trim()?'filled':''}" style="background:${spicedColors[k]}"></div>`).join('')}
+      </div>
+      <div class="deal-card-footer">
+        <div class="deal-card-value">${fmt(d.value)}</div>
+        <div style="font-size:11px;color:${probColor(d.prob)}">${d.prob}%</div>
+      </div>
+    </div>
+  `;
+}
+ 
+function filterPipeline(filter, el) {
+  pipelineFilter = filter;
+  document.querySelectorAll('#pipeline-filters .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderKanban();
+}
+ 
+function filterPipelineOwner(owner) {
+  pipelineOwnerFilter = owner;
+  renderKanban();
+}
+ 
+// ═══════════════════════════════════════════════
+// DEALS TABLE
+// ═══════════════════════════════════════════════
+ 
+function renderDealsTable() {
+  const search = (document.getElementById('deals-search')?.value || '').toLowerCase();
+  const stageFilter = document.getElementById('deals-stage-filter')?.value || '';
+  const ownerFilter = document.getElementById('deals-owner-filter')?.value || '';
+ 
+  let deals = db.deals.filter(d => {
+    const matchSearch = !search || d.company.toLowerCase().includes(search) || d.contact.toLowerCase().includes(search);
+    const matchStage = !stageFilter || d.stage === stageFilter;
+    const matchOwner = !ownerFilter || d.owner === ownerFilter;
+    return matchSearch && matchStage && matchOwner;
+  });
+ 
+  document.getElementById('deals-table-body').innerHTML = deals.length ? deals.map(d => `
+    <tr>
+      <td>
+        <div class="td-name" onclick="abrirDetalle('${d.id}')">${d.company}</div>
+        <div style="font-size:11px;color:var(--text3)">${d.contact}</div>
+      </td>
+      <td style="font-size:11px;color:var(--text3)">${d.role}</td>
+      <td style="font-size:12px;color:var(--text2)">
+        <div style="display:flex;align-items:center;gap:4px">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          ${d.owner || 'Sin asignar'}
+        </div>
+      </td>
+      <td><span class="tag ${STAGE_TAGS[d.stage]}">${d.stage}</span></td>
+      <td>${spicedDots(d)} <span style="font-size:10px;color:var(--text3)">${spicedScore(d)}/5</span></td>
+      <td style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-weight:700;color:var(--text)">${fmt(d.value)}</td>
+      <td>
+        <div class="prob-bar-wrap">
+          <div class="prob-bar"><div class="prob-fill" style="width:${d.prob}%;background:${probColor(d.prob)}"></div></div>
+          <span style="font-size:11px;color:${probColor(d.prob)};width:32px">${d.prob}%</span>
+        </div>
+      </td>
+      <td style="font-size:12px;color:var(--text3)">${d.closeDate || '—'}</td>
+      <td>
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-ghost btn-sm" onclick="editarDeal('${d.id}')">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="eliminarDeal('${d.id}')">🗑️</button>
+        </div>
+      </td>
+    </tr>
+  `).join('') : `
+    <tr><td colspan="8"><div class="empty-state">
+      <div class="empty-state-icon">💼</div>
+      <div class="empty-state-title">No se encontraron oportunidades</div>
+      <div class="empty-state-sub">Cambia los filtros o crea una nueva oportunidad</div>
+    </div></td></tr>
+  `;
+}
+ 
+// ═══════════════════════════════════════════════
+// CONTACTS TABLE
+// ═══════════════════════════════════════════════
+ 
+function renderContactsTable() {
+  const search = (document.getElementById('contacts-search')?.value || '').toLowerCase();
+  const contacts = db.contacts.filter(c => !search || c.name.toLowerCase().includes(search) || c.company.toLowerCase().includes(search));
+ 
+  document.getElementById('contacts-table-body').innerHTML = contacts.length ? contacts.map(c => {
+    const dealsCount = db.deals.filter(d => d.contact === c.name || d.company === c.company).length;
+    return `
+      <tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0">${c.name.charAt(0)}</div>
+            <div class="td-name">${c.name}</div>
+          </div>
+        </td>
+        <td>${c.company}</td>
+        <td style="color:var(--text3)">${c.role}</td>
+        <td style="color:var(--text3)">${c.email}</td>
+        <td><span class="tag tag-blue">${dealsCount} deal${dealsCount !== 1 ? 's' : ''}</span></td>
+        <td><button class="btn btn-danger btn-sm" onclick="eliminarContacto('${c.id}')">🗑️</button></td>
+      </tr>
+    `;
+  }).join('') : `<tr><td colspan="6"><div class="empty-state">
+    <div class="empty-state-icon">👥</div>
+    <div class="empty-state-title">Sin contactos</div>
+    <div class="empty-state-sub">Agrega tu primer contacto</div>
+  </div></td></tr>`;
+}
+ 
+// ═══════════════════════════════════════════════
+// CUSTOMERS
+// ═══════════════════════════════════════════════
+ 
+function renderCustomers() {
+  document.getElementById('customers-table-body').innerHTML = db.customers.map(c => `
+    <tr>
+      <td class="td-name">${c.company}</td>
+      <td style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent3)">${fmt(c.arr)}</td>
+      <td><span class="tag tag-blue">${c.csStage}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:32px;height:32px;border-radius:50%;background:${c.nps>=9?'rgba(0,212,170,0.15)':c.nps>=7?'rgba(245,200,66,0.15)':'rgba(255,79,106,0.15)'};display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:${c.nps>=9?'var(--accent3)':c.nps>=7?'var(--gold)':'var(--red)'}">${c.nps}</div>
+          <span style="font-size:11px;color:var(--text3)">/10</span>
+        </div>
+      </td>
+      <td style="font-size:12px;color:var(--text3)">${c.renewal}</td>
+      <td>${healthBadge(c.health)}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="toast('📋 Funcionalidad de edición de cliente próximamente','info')">Ver</button></td>
+    </tr>
+  `).join('');
+}
+ 
+// ═══════════════════════════════════════════════
+// BOWTIE FULL PAGE
+// ═══════════════════════════════════════════════
+ 
+function renderBowtie() {
+  renderBowtieWidget('bowtie-full');
+ 
+  // Conversión table
+  const stages = getBowtieStageCounts();
+  document.getElementById('conversion-table').innerHTML = stages.map((s, i) => {
+    const prev = i > 0 ? stages[i-1].count : s.count;
+    const conv = prev > 0 ? Math.round((s.count / prev) * 100) : 100;
+    return `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:10px;height:10px;border-radius:50%;background:${s.color};flex-shrink:0"></div>
+        <div style="flex:1;font-size:13px;color:var(--text2)">${s.label}</div>
+        <div style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--text)">${s.count}</div>
+        ${i > 0 ? `<div style="font-size:11px;color:${conv>=60?'var(--accent3)':conv>=30?'var(--gold)':'var(--red)'};">${conv}%</div>` : '<div style="font-size:11px;color:var(--text3)">–</div>'}
+      </div>
+    `;
+  }).join('');
+ 
+  // Top deals
+  const topDeals = [...db.deals].filter(d=>d.stage!=='Perdida').sort((a,b)=>b.value-a.value).slice(0,5);
+  document.getElementById('top-deals-list').innerHTML = topDeals.map((d,i) => `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;cursor:pointer" onclick="abrirDetalle('${d.id}')">
+      <div style="width:20px;height:20px;border-radius:50%;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text3);flex-shrink:0">${i+1}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.company}</div>
+        <div style="font-size:11px;color:var(--text3)">${d.stage}</div>
+      </div>
+      <div style="font-family:'Inter',sans-serif;font-variant-numeric:tabular-nums;font-size:13px;font-weight:700;color:var(--text)">${fmt(d.value)}</div>
+    </div>
+  `).join('');
+ 
+  // Avg time (mock)
+  const avgTimes = {
+    'Prospecto': '3 días', 'Leads': '8 días', 'Propuesta': '12 días',
+    'Negociación': '7 días', 'Ganada': '—'
+  };
+  document.getElementById('time-in-stage').innerHTML = Object.entries(avgTimes).map(([stage, t]) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:8px;height:8px;border-radius:50%;background:${STAGE_COLORS[stage]}"></div>
+        <span style="font-size:13px;color:var(--text2)">${stage}</span>
+      </div>
+      <span style="font-size:13px;font-weight:600;color:var(--text)">${t}</span>
+    </div>
+  `).join('');
+}
+ 
+// ═══════════════════════════════════════════════
+// DETAIL PANEL
+// ═══════════════════════════════════════════════
+ 
+let currentDealId = null;
+ 
+function abrirDetalle(id) {
+  const deal = db.deals.find(d => d.id === id);
+  if (!deal) return;
+  currentDealId = id;
+ 
+  document.getElementById('dp-company').textContent = deal.company;
+  document.getElementById('dp-meta').innerHTML = `
+    <span class="tag ${STAGE_TAGS[deal.stage]}">${deal.stage}</span>
+    <span class="tag tag-gray">${fmt(deal.value)}</span>
+    <span class="tag tag-gray">${deal.prob}% prob.</span>
+    ${deal.closeDate ? `<span class="tag tag-gray">📅 ${deal.closeDate}</span>` : ''}
+  `;
+ 
+  const spLabels = { s:'Situación', p:'Dolor (Pain)', i:'Impacto', c:'Evento Crítico', d:'Decisión' };
+  const spColors = { s:'var(--s-color)', p:'var(--p-color)', i:'var(--i-color)', c:'var(--c-color)', d:'var(--d-color)' };
+ 
+  document.getElementById('dp-body').innerHTML = `
+    <div class="detail-section">
+      <div class="detail-section-title">Información general</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Account Executive</div>
+          <div style="font-size:13px;color:var(--text2);display:flex;align-items:center;gap:4px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            ${deal.owner || 'Sin asignar'}
+          </div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Contacto</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text)">${deal.contact}</div>
+          <div style="font-size:12px;color:var(--text3)">${deal.role}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Correo</div>
+          <div style="font-size:13px;color:var(--text2)">${deal.email}</div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Score SPICED</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${spicedDots(deal, 10)}
+            <span style="font-size:13px;font-weight:600;color:var(--text)">${spicedScore(deal)}/5</span>
+          </div>
+        </div>
+        <div style="grid-column: 1 / -1">
+          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Notas</div>
+          <div style="font-size:12px;color:var(--text3)">${deal.notes || '—'}</div>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="detail-section">
+      <div class="detail-section-title">Marco SPICED</div>
+      <div class="spiced-full">
+        ${['s','p','i','c','d'].map(k => `
+          <div class="spiced-row">
+            <div class="spiced-row-letter" style="background:${spColors[k]}">${k.toUpperCase()}</div>
+            <div class="spiced-row-content">
+              <div class="spiced-row-label">${spLabels[k]}</div>
+              <div class="spiced-row-text ${!(deal.spiced[k]?.trim()) ? 'empty' : ''}">${deal.spiced[k]?.trim() || 'Sin información — completar en la próxima llamada'}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+ 
+    <div class="detail-section">
+      <div class="detail-section-title">Actividad</div>
+      <div class="timeline">
+        ${(deal.activities||[]).map(a => `
+          <div class="timeline-item" style="--dot-bg:var(--accent)">
+            <div style="position:absolute;left:-14px;top:4px;width:8px;height:8px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)"></div>
+            <div class="timeline-text">${a.text}</div>
+            <div class="timeline-time">${a.time}</div>
+          </div>
+        `).join('') || '<div style="color:var(--text3);font-size:13px">Sin actividad registrada</div>'}
+      </div>
+    </div>
+  `;
+ 
+  document.getElementById('detail-panel').classList.add('open');
+  document.getElementById('detail-backdrop').classList.add('open');
+}
+ 
+function cerrarDetalle() {
+  document.getElementById('detail-panel').classList.remove('open');
+  document.getElementById('detail-backdrop').classList.remove('open');
+  currentDealId = null;
+}
+ 
+// ═══════════════════════════════════════════════
+// MODAL DEALS — CREAR/EDITAR
+// ═══════════════════════════════════════════════
+ 
+let editingDealId = null;
+ 
+function abrirNuevaDeal() {
+  editingDealId = null;
+  document.getElementById('modal-deal-title').textContent = 'Nueva Oportunidad';
+  limpiarFormDeal();
+  abrirModal('modal-deal');
+}
+ 
+function editarDeal(id) {
+  cerrarDetalle();
+  const deal = db.deals.find(d => d.id === id);
+  if (!deal) return;
+  editingDealId = id;
+  document.getElementById('modal-deal-title').textContent = 'Editar Oportunidad';
+ 
+  document.getElementById('f-company').value = deal.company;
+  document.getElementById('f-owner').value = deal.owner || 'Ana Vargas';
+  document.getElementById('f-contact').value = deal.contact;
+  document.getElementById('f-role').value = deal.role;
+  document.getElementById('f-email').value = deal.email;
+  document.getElementById('f-value').value = deal.value;
+  document.getElementById('f-stage').value = deal.stage;
+  document.getElementById('f-prob').value = deal.prob;
+  document.getElementById('f-close-date').value = deal.closeDate;
+  document.getElementById('f-s').value = deal.spiced.s;
+  document.getElementById('f-p').value = deal.spiced.p;
+  document.getElementById('f-i').value = deal.spiced.i;
+  document.getElementById('f-c').value = deal.spiced.c;
+  document.getElementById('f-d').value = deal.spiced.d;
+  document.getElementById('f-notes').value = deal.notes;
+  abrirModal('modal-deal');
+}
+ 
+function guardarDeal() {
+  const company = document.getElementById('f-company').value.trim();
+  if (!company) { toast('❗ El nombre de la empresa es obligatorio', 'error'); return; }
+ 
+  const deal = {
+    id: editingDealId || genId(),
+    company,
+    owner: document.getElementById('f-owner').value,
+    contact: document.getElementById('f-contact').value.trim(),
+    role: document.getElementById('f-role').value.trim(),
+    email: document.getElementById('f-email').value.trim(),
+    value: Number(document.getElementById('f-value').value) || 0,
+    stage: document.getElementById('f-stage').value,
+    prob: Number(document.getElementById('f-prob').value) || 20,
+    closeDate: document.getElementById('f-close-date').value,
+    spiced: {
+      s: document.getElementById('f-s').value.trim(),
+      p: document.getElementById('f-p').value.trim(),
+      i: document.getElementById('f-i').value.trim(),
+      c: document.getElementById('f-c').value.trim(),
+      d: document.getElementById('f-d').value.trim()
+    },
+    notes: document.getElementById('f-notes').value.trim(),
+    createdAt: editingDealId ? (db.deals.find(d=>d.id===editingDealId)?.createdAt || new Date().toISOString().slice(0,10)) : new Date().toISOString().slice(0,10),
+    activities: editingDealId ? (db.deals.find(d=>d.id===editingDealId)?.activities || []) : [{ text: 'Oportunidad creada en CRM', time: 'Ahora' }]
+  };
+ 
+  if (editingDealId) {
+    const idx = db.deals.findIndex(d => d.id === editingDealId);
+    db.deals[idx] = deal;
+    toast('✅ Oportunidad actualizada', 'success');
+  } else {
+    db.deals.push(deal);
+    toast('🚀 Oportunidad creada correctamente', 'success');
+  }
+ 
+  guardarDB(db);
+  cerrarModal('modal-deal');
+  renderPage(document.querySelector('.nav-item.active').dataset.page);
+}
+ 
+function eliminarDeal(id) {
+  if (!confirm('¿Estás seguro de eliminar esta oportunidad?')) return;
+  db.deals = db.deals.filter(d => d.id !== id);
+  guardarDB(db);
+  cerrarDetalle();
+  toast('🗑️ Oportunidad eliminada', 'info');
+  renderPage(document.querySelector('.nav-item.active').dataset.page);
+}
+ 
+function limpiarFormDeal() {
+  ['f-company','f-contact','f-role','f-email','f-value','f-prob','f-close-date','f-s','f-p','f-i','f-c','f-d','f-notes'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('f-owner').value = 'Ana Vargas';
+  document.getElementById('f-stage').value = 'Prospecto';
+}
+ 
+// ═══════════════════════════════════════════════
+// MODAL CONTACTOS
+// ═══════════════════════════════════════════════
+ 
+function abrirNuevoContacto() {
+  ['cf-name','cf-company','cf-role','cf-email','cf-notes'].forEach(id => document.getElementById(id).value = '');
+  abrirModal('modal-contact');
+}
+ 
+function guardarContacto() {
+  const name = document.getElementById('cf-name').value.trim();
+  if (!name) { toast('❗ El nombre es obligatorio', 'error'); return; }
+ 
+  db.contacts.push({
+    id: genId(),
+    name,
+    company: document.getElementById('cf-company').value.trim(),
+    role: document.getElementById('cf-role').value.trim(),
+    email: document.getElementById('cf-email').value.trim(),
+    notes: document.getElementById('cf-notes').value.trim()
+  });
+ 
+  guardarDB(db);
+  cerrarModal('modal-contact');
+  renderContactsTable();
+  toast('👤 Contacto creado correctamente', 'success');
+}
+ 
+function eliminarContacto(id) {
+  if (!confirm('¿Eliminar este contacto?')) return;
+  db.contacts = db.contacts.filter(c => c.id !== id);
+  guardarDB(db);
+  renderContactsTable();
+  toast('🗑️ Contacto eliminado', 'info');
+}
+ 
+// ═══════════════════════════════════════════════
+// MODAL HELPERS
+// ═══════════════════════════════════════════════
+ 
+function abrirModal(id) { document.getElementById(id).classList.add('open'); }
+function cerrarModal(id) { document.getElementById(id).classList.remove('open'); }
+ 
+// Close modal on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+});
+ 
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+ 
+function toast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+ 
+// ═══════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════
+ 
+function exportarDatos() {
+  const data = JSON.stringify(db, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'crm-wbd-export.json'; a.click();
+  toast('⬇️ Datos exportados correctamente', 'success');
+}
+ 
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+ 
+renderDashboard();
+updatePipelineBadge();
+</script>
+</body>
+</html>
