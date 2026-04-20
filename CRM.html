@@ -1051,9 +1051,9 @@
     </nav>
     <div class="sidebar-footer">
       <div class="user-card">
-        <div class="user-avatar">AV</div>
+        <div class="user-avatar">WX</div>
         <div class="user-info">
-          <div class="user-name">Ana Vargas</div>
+          <div class="user-name">Widdex</div>
           <div class="user-role">Account Executive</div>
         </div>
       </div>
@@ -1145,10 +1145,11 @@
         <div>
           <select style="width:auto;padding:7px 28px 7px 12px" id="pipeline-owner-filter" onchange="filterPipelineOwner(this.value)">
             <option value="all">Todos los ejecutivos</option>
-            <option value="Ana Vargas">Ana Vargas</option>
-            <option value="Carlos Ruiz">Carlos Ruiz</option>
-            <option value="Elena Gómez">Elena Gómez</option>
-            <option value="Miguel Ángel">Miguel Ángel</option>
+            <option value="Rocateq Chile">Rocateq Chile</option>
+            <option value="RQ Brazil">RQ Brazil</option>
+            <option value="RQ Mexico">RQ Mexico</option>
+            <option value="Varin B2B">Varin B2B</option>
+            <option value="Widdex">Widdex</option>
           </select>
         </div>
       </div>
@@ -1165,10 +1166,11 @@
           <div style="display:flex;gap:6px;margin-left:auto">
             <select style="width:auto;padding:7px 28px 7px 12px" id="deals-owner-filter" onchange="renderDealsTable()">
               <option value="">Todos los ejecutivos</option>
-              <option value="Ana Vargas">Ana Vargas</option>
-              <option value="Carlos Ruiz">Carlos Ruiz</option>
-              <option value="Elena Gómez">Elena Gómez</option>
-              <option value="Miguel Ángel">Miguel Ángel</option>
+              <option value="Rocateq Chile">Rocateq Chile</option>
+              <option value="RQ Brazil">RQ Brazil</option>
+              <option value="RQ Mexico">RQ Mexico</option>
+              <option value="Varin B2B">Varin B2B</option>
+              <option value="Widdex">Widdex</option>
             </select>
             <select style="width:auto;padding:7px 28px 7px 12px" id="deals-stage-filter" onchange="renderDealsTable()">
               <option value="">Todas las etapas</option>
@@ -1321,10 +1323,11 @@
         <div class="form-group">
           <label>Account Executive</label>
           <select id="f-owner">
-            <option value="Ana Vargas">Ana Vargas</option>
-            <option value="Carlos Ruiz">Carlos Ruiz</option>
-            <option value="Elena Gómez">Elena Gómez</option>
-            <option value="Miguel Ángel">Miguel Ángel</option>
+            <option value="Rocateq Chile">Rocateq Chile</option>
+            <option value="RQ Brazil">RQ Brazil</option>
+            <option value="RQ Mexico">RQ Mexico</option>
+            <option value="Varin B2B">Varin B2B</option>
+            <option value="Widdex">Widdex</option>
           </select>
         </div>
         <div class="form-group">
@@ -1485,7 +1488,7 @@ const DEFAULT_DATA = {
   deals: [
     {
       id: 'd1', company: 'TechCorp México', contact: 'Carlos Mendoza', role: 'VP de Ventas',
-      email: 'cmendoza@techcorp.mx', value: 85000, stage: 'Propuesta', prob: 60, owner: 'Ana Vargas',
+      email: 'cmendoza@techcorp.mx', value: 85000, stage: 'Propuesta', prob: 60, owner: 'RQ Mexico',
       closeDate: '2025-06-30',
       spiced: {
         s: 'Empresa tecnológica de 500 empleados. Actualmente usan un CRM legacy sin integraciones. Están en proceso de transformación digital.',
@@ -1504,7 +1507,7 @@ const DEFAULT_DATA = {
     },
     {
       id: 'd2', company: 'Retail Latino', contact: 'María Fernández', role: 'Directora de Operaciones',
-      email: 'mfernandez@retaillatino.com', value: 42000, stage: 'Negociación', prob: 75, owner: 'Carlos Ruiz',
+      email: 'mfernandez@retaillatino.com', value: 42000, stage: 'Negociación', prob: 75, owner: 'RQ Brazil',
       closeDate: '2025-05-15',
       spiced: {
         s: 'Cadena de retail con 80 puntos de venta en LATAM. Expansión agresiva prevista para Q3.',
@@ -1522,7 +1525,7 @@ const DEFAULT_DATA = {
     },
     {
       id: 'd3', company: 'FinServ Argentina', contact: 'Roberto Silva', role: 'CTO',
-      email: 'rsilva@finserv.ar', value: 120000, stage: 'Leads', prob: 30, owner: 'Elena Gómez',
+      email: 'rsilva@finserv.ar', value: 120000, stage: 'Leads', prob: 30, owner: 'Varin B2B',
       closeDate: '2025-08-01',
       spiced: {
         s: 'Fintech de 200 empleados, Serie B. Crecimiento del 200% YoY. Stack técnico moderno (AWS, Salesforce).',
@@ -1539,7 +1542,7 @@ const DEFAULT_DATA = {
     },
     {
       id: 'd4', company: 'EdTech Colombia', contact: 'Diana Rojas', role: 'CEO',
-      email: 'drojas@edtech.co', value: 28000, stage: 'Prospecto', prob: 20, owner: 'Miguel Ángel',
+      email: 'drojas@edtech.co', value: 28000, stage: 'Prospecto', prob: 20, owner: 'Widdex',
       closeDate: '2025-07-15',
       spiced: {
         s: 'Startup EdTech, 40 empleados. Pre-serie A. Creciendo en mercado B2B con escuelas.',
@@ -1556,7 +1559,7 @@ const DEFAULT_DATA = {
     },
     {
       id: 'd5', company: 'LogiPro Chile', contact: 'Andrés Morales', role: 'Gerente Comercial',
-      email: 'amorales@logipro.cl', value: 65000, stage: 'Ganada', prob: 100, owner: 'Ana Vargas',
+      email: 'amorales@logipro.cl', value: 65000, stage: 'Ganada', prob: 100, owner: 'Rocateq Chile',
       closeDate: '2025-03-01',
       spiced: {
         s: 'Empresa logística con 300 empleados. Presencia en Chile, Perú y Bolivia.',
@@ -1605,6 +1608,10 @@ db.deals.forEach(d => {
   if (d.stage === 'Calificación') d.stage = 'Prospecto';
   if (d.stage === 'Descubrimiento') d.stage = 'Leads';
   if (d.stage === 'Cierre') d.stage = 'Negociación';
+  if (d.owner === 'Ana Vargas') d.owner = 'Rocateq Chile';
+  if (d.owner === 'Carlos Ruiz') d.owner = 'RQ Brazil';
+  if (d.owner === 'Elena Gómez') d.owner = 'RQ Mexico';
+  if (d.owner === 'Miguel Ángel') d.owner = 'Varin B2B';
 });
 guardarDB(db);
  
@@ -2265,7 +2272,7 @@ function limpiarFormDeal() {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
-  document.getElementById('f-owner').value = 'Ana Vargas';
+  document.getElementById('f-owner').value = 'Rocateq Chile';
   document.getElementById('f-stage').value = 'Prospecto';
 }
  
