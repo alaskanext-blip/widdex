@@ -353,18 +353,18 @@
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
                 
                 <!-- Contact Info Left Side -->
-                <div class="lg:w-2/5 bg-widdex-blue p-10 text-white flex flex-col justify-between">
+                <div class="lg:w-1/4 bg-widdex-blue p-8 lg:p-10 text-white flex flex-col justify-between">
                     <div>
                         <h3 class="text-3xl font-bold mb-4" data-i18n="ctc-title">Let's Expand Your Business</h3>
-                        <p class="text-blue-100 mb-10" data-i18n="ctc-desc">Fill out the form and we'll schedule a call to discuss your LATAM entry strategy. No commitments, just a strategic conversation.</p>
+                        <p class="text-blue-100 mb-10 text-sm" data-i18n="ctc-desc">Fill out the form and we'll schedule a call to discuss your LATAM entry strategy. No commitments, just a strategic conversation.</p>
                         
                         <div class="space-y-6">
-                            <!-- Contact Info Blocks (Email and Phone removed as requested) -->
+                            <!-- Contact Info Blocks -->
                             <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                                     <i class="fas fa-globe text-widdex-accent"></i>
                                 </div>
-                                <span class="font-medium text-lg">www.widdex.com</span>
+                                <span class="font-medium">www.widdex.com</span>
                             </div>
                         </div>
                     </div>
@@ -375,7 +375,7 @@
                 </div>
 
                 <!-- Form Right Side -->
-                <div class="lg:w-3/5 p-10 lg:p-14">
+                <div class="lg:w-3/4 p-8 lg:p-12 w-full">
                     <h3 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="form-title">Send us a message</h3>
                     
                     <form id="contactForm" class="space-y-6">
@@ -401,12 +401,12 @@
                             </div>
                         </div>
                         
-                        <div>
+                        <div class="w-full">
                             <label for="message" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="form-msg">How can we help you? *</label>
-                            <textarea id="message" name="message" rows="4" required class="form-input resize-none" placeholder="Briefly describe your expansion goals or product..."></textarea>
+                            <textarea id="message" name="message" rows="8" required class="form-input resize-y w-full" placeholder="Briefly describe your expansion goals or product..."></textarea>
                         </div>
                         
-                        <button type="submit" class="w-full bg-widdex-blue text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-widdex-dark transition shadow-md hover:shadow-lg flex justify-center items-center gap-2">
+                        <button type="submit" class="w-full md:w-auto md:px-12 bg-widdex-blue text-white py-4 rounded-lg font-bold text-lg hover:bg-widdex-dark transition shadow-md hover:shadow-lg flex justify-center items-center gap-2 ml-auto">
                             <span data-i18n="form-btn">Send Message</span>
                             <i class="fas fa-paper-plane text-sm"></i>
                         </button>
