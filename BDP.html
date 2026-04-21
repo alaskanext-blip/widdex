@@ -169,7 +169,6 @@
     <section id="services" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-widdex-blue font-bold tracking-wide uppercase text-sm mb-2" data-i18n="srv-subtitle">The E.A.S.T. Framework</h2>
                 <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-i18n="srv-title">Our 5-Step Path to Revenue</h3>
             </div>
 
@@ -360,13 +359,7 @@
                         <p class="text-blue-100 mb-10" data-i18n="ctc-desc">Fill out the form and we'll schedule a call to discuss your LATAM entry strategy. No commitments, just a strategic conversation.</p>
                         
                         <div class="space-y-6">
-                            <div class="flex items-center gap-4">
-                                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                                    <i class="fas fa-envelope text-widdex-accent"></i>
-                                </div>
-                                <a href="mailto:francisco@widdex.com" class="hover:text-widdex-accent transition font-medium text-lg">francisco@widdex.com</a>
-                            </div>
-                            <!-- Phone Block Removed as requested -->
+                            <!-- Contact Info Blocks (Email and Phone removed as requested) -->
                             <div class="flex items-center gap-4">
                                 <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
                                     <i class="fas fa-globe text-widdex-accent"></i>
@@ -389,28 +382,28 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="form-name">Full Name *</label>
-                                <input type="text" id="name" required class="form-input" placeholder="John Doe">
+                                <input type="text" id="name" name="name" required class="form-input" placeholder="John Doe">
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="form-email">Work Email *</label>
-                                <input type="email" id="email" required class="form-input" placeholder="john@company.com">
+                                <input type="email" id="email" name="email" required class="form-input" placeholder="john@company.com">
                             </div>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="company" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="form-company">Company Name</label>
-                                <input type="text" id="company" class="form-input" placeholder="Your Tech Co.">
+                                <input type="text" id="company" name="company" class="form-input" placeholder="Your Tech Co.">
                             </div>
                             <div>
                                 <label for="phone" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="form-phone">Phone / WhatsApp</label>
-                                <input type="tel" id="phone" class="form-input" placeholder="+1 234 567 890">
+                                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+1 234 567 890">
                             </div>
                         </div>
                         
                         <div>
                             <label for="message" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="form-msg">How can we help you? *</label>
-                            <textarea id="message" rows="4" required class="form-input resize-none" placeholder="Briefly describe your expansion goals or product..."></textarea>
+                            <textarea id="message" name="message" rows="4" required class="form-input resize-none" placeholder="Briefly describe your expansion goals or product..."></textarea>
                         </div>
                         
                         <button type="submit" class="w-full bg-widdex-blue text-white py-4 px-6 rounded-lg font-bold text-lg hover:bg-widdex-dark transition shadow-md hover:shadow-lg flex justify-center items-center gap-2">
@@ -482,13 +475,26 @@
 
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Simulate sending data
+            // Start Loading state
             const btn = contactForm.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
 
-            setTimeout(() => {
+            // Prepare Form Data for FormSubmit
+            const formData = new FormData(contactForm);
+            formData.append('_subject', 'Nuevo contacto desde Landing Widdex BDP'); // Asunto del correo
+
+            // Send using FormSubmit AJAX so we don't leave the page
+            fetch('https://formsubmit.co/ajax/contacto@widdex.com', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
                 formSuccess.classList.remove('hidden');
                 contactForm.reset();
                 btn.innerHTML = originalText;
@@ -498,7 +504,13 @@
                 setTimeout(() => {
                     formSuccess.classList.add('hidden');
                 }, 5000);
-            }, 1500);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error al enviar el mensaje. Inténtalo de nuevo.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
         });
 
         // --- Translation Engine ---
@@ -524,7 +536,6 @@
                 "val-3-title": "Powerful Network",
                 "val-3-desc": "Direct access to decision-makers and trusted local partners for legal, tax, and distribution setups in 5 key countries.",
 
-                "srv-subtitle": "The E.A.S.T. Framework",
                 "srv-title": "Our 5-Step Path to Revenue",
                 "srv-1-title": "Market Opportunity Assessment",
                 "srv-1-desc": "We evaluate your product's fit with local demand, competitive conditions, and market readiness.",
@@ -596,7 +607,6 @@
                 "val-3-title": "Poderosa Red",
                 "val-3-desc": "Acceso directo a tomadores de decisiones y socios locales confiables para configuraciones legales, fiscales y de distribución en 5 países clave.",
 
-                "srv-subtitle": "El Framework E.A.S.T.",
                 "srv-title": "Nuestro Camino de 5 Pasos",
                 "srv-1-title": "Evaluación de Oportunidad de Mercado",
                 "srv-1-desc": "Evaluamos el ajuste de tu producto con la demanda local, las condiciones competitivas y la preparación del mercado.",
