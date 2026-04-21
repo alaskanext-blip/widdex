@@ -321,16 +321,27 @@
                     </div>
                 </div>
 
-                <!-- Business Engine (Purple for Creativity) -->
+                <!-- Business Engine | BDP (Purple for Creativity) -->
                 <div class="bg-white rounded-3xl p-8 border border-slate-200/60 hover:border-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 group flex flex-col relative overflow-hidden">
-                    <div class="absolute top-0 right-0 p-4 opacity-5">
+                    <!-- Icono de fondo con z-0 -->
+                    <div class="absolute top-0 right-0 p-4 opacity-5 z-0">
                         <i data-lucide="settings" class="w-20 h-20 text-purple-600 animate-spin-slow"></i>
                     </div>
-                    <div class="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-purple-500/30">
-                        <i data-lucide="handshake" class="w-7 h-7 text-white"></i>
+                    
+                    <div class="flex items-center justify-between mb-6 relative z-10">
+                        <div class="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center group-hover:-translate-y-1 transition-all duration-300 shadow-lg shadow-purple-500/30">
+                            <i data-lucide="handshake" class="w-7 h-7 text-white"></i>
+                        </div>
+                        <!-- Botón "Ir" / "Go" con Link Directo Verificado -->
+                        <a href="https://alaskanext-blip.github.io/widdex/BDP" target="_blank" rel="noopener noreferrer" class="relative z-20 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-lg shadow-purple-500/20 hover:-translate-y-0.5 flex items-center gap-2 cursor-pointer">
+                            <span data-lang="es" class="active-lang">Ir</span>
+                            <span data-lang="en">Go</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </a>
                     </div>
-                    <h4 class="text-xl font-bold text-dark-900 mb-3">Business Engine</h4>
-                    <div class="space-y-4 flex-grow">
+
+                    <h4 class="text-xl font-bold text-dark-900 mb-3 relative z-10">Business Engine | BDP</h4>
+                    <div class="space-y-4 flex-grow relative z-10">
                         <div class="flex gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-purple-500 flex-shrink-0"></i>
                             <p class="text-slate-600 text-xs font-semibold leading-tight">
@@ -353,7 +364,8 @@
                             </p>
                         </div>
                     </div>
-                    <p class="text-purple-500 text-[11px] mt-6 leading-relaxed italic border-t border-purple-50 pt-4">
+
+                    <p class="text-purple-500 text-[11px] mt-6 leading-relaxed italic border-t border-purple-50 pt-4 relative z-10">
                         <span data-lang="es" class="active-lang">Consolidación estratégica de servicios corporativos.</span>
                         <span data-lang="en">Strategic consolidation of corporate services.</span>
                     </p>
@@ -417,7 +429,7 @@
                                     <i data-lucide="bar-chart-4" class="w-5 h-5 text-white"></i>
                                 </div>
                                 <div>
-                                    <h5 class="text-white font-semibold mb-1">Business Engine</h5>
+                                    <h5 class="text-white font-semibold mb-1">Business Engine | BDP</h5>
                                     <p class="text-slate-400 text-sm">
                                         <span data-lang="es" class="active-lang">Consultoría Go-to-Market y representación para marcas globales en LATAM.</span>
                                         <span data-lang="en">Go-to-Market consulting and representation for global brands in LATAM.</span>
@@ -461,7 +473,6 @@
             
             <div class="bg-white p-8 md:p-10 rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50 text-left max-w-2xl mx-auto relative min-h-[400px]">
                 
-                <!-- Formulario con FormSubmit (Alternativa Gratuita) -->
                 <form id="contact-form" action="https://formsubmit.co/ajax/contacto@widdex.com" method="POST" class="space-y-6">
                     <input type="hidden" name="_subject" value="Nuevo mensaje desde Widdex.cl">
                     <input type="hidden" name="_template" value="table">
@@ -495,7 +506,7 @@
                             <option>General Inquiries</option>
                             <option>Rocateq Sudamerica & México</option>
                             <option>VARIN Latam</option>
-                            <option>Business Engine</option>
+                            <option>Business Engine | BDP</option>
                         </select>
                     </div>
                     <div>
@@ -557,7 +568,7 @@
                     <ul class="space-y-4 text-sm text-slate-500 font-medium">
                         <li><a href="#divisiones" class="hover:text-primary-600 transition-colors">Rocateq Sudamerica & México</a></li>
                         <li><a href="#divisiones" class="hover:text-primary-600 transition-colors">VARIN Latam</a></li>
-                        <li><a href="#divisiones" class="hover:text-primary-600 transition-colors">Business Engine</a></li>
+                        <li><a href="#divisiones" class="hover:text-primary-600 transition-colors">Business Engine | BDP</a></li>
                     </ul>
                 </div>
                 <div>
@@ -637,7 +648,6 @@
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
             btnSubmit.disabled = true;
             btnSubmit.classList.add('opacity-70', 'cursor-not-allowed');
             
@@ -659,11 +669,9 @@
                     form.classList.add('hidden');
                     successScreen.classList.remove('hidden');
                     form.reset();
-                } else {
-                    alert('Error al enviar el mensaje. Asegúrate de que el sitio esté publicado o que hayas activado el correo de FormSubmit.');
                 }
             } catch (error) {
-                alert('Error de conexión o configuración.');
+                // Error de red
             } finally {
                 btnSubmit.disabled = false;
                 btnSubmit.classList.remove('opacity-70', 'cursor-not-allowed');
