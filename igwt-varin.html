@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Control Varin</title>
+    <!-- Favicon: V Amarilla con diseño vectorial -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e293b'/><path d='M30 30L50 75L70 30' fill='none' stroke='%23eab308' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .window-dot { width: 10px; height: 10px; border-radius: 9999px; }
+        .glass-panel { 
+            background: rgba(30, 41, 59, 0.7); 
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-800 text-slate-200 min-h-screen p-6 md:p-12 transition-all duration-300">
+
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Cabecera: Logo, Buscador y Datos de Tiempo -->
+        <header class="flex flex-col lg:flex-row justify-between items-center mb-12 gap-6 glass-panel p-5 rounded-3xl shadow-xl">
+            <div class="flex items-center gap-4 shrink-0">
+                <!-- Logotipo Principal SVG (Sustituye a cualquier archivo externo para evitar errores) -->
+                <div class="flex items-center gap-2 group cursor-default">
+                    <div class="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/20 group-hover:scale-105 transition-transform">
+                        <svg viewBox="0 0 100 100" class="w-6 h-6 fill-none stroke-white stroke-[12] stroke-linecap-round stroke-linejoin-round">
+                            <path d="M30 30L50 75L70 30" />
+                        </svg>
+                    </div>
+                    <span class="text-xl font-black tracking-tighter text-white">VARIN</span>
+                </div>
+                <div class="h-6 w-[1px] bg-slate-700/50 hidden sm:block"></div>
+                <h1 class="text-xs font-black tracking-[0.2em] text-slate-500 hidden sm:block uppercase">Control Hub</h1>
+            </div>
+
+            <!-- Buscador Integrado -->
+            <div class="relative w-full max-w-md mx-4">
+                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"></i>
+                <input 
+                    type="text" 
+                    id="searchInput"
+                    placeholder="Buscar recurso o servicio..."
+                    class="w-full bg-slate-900/40 border border-slate-700/50 rounded-2xl py-3 pl-12 pr-4 text-sm focus:ring-4 focus:ring-blue-600/20 focus:border-blue-500 outline-none transition-all text-slate-100 placeholder:text-slate-500"
+                >
+            </div>
+            
+            <div class="flex items-center gap-2 shrink-0">
+                <!-- Fecha -->
+                <div class="flex items-center gap-2 text-slate-400 bg-slate-900/50 px-4 py-2.5 rounded-2xl border border-slate-700/30">
+                    <i data-lucide="calendar" class="w-4 h-4 text-blue-500"></i>
+                    <span id="currentDate" class="text-xs font-bold text-slate-300 uppercase tracking-wide">---</span>
+                </div>
+                <!-- Hora -->
+                <div class="flex items-center gap-2 text-slate-400 bg-slate-900/50 px-4 py-2.5 rounded-2xl border border-slate-700/30">
+                    <i data-lucide="clock" class="w-4 h-4 text-blue-500"></i>
+                    <span id="currentTime" class="text-xs font-bold text-slate-300">00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="space-y-12">
+            <!-- Ventana de Servicios Varin -->
+            <section class="bg-slate-800/40 border border-slate-700/40 rounded-[2rem] overflow-hidden shadow-2xl" id="section-varin">
+                <div class="bg-slate-800/60 border-b border-slate-700/40 p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-white/95 px-5 py-2.5 rounded-2xl shadow-inner flex items-center justify-center min-w-[150px] h-12">
+                            <img src="https://varin.nl/cdn/shop/files/logo-varin_524x120.svg?v=1704292157" alt="Varin Logo" class="h-6 w-auto object-contain">
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-extrabold text-white tracking-tight">Servicios Operativos Varin</h2>
+                            <p class="text-[10px] text-blue-400 font-bold uppercase tracking-[0.1em]">Sincronización Traaq ML</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1.5 opacity-40">
+                        <div class="window-dot bg-slate-600"></div>
+                        <div class="window-dot bg-slate-600"></div>
+                        <div class="window-dot bg-slate-600"></div>
+                    </div>
+                </div>
+                
+                <div class="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Link 1 -->
+                    <a href="https://alaskanext-blip.github.io/ERPvarin/" target="_blank" class="link-card group relative bg-slate-900/30 border border-slate-700/30 p-6 rounded-3xl hover:bg-slate-800/80 hover:border-blue-500/50 transition-all duration-300 flex flex-col gap-5">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center group-hover:scale-110 transition-transform text-blue-400">
+                            <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="link-title font-bold text-lg text-slate-100 group-hover:text-white">Traaq de Ventas ML</h3>
+                            <p class="link-cat text-[10px] font-black text-slate-500 uppercase mt-1 tracking-widest">Inteligencia de Datos</p>
+                        </div>
+                        <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">
+                             <i data-lucide="chevron-right" class="w-5 h-5 text-blue-400"></i>
+                        </div>
+                    </a>
+                    
+                    <!-- Link 2 -->
+                    <a href="https://alaskanext-blip.github.io/ERPvarin/inventario" target="_blank" class="link-card group relative bg-slate-900/30 border border-slate-700/30 p-6 rounded-3xl hover:bg-slate-800/80 hover:border-indigo-500/50 transition-all duration-300 flex flex-col gap-5">
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center group-hover:scale-110 transition-transform text-indigo-400">
+                            <i data-lucide="package" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="link-title font-bold text-lg text-slate-100 group-hover:text-white">Traaq Inventario</h3>
+                            <p class="link-cat text-[10px] font-black text-slate-500 uppercase mt-1 tracking-widest">Control Stock</p>
+                        </div>
+                        <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">
+                             <i data-lucide="chevron-right" class="w-5 h-5 text-indigo-400"></i>
+                        </div>
+                    </a>
+
+                    <!-- Link 3 -->
+                    <a href="https://alaskanext-blip.github.io/ERPvarin/facturacion" target="_blank" class="link-card group relative bg-slate-900/30 border border-slate-700/30 p-6 rounded-3xl hover:bg-slate-800/80 hover:border-amber-500/50 transition-all duration-300 flex flex-col gap-5">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center group-hover:scale-110 transition-transform text-amber-400">
+                            <i data-lucide="file-text" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="link-title font-bold text-lg text-slate-100 group-hover:text-white">Análisis FACT ML</h3>
+                            <p class="link-cat text-[10px] font-black text-slate-500 uppercase mt-1 tracking-widest">Finanzas</p>
+                        </div>
+                        <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">
+                             <i data-lucide="chevron-right" class="w-5 h-5 text-amber-400"></i>
+                        </div>
+                    </a>
+
+                    <!-- Link 4: Benchmark -->
+                    <a href="https://alaskanext-blip.github.io/ERPvarin/benchmark" target="_blank" class="link-card group relative bg-slate-900/30 border border-slate-700/30 p-6 rounded-3xl hover:bg-slate-800/80 hover:border-emerald-500/50 transition-all duration-300 flex flex-col gap-5">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:scale-110 transition-transform text-emerald-400">
+                            <i data-lucide="trending-up" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="link-title font-bold text-lg text-slate-100 group-hover:text-white">Benchmark</h3>
+                            <p class="link-cat text-[10px] font-black text-slate-500 uppercase mt-1 tracking-widest">Rendimiento</p>
+                        </div>
+                        <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all">
+                             <i data-lucide="chevron-right" class="w-5 h-5 text-emerald-400"></i>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Otros Enlaces Externos -->
+            <section id="section-others">
+                <div class="flex items-center gap-4 mb-6 px-2">
+                    <h2 class="text-xs font-black text-slate-500 uppercase tracking-[0.3em]">Recursos Externos</h2>
+                    <div class="h-px flex-1 bg-slate-700"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <a href="https://www.varin.cl" target="_blank" class="link-card group glass-panel p-6 rounded-2xl hover:bg-slate-700 transition-all flex items-center justify-between shadow-lg border-slate-600/20">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/10">
+                                <i data-lucide="globe" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <span class="link-title font-bold text-slate-200 text-sm group-hover:text-white block">Portal Varin.cl</span>
+                                <span class="link-cat text-[10px] text-slate-500 uppercase mt-0.5 block">Web Corporativa</span>
+                            </div>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors"></i>
+                    </a>
+
+                    <a href="https://www.mercadolibre.cl/pagina/varinlatam" target="_blank" class="link-card group glass-panel p-6 rounded-2xl hover:bg-slate-700 transition-all flex items-center justify-between shadow-lg border-slate-600/20">
+                        <div class="flex items-center gap-4">
+                            <div class="p-3 rounded-xl bg-yellow-500/10 text-yellow-400 border border-yellow-500/10">
+                                <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <span class="link-title font-bold text-slate-200 text-sm group-hover:text-white block">Mercado Libre</span>
+                                <span class="link-cat text-[10px] text-slate-500 uppercase mt-0.5 block">Tienda Oficial</span>
+                            </div>
+                        </div>
+                        <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-500 group-hover:text-yellow-400 transition-colors"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-24 pb-12 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500"></div>
+                    <div class="absolute inset-0 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping opacity-75"></div>
+                </div>
+                <span class="text-[10px] text-slate-400 font-black uppercase tracking-widest">Sistemas Operativos 2026</span>
+            </div>
+            <div class="flex gap-8 text-[10px] text-slate-500 font-bold uppercase tracking-widest">
+                <span class="hover:text-blue-400 cursor-pointer transition-colors">Soporte Técnico</span>
+                <span class="hover:text-blue-400 cursor-pointer transition-colors">Logs</span>
+                <span class="text-slate-700 font-medium">Build 2.2.8_REV</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+
+        // Actualizar Reloj y Fecha
+        function updateDateTime() {
+            const now = new Date();
+            
+            // Reloj
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const currentTimeEl = document.getElementById('currentTime');
+            if (currentTimeEl) currentTimeEl.textContent = `${hours}:${minutes}`;
+            
+            // Fecha
+            const options = { day: 'numeric', month: 'short' };
+            const currentDateEl = document.getElementById('currentDate');
+            if (currentDateEl) currentDateEl.textContent = now.toLocaleDateString('es-ES', options).toUpperCase();
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        // Buscador Funcional
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.link-card');
+        const sections = ['section-varin', 'section-others'];
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            
+            cards.forEach(card => {
+                const titleElt = card.querySelector('.link-title');
+                const catElt = card.querySelector('.link-cat');
+                
+                const title = titleElt ? titleElt.innerText.toLowerCase() : "";
+                const category = catElt ? catElt.innerText.toLowerCase() : "";
+                
+                if (title.includes(term) || category.includes(term)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Ocultar secciones enteras si no hay resultados visibles
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    const sectionCards = section.querySelectorAll('.link-card');
+                    const hasVisibleCards = Array.from(sectionCards).some(c => c.style.display !== 'none');
+                    section.style.display = hasVisibleCards ? 'block' : 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
