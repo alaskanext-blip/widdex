@@ -54,7 +54,7 @@
                 </h2>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm text-slate-400 mb-2">Texto Inferior (Subtítulo)</label>
+                        <label class="block text-sm text-slate-400 mb-2">Texto en Tercio Inferior</label>
                         <input type="text" id="overlayText" value="Seguridad y Control" placeholder="Ej: Seguridad y Control" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-rose-500">
                     </div>
                     <div>
@@ -65,7 +65,7 @@
             </div>
 
             <button id="exportBtn" disabled class="w-full py-4 bg-slate-700 text-slate-400 font-bold rounded-2xl cursor-not-allowed transition-all hover:scale-[1.02] active:scale-95 flex justify-center items-center gap-2">
-                Generar Video Final
+                Generar Video MP4
             </button>
         </section>
 
@@ -93,8 +93,8 @@
     </main>
 
     <!-- Hidden Elements for Processing -->
-    <video id="sourceVideo" class="hidden"></video>
-    <audio id="sourceAudio" class="hidden"></audio>
+    <video id="sourceVideo" class="hidden" crossorigin="anonymous"></video>
+    <audio id="sourceAudio" class="hidden" crossorigin="anonymous"></audio>
 
     <script>
         const canvas = document.getElementById('editorCanvas');
@@ -156,28 +156,36 @@
             ctx.font = `bold ${watermarkSize}px Inter, sans-serif`;
             ctx.textAlign = 'right';
             
-            // Sombra suave para el texto superior
+            // Sombra para el texto superior
             ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
             ctx.shadowBlur = 8;
             ctx.fillStyle = 'white';
             ctx.fillText(BRAND_URL, canvas.width - padding, padding + watermarkSize);
             ctx.restore();
 
-            // 2. Texto inferior personalizable
+            // 2. Texto en tercio inferior
             const text = textInput.value;
             if (text) {
-                const fontSize = canvas.height * 0.06;
+                const fontSize = canvas.height * 0.055;
                 ctx.font = `bold ${fontSize}px Inter, sans-serif`;
                 ctx.textAlign = 'center';
                 
-                // Franja de legibilidad inferior
-                const rectHeight = fontSize * 1.6;
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-                ctx.fillRect(0, canvas.height - rectHeight, canvas.width, rectHeight);
+                // Posicionamiento en el tercio inferior (aprox 80% de la altura)
+                const yPos = canvas.height * 0.82;
+                
+                // Rectángulo de fondo para legibilidad (centrado en el texto)
+                const rectHeight = fontSize * 1.5;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+                ctx.fillRect(0, yPos - (rectHeight / 1.5), canvas.width, rectHeight);
                 
                 // Texto principal
+                ctx.save();
+                ctx.globalAlpha = opacity;
                 ctx.fillStyle = 'white';
-                ctx.fillText(text, canvas.width / 2, canvas.height - (rectHeight / 2) + (fontSize / 3));
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                ctx.shadowBlur = 4;
+                ctx.fillText(text, canvas.width / 2, yPos);
+                ctx.restore();
             }
         }
 
@@ -196,6 +204,7 @@
         }
 
         function formatTime(seconds) {
+            if (isNaN(seconds)) return "00:00";
             const m = Math.floor(seconds / 60);
             const s = Math.floor(seconds % 60);
             return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
@@ -207,9 +216,14 @@
             processingOverlay.classList.remove('hidden');
             exportBtn.disabled = true;
 
-            const stream = canvas.captureStream(30); // 30 FPS
+            // Preferir MP4 si está disponible, sino WebM
+            const mimeType = MediaRecorder.isTypeSupported('video/mp4;codecs=h264') 
+                             ? 'video/mp4;codecs=h264' 
+                             : 'video/webm;codecs=vp9';
             
-            // Mix audio if present
+            const stream = canvas.captureStream(30); 
+            
+            // Audio context para mezclar
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const dest = audioCtx.createMediaStreamDestination();
             
@@ -225,16 +239,20 @@
             }
 
             const combinedStream = new MediaStream(tracks);
-            const recorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm;codecs=vp9' });
+            const recorder = new MediaRecorder(combinedStream, { mimeType: mimeType });
             const chunks = [];
 
-            recorder.ondataavailable = (e) => chunks.push(e.data);
+            recorder.ondataavailable = (e) => {
+                if (e.data.size > 0) chunks.push(e.data);
+            };
+
             recorder.onstop = () => {
-                const blob = new Blob(chunks, { type: 'video/webm' });
+                const extension = mimeType.includes('mp4') ? 'mp4' : 'webm';
+                const blob = new Blob(chunks, { type: mimeType });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `Rocateq_Video_${Date.now()}.webm`;
+                a.download = `Rocateq_Final_${Date.now()}.${extension}`;
                 a.click();
                 
                 processingOverlay.classList.add('hidden');
@@ -243,16 +261,17 @@
                 video.currentTime = 0;
             };
 
-            // Start processing
+            // Iniciar proceso
             video.currentTime = 0;
             if (audio.src) {
                 audio.currentTime = 0;
                 audio.play();
             }
+            
+            // Forzar reproducción silenciosa si es necesario para captura
             video.play();
             recorder.start();
 
-            // Progress tracking
             const interval = setInterval(() => {
                 const progress = Math.min(Math.round((video.currentTime / video.duration) * 100), 100);
                 progressText.textContent = `${progress}%`;
@@ -261,13 +280,12 @@
 
                 if (video.ended || video.currentTime >= video.duration) {
                     recorder.stop();
-                    audio.pause();
+                    if (audio.src) audio.pause();
                     clearInterval(interval);
                 }
-            }, 33); // Sync with ~30fps
+            }, 33);
         };
 
-        // UI Listeners for immediate preview update
         textInput.oninput = drawFrame;
         logoOpacity.oninput = drawFrame;
 
