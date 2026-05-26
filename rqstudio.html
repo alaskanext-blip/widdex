@@ -3,97 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rocateq Video Editor</title>
+    <title>Rocateq Video Studio Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
         .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        canvas { max-width: 100%; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .rocateq-red { color: #e11d48; }
         .bg-rocateq { background-color: #e11d48; }
         .loader { border-top-color: #e11d48; animation: spinner 1.5s linear infinite; }
         @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Custom Switch Styling */
+        .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #e11d48; }
+        input:checked + .slider:before { transform: translateX(20px); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 md:p-8">
 
-    <header class="w-full max-w-4xl flex justify-between items-center mb-8">
+    <header class="w-full max-w-5xl flex justify-between items-center mb-8">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-rocateq rounded-lg flex items-center justify-center font-bold text-white italic">R</div>
+            <div class="w-10 h-10 bg-rocateq rounded-lg flex items-center justify-center font-bold text-white italic shadow-lg shadow-rose-900/20">R</div>
             <h1 class="text-2xl font-extrabold tracking-tight">ROCATEQ <span class="text-rose-500 text-sm font-normal">STUDIO</span></h1>
         </div>
-        <div id="statusTag" class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Listo para editar</div>
+        <div id="statusTag" class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-400 border border-slate-700 shadow-sm">Modo Pro Activo</div>
     </header>
 
     <main class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         <section class="lg:col-span-1 space-y-6">
+            <!-- Archivos -->
             <div class="glass p-6 rounded-2xl">
-                <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                    Archivos Fuente
-                </h2>
-                
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">1. Medios</h2>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm text-slate-400 mb-2">Video (MP4/WebM)</label>
-                        <input type="file" id="videoUpload" accept="video/*" class="w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-rose-500/10 file:text-rose-500 hover:file:bg-rose-500/20 cursor-pointer">
+                        <label class="block text-xs text-slate-400 mb-1">Video Original</label>
+                        <input type="file" id="videoUpload" accept="video/*" class="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-rose-500/10 file:text-rose-500 hover:file:bg-rose-500/20 cursor-pointer">
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 mb-2">Música (MP3/WAV)</label>
-                        <input type="file" id="audioUpload" accept="audio/*" class="w-full text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-500/10 file:text-blue-500 hover:file:bg-blue-500/20 cursor-pointer">
+                        <label class="block text-xs text-slate-400 mb-1">Música de Fondo</label>
+                        <input type="file" id="audioUpload" accept="audio/*" class="w-full text-xs text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-500/10 file:text-blue-500 hover:file:bg-blue-500/20 cursor-pointer">
                     </div>
                 </div>
             </div>
 
+            <!-- Ajustes de Formato y Marca -->
             <div class="glass p-6 rounded-2xl">
-                <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                    Personalización
-                </h2>
-                <div class="space-y-4">
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4">2. Formato y Marca</h2>
+                <div class="space-y-5">
+                    <!-- Toggle Formato -->
                     <div>
-                        <label class="block text-sm text-slate-400 mb-2">Texto en Tercio Inferior</label>
-                        <input type="text" id="overlayText" value="Seguridad y Control" placeholder="Ej: Seguridad y Control" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:outline-none focus:ring-2 focus:ring-rose-500">
+                        <label class="block text-sm text-slate-300 mb-2">Orientación del Video</label>
+                        <select id="formatSelect" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-rose-500 outline-none">
+                            <option value="horizontal">Horizontal (16:9)</option>
+                            <option value="vertical">Vertical (9:16) - Para Reels/TikTok</option>
+                        </select>
                     </div>
+
+                    <!-- Toggle Marca de Agua -->
+                    <div class="flex items-center justify-between p-3 bg-slate-900/50 rounded-xl border border-slate-800">
+                        <div>
+                            <p class="text-sm font-medium text-slate-200">Mostrar URL</p>
+                            <p class="text-xs text-slate-500">www.rocateq.com</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="showUrlToggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
                     <div>
-                        <label class="block text-sm text-slate-400 mb-2">Opacidad de Marcas de Agua</label>
-                        <input type="range" id="logoOpacity" min="0.1" max="1" step="0.1" value="0.8" class="w-full accent-rose-500">
+                        <label class="block text-sm text-slate-300 mb-2">Texto Inferior</label>
+                        <input type="text" id="overlayText" value="Seguridad y Control" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white focus:ring-2 focus:ring-rose-500 outline-none">
                     </div>
                 </div>
             </div>
 
-            <button id="exportBtn" disabled class="w-full py-4 bg-slate-700 text-slate-400 font-bold rounded-2xl cursor-not-allowed transition-all hover:scale-[1.02] active:scale-95 flex justify-center items-center gap-2">
+            <button id="exportBtn" disabled class="w-full py-4 bg-slate-700 text-slate-500 font-bold rounded-2xl transition-all flex justify-center items-center gap-2 shadow-lg">
                 Generar Video MP4
             </button>
         </section>
 
         <section class="lg:col-span-2 space-y-4">
-            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black flex items-center justify-center border border-slate-800">
+            <div id="canvasContainer" class="relative w-full aspect-video rounded-3xl overflow-hidden bg-black flex items-center justify-center border border-slate-800 shadow-2xl">
                 <canvas id="editorCanvas"></canvas>
                 
-                <div id="processingOverlay" class="absolute inset-0 bg-black/80 hidden flex-col items-center justify-center">
-                    <div class="loader ease-linear rounded-full border-4 border-t-4 border-slate-200 h-12 w-12 mb-4"></div>
-                    <p class="text-xl font-bold">Procesando Video...</p>
-                    <p id="progressText" class="text-rose-500 font-mono mt-2">0%</p>
+                <div id="processingOverlay" class="absolute inset-0 bg-black/90 hidden flex-col items-center justify-center z-50">
+                    <div class="loader ease-linear rounded-full border-4 border-t-4 border-slate-200 h-16 w-16 mb-4"></div>
+                    <p class="text-xl font-black tracking-widest uppercase">Exportando...</p>
+                    <p id="progressText" class="text-rose-500 font-mono text-2xl mt-2">0%</p>
+                    <p class="text-slate-500 text-xs mt-4">Mantén esta pestaña activa</p>
                 </div>
 
-                <div id="placeholderMsg" class="text-slate-600 text-center px-4">
-                    <p class="text-4xl mb-2">🎬</p>
-                    <p>Sube un video para comenzar la edición</p>
+                <div id="placeholderMsg" class="text-slate-500 text-center px-6">
+                    <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <p class="text-lg font-bold">Carga un video para empezar</p>
+                    <p class="text-sm opacity-50">Soporta MP4, MOV y WebM</p>
                 </div>
             </div>
 
-            <div class="flex justify-between items-center text-sm text-slate-500 px-2">
-                <span>Previsualización en tiempo real</span>
+            <div class="flex justify-between items-center text-[10px] uppercase tracking-widest text-slate-600 font-bold px-2">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    Live Preview
+                </div>
                 <span id="videoTime">00:00 / 00:00</span>
             </div>
         </section>
     </main>
 
-    <!-- Hidden Elements for Processing -->
-    <video id="sourceVideo" class="hidden" crossorigin="anonymous"></video>
+    <video id="sourceVideo" class="hidden" crossorigin="anonymous" playsinline muted></video>
     <audio id="sourceAudio" class="hidden" crossorigin="anonymous"></audio>
 
     <script>
@@ -105,11 +129,13 @@
         const audioInput = document.getElementById('audioUpload');
         const textInput = document.getElementById('overlayText');
         const exportBtn = document.getElementById('exportBtn');
+        const formatSelect = document.getElementById('formatSelect');
+        const showUrlToggle = document.getElementById('showUrlToggle');
         const processingOverlay = document.getElementById('processingOverlay');
         const progressText = document.getElementById('progressText');
         const placeholderMsg = document.getElementById('placeholderMsg');
-        const logoOpacity = document.getElementById('logoOpacity');
         const videoTimeDisplay = document.getElementById('videoTime');
+        const canvasContainer = document.getElementById('canvasContainer');
 
         let isVideoLoaded = false;
         const BRAND_URL = "www.rocateq.com";
@@ -117,8 +143,7 @@
         videoInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
-                const url = URL.createObjectURL(file);
-                video.src = url;
+                video.src = URL.createObjectURL(file);
                 video.load();
                 placeholderMsg.classList.add('hidden');
             }
@@ -133,58 +158,95 @@
         });
 
         video.onloadedmetadata = () => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+            adjustCanvasSize();
             isVideoLoaded = true;
             exportBtn.disabled = false;
-            exportBtn.classList.remove('bg-slate-700', 'text-slate-400', 'cursor-not-allowed');
-            exportBtn.classList.add('bg-rose-600', 'text-white');
+            exportBtn.classList.remove('bg-slate-700', 'text-slate-500');
+            exportBtn.classList.add('bg-rose-600', 'text-white', 'hover:bg-rose-700');
             drawPreview();
         };
 
-        function drawFrame() {
-            // Dibujar el video de fondo
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        function adjustCanvasSize() {
+            const format = formatSelect.value;
+            if (format === 'vertical') {
+                // Relación 9:16
+                canvas.height = video.videoHeight;
+                canvas.width = video.videoHeight * (9/16);
+                canvasContainer.style.aspectRatio = "9/16";
+                canvasContainer.style.width = "auto";
+                canvasContainer.style.height = "500px";
+            } else {
+                // Relación original (generalmente 16:9)
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvasContainer.style.aspectRatio = "16/9";
+                canvasContainer.style.width = "100%";
+                canvasContainer.style.height = "auto";
+            }
+        }
 
-            const opacity = parseFloat(logoOpacity.value);
-            const padding = canvas.width * 0.03;
+        formatSelect.onchange = () => {
+            if (isVideoLoaded) {
+                adjustCanvasSize();
+                drawFrame();
+            }
+        };
+
+        function drawFrame() {
+            if (!isVideoLoaded) return;
+
+            const format = formatSelect.value;
             
-            // 1. Marca de agua superior derecha (Permanente: www.rocateq.com)
-            const watermarkSize = canvas.height * 0.04;
-            ctx.save();
-            ctx.globalAlpha = opacity;
-            ctx.font = `bold ${watermarkSize}px Inter, sans-serif`;
-            ctx.textAlign = 'right';
-            
-            // Sombra para el texto superior
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-            ctx.shadowBlur = 8;
-            ctx.fillStyle = 'white';
-            ctx.fillText(BRAND_URL, canvas.width - padding, padding + watermarkSize);
-            ctx.restore();
+            // Limpiar y dibujar fondo
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (format === 'vertical') {
+                // Recorte central para vertical
+                const sourceH = video.videoHeight;
+                const sourceW = sourceH * (9/16);
+                const sourceX = (video.videoWidth - sourceW) / 2;
+                ctx.drawImage(video, sourceX, 0, sourceW, sourceH, 0, 0, canvas.width, canvas.height);
+            } else {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            }
+
+            const padding = canvas.width * 0.05;
+
+            // 1. Marca de agua superior opcional
+            if (showUrlToggle.checked) {
+                const watermarkSize = canvas.height * 0.035;
+                ctx.save();
+                ctx.font = `bold ${watermarkSize}px Inter, sans-serif`;
+                ctx.textAlign = 'right';
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
+                ctx.shadowBlur = 10;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.fillText(BRAND_URL, canvas.width - padding, padding + watermarkSize);
+                ctx.restore();
+            }
 
             // 2. Texto en tercio inferior
             const text = textInput.value;
             if (text) {
-                const fontSize = canvas.height * 0.055;
+                const fontSize = canvas.height * 0.045;
                 ctx.font = `bold ${fontSize}px Inter, sans-serif`;
                 ctx.textAlign = 'center';
                 
-                // Posicionamiento en el tercio inferior (aprox 80% de la altura)
+                // Posicionamiento en el tercio inferior (aprox 75-80% alto)
                 const yPos = canvas.height * 0.82;
                 
-                // Rectángulo de fondo para legibilidad (centrado en el texto)
-                const rectHeight = fontSize * 1.5;
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-                ctx.fillRect(0, yPos - (rectHeight / 1.5), canvas.width, rectHeight);
+                // Fondo para legibilidad
+                const rectHeight = fontSize * 1.8;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillRect(0, yPos - (rectHeight / 1.6), canvas.width, rectHeight);
                 
-                // Texto principal
+                // Texto
                 ctx.save();
-                ctx.globalAlpha = opacity;
                 ctx.fillStyle = 'white';
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-                ctx.shadowBlur = 4;
-                ctx.fillText(text, canvas.width / 2, yPos);
+                ctx.shadowBlur = 5;
+                ctx.fillText(text.toUpperCase(), canvas.width / 2, yPos);
                 ctx.restore();
             }
         }
@@ -216,14 +278,11 @@
             processingOverlay.classList.remove('hidden');
             exportBtn.disabled = true;
 
-            // Preferir MP4 si está disponible, sino WebM
             const mimeType = MediaRecorder.isTypeSupported('video/mp4;codecs=h264') 
                              ? 'video/mp4;codecs=h264' 
                              : 'video/webm;codecs=vp9';
             
             const stream = canvas.captureStream(30); 
-            
-            // Audio context para mezclar
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const dest = audioCtx.createMediaStreamDestination();
             
@@ -234,17 +293,13 @@
             }
 
             const tracks = [...stream.getVideoTracks()];
-            if (audio.src) {
-                tracks.push(...dest.stream.getAudioTracks());
-            }
+            if (audio.src) tracks.push(...dest.stream.getAudioTracks());
 
             const combinedStream = new MediaStream(tracks);
             const recorder = new MediaRecorder(combinedStream, { mimeType: mimeType });
             const chunks = [];
 
-            recorder.ondataavailable = (e) => {
-                if (e.data.size > 0) chunks.push(e.data);
-            };
+            recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
 
             recorder.onstop = () => {
                 const extension = mimeType.includes('mp4') ? 'mp4' : 'webm';
@@ -252,7 +307,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `Rocateq_Final_${Date.now()}.${extension}`;
+                a.download = `Rocateq_Studio_Final.${extension}`;
                 a.click();
                 
                 processingOverlay.classList.add('hidden');
@@ -261,23 +316,16 @@
                 video.currentTime = 0;
             };
 
-            // Iniciar proceso
             video.currentTime = 0;
-            if (audio.src) {
-                audio.currentTime = 0;
-                audio.play();
-            }
+            if (audio.src) { audio.currentTime = 0; audio.play(); }
             
-            // Forzar reproducción silenciosa si es necesario para captura
             video.play();
             recorder.start();
 
             const interval = setInterval(() => {
                 const progress = Math.min(Math.round((video.currentTime / video.duration) * 100), 100);
                 progressText.textContent = `${progress}%`;
-                
                 drawFrame();
-
                 if (video.ended || video.currentTime >= video.duration) {
                     recorder.stop();
                     if (audio.src) audio.pause();
@@ -286,8 +334,9 @@
             }, 33);
         };
 
+        // Live updating inputs
         textInput.oninput = drawFrame;
-        logoOpacity.oninput = drawFrame;
+        showUrlToggle.onchange = drawFrame;
 
     </script>
 </body>
