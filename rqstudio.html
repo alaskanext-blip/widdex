@@ -278,12 +278,19 @@
             processingOverlay.classList.remove('hidden');
             exportBtn.disabled = true;
 
-            // Intentar usar MP4 nativo para la grabación si el navegador lo soporta
-            let mimeType = 'video/mp4;codecs=h264';
-            if (!MediaRecorder.isTypeSupported(mimeType)) {
-                mimeType = 'video/mp4';
-                if (!MediaRecorder.isTypeSupported(mimeType)) {
-                    mimeType = 'video/webm'; // Fallback de grabación interno
+            const mp4Codecs = [
+                'video/mp4; codecs="avc1.42E01E, mp4a.40.2"', // QuickTime Ideal: H.264 Baseline + AAC
+                'video/mp4; codecs="avc1.4D401E, mp4a.40.2"', // H.264 Main
+                'video/mp4; codecs="avc1.424028"',            // Variante H.264
+                'video/mp4; codecs=avc1',                     // Fallback a H.264 genérico
+                'video/mp4'                                   // Fallback final a MP4 nativo
+            ];
+
+            let selectedMimeType = 'video/mp4'; 
+            for (const codec of mp4Codecs) {
+                if (MediaRecorder.isTypeSupported(codec)) {
+                    selectedMimeType = codec;
+                    break;
                 }
             }
             
@@ -301,13 +308,14 @@
             if (audio.src) tracks.push(...dest.stream.getAudioTracks());
 
             const combinedStream = new MediaStream(tracks);
-            const recorder = new MediaRecorder(combinedStream, { mimeType: mimeType });
+            
+            const recorder = new MediaRecorder(combinedStream, { mimeType: selectedMimeType });
             const chunks = [];
 
             recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
 
             recorder.onstop = () => {
-                // Forzar siempre la construcción del archivo final y su extensión a MP4
+                // Forzar el Blob a video/mp4 para asegurar cabeceras correctas
                 const blob = new Blob(chunks, { type: 'video/mp4' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
