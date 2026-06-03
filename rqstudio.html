@@ -278,9 +278,14 @@
             processingOverlay.classList.remove('hidden');
             exportBtn.disabled = true;
 
-            const mimeType = MediaRecorder.isTypeSupported('video/mp4;codecs=h264') 
-                             ? 'video/mp4;codecs=h264' 
-                             : 'video/webm;codecs=vp9';
+            // Intentar usar MP4 nativo para la grabación si el navegador lo soporta
+            let mimeType = 'video/mp4;codecs=h264';
+            if (!MediaRecorder.isTypeSupported(mimeType)) {
+                mimeType = 'video/mp4';
+                if (!MediaRecorder.isTypeSupported(mimeType)) {
+                    mimeType = 'video/webm'; // Fallback de grabación interno
+                }
+            }
             
             const stream = canvas.captureStream(30); 
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -302,12 +307,12 @@
             recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
 
             recorder.onstop = () => {
-                const extension = mimeType.includes('mp4') ? 'mp4' : 'webm';
-                const blob = new Blob(chunks, { type: mimeType });
+                // Forzar siempre la construcción del archivo final y su extensión a MP4
+                const blob = new Blob(chunks, { type: 'video/mp4' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `Rocateq_Studio_Final.${extension}`;
+                a.download = `Rocateq_Studio_Final.mp4`;
                 a.click();
                 
                 processingOverlay.classList.add('hidden');
