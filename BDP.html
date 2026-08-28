@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Widdex BDP | Latam Business Development Partner</title>
+    <title>Widdex BDP | Latam Business Development Partner & Fractional HQ</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
@@ -20,7 +20,7 @@
                     },
                     colors: {
                         widdex: {
-                            blue: '#2B5494', // Main corporate blue based on presentation
+                            blue: '#2B5494', // Azul corporativo principal
                             dark: '#1e3a68',
                             light: '#eef2f9',
                             accent: '#00b4d8'
@@ -31,9 +31,9 @@
         }
     </script>
     <style>
-        /* Custom styles for specific elements */
+        /* Estilos personalizados para elementos específicos */
         .hero-bg {
-            background-image: linear-gradient(rgba(30, 58, 104, 0.85), rgba(30, 58, 104, 0.95)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-image: linear-gradient(rgba(30, 58, 104, 0.88), rgba(30, 58, 104, 0.96)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
         }
@@ -47,65 +47,65 @@
 </head>
 <body class="font-sans text-gray-800 antialiased bg-gray-50">
 
-    <!-- Navbar -->
+    <!-- Barra de Navegación -->
     <nav class="fixed w-full z-50 transition-all duration-300 bg-white shadow-md" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <div class="w-10 h-10 bg-widdex-blue text-white rounded flex items-center justify-center font-bold text-2xl">w</div>
+                <!-- Logotipo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-10 h-10 bg-widdex-blue text-white rounded flex items-center justify-center font-bold text-2xl shadow">w</div>
                     <span class="font-bold text-2xl text-widdex-blue tracking-tight">widdex<span class="text-widdex-accent text-sm ml-1">BDP</span></span>
                 </div>
 
-                <!-- Desktop Menu -->
+                <!-- Menú de Escritorio -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#about" class="text-gray-600 hover:text-widdex-blue font-medium transition" data-i18n="nav-about">Value Proposition</a>
                     <a href="#services" class="text-gray-600 hover:text-widdex-blue font-medium transition" data-i18n="nav-services">Our Services</a>
                     <a href="#markets" class="text-gray-600 hover:text-widdex-blue font-medium transition" data-i18n="nav-markets">Markets</a>
                     
-                    <!-- Language Switcher -->
+                    <!-- Selector de Idioma -->
                     <div class="flex items-center space-x-2 border-l border-gray-300 pl-6">
-                        <button onclick="setLang('en')" id="btn-en" class="font-bold text-widdex-blue">EN</button>
+                        <button onclick="setLang('en')" id="btn-en" class="font-bold text-widdex-blue transition">EN</button>
                         <span class="text-gray-300">|</span>
-                        <button onclick="setLang('es')" id="btn-es" class="font-medium text-gray-400 hover:text-widdex-blue">ES</button>
+                        <button onclick="setLang('es')" id="btn-es" class="font-medium text-gray-400 hover:text-widdex-blue transition">ES</button>
                     </div>
 
                     <a href="#contact" class="bg-widdex-blue text-white px-6 py-2.5 rounded-full font-semibold hover:bg-widdex-dark shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5" data-i18n="nav-cta">Let's Talk</a>
                 </div>
 
-                <!-- Mobile Menu Button -->
+                <!-- Botón de Menú Móvil -->
                 <div class="md:hidden flex items-center space-x-4">
                     <div class="flex items-center space-x-2">
                         <button onclick="setLang('en')" id="btn-en-mob" class="font-bold text-widdex-blue text-sm">EN</button>
                         <span class="text-gray-300 text-sm">|</span>
                         <button onclick="setLang('es')" id="btn-es-mob" class="font-medium text-gray-400 text-sm">ES</button>
                     </div>
-                    <button id="mobile-menu-btn" class="text-gray-600 focus:outline-none">
+                    <button id="mobile-menu-btn" class="text-gray-600 focus:outline-none p-2" aria-label="Abrir menú">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
             </div>
         </div>
         
-        <!-- Mobile Menu (Hidden by default) -->
+        <!-- Menú Móvil Desplegable -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-6 space-y-2 shadow-xl">
             <a href="#about" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-widdex-blue hover:bg-gray-50 rounded-md" data-i18n="nav-about">Value Proposition</a>
             <a href="#services" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-widdex-blue hover:bg-gray-50 rounded-md" data-i18n="nav-services">Our Services</a>
             <a href="#markets" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-widdex-blue hover:bg-gray-50 rounded-md" data-i18n="nav-markets">Markets</a>
-            <a href="#contact" class="block px-3 py-2 mt-4 text-center text-base font-medium bg-widdex-blue text-white rounded-md" data-i18n="nav-cta">Let's Talk</a>
+            <a href="#contact" class="block px-3 py-2 mt-4 text-center text-base font-medium bg-widdex-blue text-white rounded-md shadow" data-i18n="nav-cta">Let's Talk</a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Sección Hero -->
     <section class="hero-bg relative pt-32 pb-20 lg:pt-48 lg:pb-32 flex items-center min-h-[90vh]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center lg:text-left">
             <div class="lg:w-2/3">
-                <span class="inline-block py-1 px-3 rounded-full bg-widdex-accent/20 text-cyan-300 font-semibold text-sm tracking-wider mb-6 border border-widdex-accent/30" data-i18n="hero-tag">YOUR LATAM BUSINESS DEVELOPMENT PARTNER</span>
+                <span class="inline-block py-1 px-3 rounded-full bg-widdex-accent/20 text-cyan-300 font-semibold text-sm tracking-wider mb-6 border border-widdex-accent/30" data-i18n="hero-tag">YOUR LATAM BUSINESS DEVELOPMENT PARTNER & FRACTIONAL HQ</span>
                 <h1 class="text-4xl md:text-5xl lg:text-7xl font-bold text-white leading-tight mb-6" data-i18n="hero-title">
                     From Market Fit to <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">Local Revenue.</span> Fast.
                 </h1>
                 <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed" data-i18n="hero-desc">
-                    We help innovative foreign companies successfully enter the Latin American market by providing a hands-on, strategic partnership — from market assessment to first clients and local setup.
+                    We help innovative foreign companies successfully enter the Latin American market by providing a hands-on strategic partnership — from market assessment and first clients to local setup and a turn-key Fractional HQ in Chile.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <a href="#contact" class="bg-widdex-accent hover:bg-cyan-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(0,180,216,0.4)] transition transform hover:-translate-y-1 flex justify-center items-center gap-2">
@@ -119,15 +119,15 @@
             </div>
         </div>
         
-        <!-- Scroll indicator -->
+        <!-- Indicador de desplazamiento -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <a href="#about" class="text-white/70 hover:text-white">
+            <a href="#about" class="text-white/70 hover:text-white" aria-label="Ir a la propuesta de valor">
                 <i class="fas fa-chevron-down text-2xl"></i>
             </a>
         </div>
     </section>
 
-    <!-- Value Proposition -->
+    <!-- Propuesta de Valor -->
     <section id="about" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 max-w-3xl mx-auto">
@@ -137,7 +137,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <!-- Prop 1 -->
+                <!-- Propuesta 1 -->
                 <div class="bg-widdex-light p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
                     <div class="w-14 h-14 bg-widdex-blue text-white rounded-xl flex items-center justify-center text-2xl mb-6 shadow-lg">
                         <i class="fas fa-handshake"></i>
@@ -145,7 +145,7 @@
                     <h4 class="text-xl font-bold text-gray-900 mb-3" data-i18n="val-1-title">Hands-on Execution</h4>
                     <p class="text-gray-600" data-i18n="val-1-desc">We go beyond strategy. We execute. From opening doors and leading sales meetings to closing deals and setting up your local operations.</p>
                 </div>
-                <!-- Prop 2 -->
+                <!-- Propuesta 2 -->
                 <div class="bg-widdex-light p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
                     <div class="w-14 h-14 bg-widdex-blue text-white rounded-xl flex items-center justify-center text-2xl mb-6 shadow-lg">
                         <i class="fas fa-user-tie"></i>
@@ -153,7 +153,7 @@
                     <h4 class="text-xl font-bold text-gray-900 mb-3" data-i18n="val-2-title">Executive Background</h4>
                     <p class="text-gray-600" data-i18n="val-2-desc">Led by professionals with over 25 years of C-level experience in B2B/B2C tech, banking, and commercial innovation across the region.</p>
                 </div>
-                <!-- Prop 3 -->
+                <!-- Propuesta 3 -->
                 <div class="bg-widdex-light p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
                     <div class="w-14 h-14 bg-widdex-blue text-white rounded-xl flex items-center justify-center text-2xl mb-6 shadow-lg">
                         <i class="fas fa-network-wired"></i>
@@ -165,16 +165,18 @@
         </div>
     </section>
 
-    <!-- Services (E.A.S.T. 5 Steps) -->
+    <!-- Servicios (Proceso E.A.S.T. + Fractional HQ en 6 Pasos) -->
     <section id="services" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-i18n="srv-title">Our 5-Step Path to Revenue</h3>
+                <h2 class="text-widdex-blue font-bold tracking-wide uppercase text-sm mb-2" data-i18n="srv-subtitle">End-to-End Softlanding & Expansion</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-i18n="srv-title">Our 6-Step Path to Revenue & Scale</h3>
+                <p class="text-gray-600 max-w-2xl mx-auto" data-i18n="srv-intro">From your initial market diagnosis to operating a consolidated regional headquarters in Latin America.</p>
             </div>
 
             <div class="space-y-6 max-w-5xl mx-auto">
                 
-                <!-- Step 1 -->
+                <!-- Paso 1 -->
                 <div class="step-card bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-6 items-start hover:shadow-lg transition cursor-default group relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-2 h-full bg-gray-300 group-hover:bg-widdex-blue transition-colors"></div>
                     <div class="step-icon flex-shrink-0 w-16 h-16 bg-blue-50 text-widdex-blue rounded-full flex items-center justify-center text-2xl font-bold transition-transform duration-300 border-2 border-widdex-blue/20">1</div>
@@ -192,7 +194,7 @@
                     </div>
                 </div>
 
-                <!-- Step 2 -->
+                <!-- Paso 2 -->
                 <div class="step-card bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-6 items-start hover:shadow-lg transition cursor-default group relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-2 h-full bg-gray-300 group-hover:bg-widdex-blue transition-colors"></div>
                     <div class="step-icon flex-shrink-0 w-16 h-16 bg-blue-50 text-widdex-blue rounded-full flex items-center justify-center text-2xl font-bold transition-transform duration-300 border-2 border-widdex-blue/20">2</div>
@@ -210,7 +212,7 @@
                     </div>
                 </div>
 
-                <!-- Step 3 -->
+                <!-- Paso 3 -->
                 <div class="step-card bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-6 items-start hover:shadow-lg transition cursor-default group relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-2 h-full bg-gray-300 group-hover:bg-widdex-accent transition-colors"></div>
                     <div class="step-icon flex-shrink-0 w-16 h-16 bg-cyan-50 text-widdex-accent rounded-full flex items-center justify-center text-2xl font-bold transition-transform duration-300 border-2 border-widdex-accent/20">3</div>
@@ -228,30 +230,62 @@
                     </div>
                 </div>
 
-                <!-- Step 4 & 5 Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Step 4 -->
-                    <div class="step-card bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition cursor-default group relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gray-300 group-hover:bg-widdex-blue transition-colors"></div>
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="step-icon flex-shrink-0 w-12 h-12 bg-blue-50 text-widdex-blue rounded-full flex items-center justify-center text-xl font-bold transition-transform duration-300 border-2 border-widdex-blue/20">4</div>
-                            <div>
-                                <h4 class="text-xl font-bold text-gray-900 leading-tight" data-i18n="srv-4-title">Local Setup & Operations</h4>
+                <!-- Pasos 4, 5 y 6 en Cuadrícula -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Paso 4 -->
+                    <div class="step-card bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition cursor-default group relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gray-300 group-hover:bg-widdex-blue transition-colors"></div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="step-icon flex-shrink-0 w-12 h-12 bg-blue-50 text-widdex-blue rounded-full flex items-center justify-center text-xl font-bold transition-transform duration-300 border-2 border-widdex-blue/20">4</div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-gray-900 leading-tight" data-i18n="srv-4-title">Local Setup & Operations</h4>
+                                </div>
                             </div>
+                            <p class="text-sm text-gray-600 mb-4" data-i18n="srv-4-desc">Build a lightweight yet solid local presence. We handle legal/tax setup via partners, team/rep selection, and contract localization.</p>
                         </div>
-                        <p class="text-sm text-gray-600 mb-4" data-i18n="srv-4-desc">Build a lightweight yet solid local presence. We handle legal/tax setup via partners, team/rep selection, and contract localization.</p>
+                        <ul class="text-xs text-gray-500 space-y-1.5 pt-3 border-t border-gray-100">
+                            <li><i class="fas fa-check text-green-500 mr-1.5"></i><span data-i18n="srv-4-b1">Legal & tax structuring</span></li>
+                            <li><i class="fas fa-check text-green-500 mr-1.5"></i><span data-i18n="srv-4-b2">Local commercial representation</span></li>
+                        </ul>
                     </div>
 
-                    <!-- Step 5 -->
-                    <div class="step-card bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition cursor-default group relative overflow-hidden">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gray-300 group-hover:bg-widdex-blue transition-colors"></div>
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="step-icon flex-shrink-0 w-12 h-12 bg-blue-50 text-widdex-blue rounded-full flex items-center justify-center text-xl font-bold transition-transform duration-300 border-2 border-widdex-blue/20">5</div>
-                            <div>
-                                <h4 class="text-xl font-bold text-gray-900 leading-tight" data-i18n="srv-5-title">Strategic Support Retainer</h4>
+                    <!-- Paso 5 -->
+                    <div class="step-card bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition cursor-default group relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gray-300 group-hover:bg-widdex-blue transition-colors"></div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="step-icon flex-shrink-0 w-12 h-12 bg-blue-50 text-widdex-blue rounded-full flex items-center justify-center text-xl font-bold transition-transform duration-300 border-2 border-widdex-blue/20">5</div>
+                                <div>
+                                    <h4 class="text-xl font-bold text-gray-900 leading-tight" data-i18n="srv-5-title">Strategic Support Retainer</h4>
+                                </div>
                             </div>
+                            <p class="text-sm text-gray-600 mb-4" data-i18n="srv-5-desc">Continuous support from a fractional LATAM strategy director. KPI monitoring, tactical adjustments, without building a local team too early.</p>
                         </div>
-                        <p class="text-sm text-gray-600 mb-4" data-i18n="srv-5-desc">Continuous support from a fractional LATAM strategy director. KPI monitoring, tactical adjustments, without building a local team too early.</p>
+                        <ul class="text-xs text-gray-500 space-y-1.5 pt-3 border-t border-gray-100">
+                            <li><i class="fas fa-check text-green-500 mr-1.5"></i><span data-i18n="srv-5-b1">Fractional Director oversight</span></li>
+                            <li><i class="fas fa-check text-green-500 mr-1.5"></i><span data-i18n="srv-5-b2">KPI & revenue tracking</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Paso 6 (Nuevo Servicio: Fractional HQ Chile) -->
+                    <div class="step-card bg-white p-6 md:p-8 rounded-2xl shadow-md border-2 border-widdex-accent/40 hover:border-widdex-accent hover:shadow-xl transition cursor-default group relative overflow-hidden flex flex-col justify-between bg-gradient-to-b from-white to-cyan-50/20">
+                        <div>
+                            <div class="absolute top-0 left-0 w-full h-1.5 bg-widdex-accent transition-colors"></div>
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="step-icon flex-shrink-0 w-12 h-12 bg-cyan-100 text-widdex-accent rounded-full flex items-center justify-center text-xl font-bold transition-transform duration-300 border-2 border-widdex-accent/30 shadow-sm">6</div>
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded-full border border-cyan-200 inline-block mb-1" data-i18n="srv-6-tag">Regional Hub</span>
+                                    <h4 class="text-xl font-bold text-gray-900 leading-tight" data-i18n="srv-6-title">Fractional HQ in Chile</h4>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4" data-i18n="srv-6-desc">Establish your Latin American operational hub in Chile. We provide regional governance, legal representation, corporate banking administration, and multi-country coordination without full corporate overhead.</p>
+                        </div>
+                        <ul class="text-xs text-gray-600 space-y-1.5 pt-3 border-t border-cyan-100">
+                            <li><i class="fas fa-check text-cyan-500 mr-1.5"></i><span data-i18n="srv-6-b1">Legal domicile & corporate banking</span></li>
+                            <li><i class="fas fa-check text-cyan-500 mr-1.5"></i><span data-i18n="srv-6-b2">Treasury & bilateral treaty benefits</span></li>
+                            <li><i class="fas fa-check text-cyan-500 mr-1.5"></i><span data-i18n="srv-6-b3">Multi-country LATAM coordination</span></li>
+                        </ul>
                     </div>
                 </div>
 
@@ -259,7 +293,7 @@
         </div>
     </section>
 
-    <!-- Markets Section -->
+    <!-- Sección de Mercados -->
     <section id="markets" class="py-20 bg-widdex-dark text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-white/20 pb-8">
@@ -274,53 +308,53 @@
                 </div>
             </div>
 
-            <!-- Market Grid -->
+            <!-- Red de Mercados -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-                <!-- MX -->
+                <!-- México -->
                 <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition">
                     <div class="text-3xl mb-4">🇲🇽</div>
                     <h4 class="font-bold text-xl mb-1">Mexico</h4>
                     <p class="text-xs text-gray-400 mb-3 border-b border-white/10 pb-2">130M Pop. | 82% Internet</p>
                     <p class="text-sm text-gray-300" data-i18n="mkt-mx">Largest Spanish-speaking market; strong manufacturing; gateway to US & LATAM.</p>
                 </div>
-                <!-- CO -->
+                <!-- Colombia -->
                 <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition">
                     <div class="text-3xl mb-4">🇨🇴</div>
                     <h4 class="font-bold text-xl mb-1">Colombia</h4>
                     <p class="text-xs text-gray-400 mb-3 border-b border-white/10 pb-2">52M Pop. | 74% Internet</p>
                     <p class="text-sm text-gray-300" data-i18n="mkt-co">Growing middle class; solid logistics hub; booming fintech sector.</p>
                 </div>
-                <!-- AR -->
+                <!-- Argentina -->
                 <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition">
                     <div class="text-3xl mb-4">🇦🇷</div>
                     <h4 class="font-bold text-xl mb-1">Argentina</h4>
                     <p class="text-xs text-gray-400 mb-3 border-b border-white/10 pb-2">46M Pop. | 86% Internet</p>
                     <p class="text-sm text-gray-300" data-i18n="mkt-ar">High urbanization; extremely strong digital adoption; highly skilled talent.</p>
                 </div>
-                <!-- PE -->
+                <!-- Perú -->
                 <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition">
                     <div class="text-3xl mb-4">🇵🇪</div>
                     <h4 class="font-bold text-xl mb-1">Peru</h4>
                     <p class="text-xs text-gray-400 mb-3 border-b border-white/10 pb-2">34M Pop. | 72% Internet</p>
                     <p class="text-sm text-gray-300" data-i18n="mkt-pe">Young demographic; fast-growing e-commerce; improving national infrastructure.</p>
                 </div>
-                <!-- CL -->
-                <div class="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition">
+                <!-- Chile (Hub Regional) -->
+                <div class="bg-white/5 border-2 border-widdex-accent/40 rounded-xl p-6 hover:bg-white/10 transition relative">
+                    <span class="absolute top-3 right-3 text-[10px] font-bold text-widdex-accent uppercase bg-widdex-accent/10 px-2 py-0.5 rounded border border-widdex-accent/30" data-i18n="mkt-cl-badge">Regional HQ</span>
                     <div class="text-3xl mb-4">🇨🇱</div>
                     <h4 class="font-bold text-xl mb-1">Chile</h4>
                     <p class="text-xs text-gray-400 mb-3 border-b border-white/10 pb-2">19M Pop. | 91% Internet</p>
-                    <p class="text-sm text-gray-300" data-i18n="mkt-cl">Most developed digital economy in LATAM; stable institutions; high purchasing power.</p>
+                    <p class="text-sm text-gray-300" data-i18n="mkt-cl">Premier financial hub & legal stability in LATAM. Ideal Fractional HQ platform with extensive international tax treaties.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Team/Profile Section -->
+    <!-- Sección de Equipo y Liderazgo -->
     <section class="py-20 bg-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-widdex-light rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 shadow-sm border border-gray-100">
                 <div class="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-white shadow-xl flex-shrink-0">
-                    <!-- Updated Image Source -->
                     <img src="https://www.dzoom.org.es/wp-content/uploads/2018/02/blanco-y-negro-guia-13.jpg" alt="Francisco Amigo" class="w-full h-full object-cover">
                 </div>
                 <div>
@@ -335,8 +369,7 @@
                         Managing Partner Rocateq South America; CEO at Century Latam, and top executive in Citibank Corporate Banking, SONDA Latam, Air Products. Industrial Engineer & MBA.
                     </p>
                     
-                    <!-- Updated LinkedIn URL -->
-                    <a href="https://www.linkedin.com/in/franciscoamigog/" target="_blank" class="inline-flex items-center gap-2 text-widdex-blue hover:text-widdex-dark font-semibold transition">
+                    <a href="https://www.linkedin.com/in/franciscoamigog/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-widdex-blue hover:text-widdex-dark font-semibold transition">
                         <i class="fab fa-linkedin text-2xl"></i>
                         <span data-i18n="team-li">Connect on LinkedIn</span>
                     </a>
@@ -345,21 +378,20 @@
         </div>
     </section>
 
-    <!-- Contact & CTA Section -->
+    <!-- Sección de Contacto y Formulario -->
     <section id="contact" class="py-20 bg-gray-50 relative">
         <div class="absolute top-0 left-0 w-full h-1/2 bg-widdex-dark z-0"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row">
                 
-                <!-- Contact Info Left Side -->
-                <div class="lg:w-1/4 bg-widdex-blue p-8 lg:p-10 text-white flex flex-col justify-between">
+                <!-- Información de Contacto (Izquierda) -->
+                <div class="lg:w-1/3 bg-widdex-blue p-8 lg:p-10 text-white flex flex-col justify-between">
                     <div>
                         <h3 class="text-3xl font-bold mb-4" data-i18n="ctc-title">Let's Expand Your Business</h3>
-                        <p class="text-blue-100 mb-10 text-sm" data-i18n="ctc-desc">Fill out the form and we'll schedule a call to discuss your LATAM entry strategy. No commitments, just a strategic conversation.</p>
+                        <p class="text-blue-100 mb-10 text-sm leading-relaxed" data-i18n="ctc-desc">Fill out the form and we'll schedule a call to discuss your LATAM entry and Fractional HQ strategy. No commitments, just a strategic conversation.</p>
                         
                         <div class="space-y-6">
-                            <!-- Contact Info Blocks -->
                             <div class="flex items-center gap-4">
                                 <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
                                     <i class="fas fa-globe text-widdex-accent"></i>
@@ -374,8 +406,8 @@
                     </div>
                 </div>
 
-                <!-- Form Right Side -->
-                <div class="lg:w-3/4 p-8 lg:p-12 w-full">
+                <!-- Formulario (Derecha) -->
+                <div class="lg:w-2/3 p-8 lg:p-12 w-full">
                     <h3 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="form-title">Send us a message</h3>
                     
                     <form id="contactForm" class="space-y-6">
@@ -403,7 +435,7 @@
                         
                         <div class="w-full">
                             <label for="message" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="form-msg">How can we help you? *</label>
-                            <textarea id="message" name="message" rows="8" required class="form-input resize-y w-full" placeholder="Briefly describe your expansion goals or product..."></textarea>
+                            <textarea id="message" name="message" rows="5" required class="form-input resize-y w-full" placeholder="Briefly describe your expansion goals, softlanding or Fractional HQ needs..."></textarea>
                         </div>
                         
                         <button type="submit" class="w-full md:w-auto md:px-12 bg-widdex-blue text-white py-4 rounded-lg font-bold text-lg hover:bg-widdex-dark transition shadow-md hover:shadow-lg flex justify-center items-center gap-2 ml-auto">
@@ -411,9 +443,16 @@
                             <i class="fas fa-paper-plane text-sm"></i>
                         </button>
 
+                        <!-- Mensaje de éxito -->
                         <div id="formSuccess" class="hidden mt-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center gap-3">
-                            <i class="fas fa-check-circle text-xl"></i>
+                            <i class="fas fa-check-circle text-xl flex-shrink-0"></i>
                             <span data-i18n="form-success">Thank you! Your message has been sent successfully. We will contact you shortly.</span>
+                        </div>
+
+                        <!-- Mensaje de error -->
+                        <div id="formError" class="hidden mt-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-3">
+                            <i class="fas fa-exclamation-circle text-xl flex-shrink-0"></i>
+                            <span id="formErrorText">Hubo un error al enviar el mensaje. Inténtalo de nuevo.</span>
                         </div>
                     </form>
                 </div>
@@ -421,16 +460,16 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Pie de Página -->
     <footer class="bg-widdex-dark text-white pt-12 pb-8 border-t border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
             <div class="mb-4 md:mb-0">
                 <span class="font-bold text-2xl text-white tracking-tight">widdex<span class="text-widdex-accent text-sm ml-1">BDP</span></span>
-                <p class="text-gray-400 mt-2 text-sm" data-i18n="foot-tag">Business Development Partner – LATAM</p>
+                <p class="text-gray-400 mt-2 text-sm" data-i18n="foot-tag">Business Development Partner & Fractional HQ – LATAM</p>
             </div>
             <div class="flex space-x-6 text-gray-400">
-                <a href="https://www.linkedin.com/in/franciscoamigog/" target="_blank" class="hover:text-white transition"><i class="fab fa-linkedin text-xl"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+                <a href="https://www.linkedin.com/in/franciscoamigog/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition" aria-label="LinkedIn"><i class="fab fa-linkedin text-xl"></i></a>
+                <a href="#" class="hover:text-white transition" aria-label="Twitter"><i class="fab fa-twitter text-xl"></i></a>
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-8 border-t border-white/10 text-center text-gray-500 text-sm">
@@ -438,23 +477,22 @@
         </div>
     </footer>
 
-    <!-- JavaScript functionality -->
+    <!-- Lógica JavaScript -->
     <script>
-        // Set current year in footer
+        // Establecer año actual dinámico
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Navbar Scroll Effect
+        // Efecto scroll de barra de navegación
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 20) {
                 navbar.classList.add('shadow-md');
-                navbar.classList.replace('py-2', 'py-0');
             } else {
                 navbar.classList.remove('shadow-md');
             }
         });
 
-        // Mobile Menu Toggle
+        // Alternar menú móvil
         const mobileBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         
@@ -462,30 +500,31 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Close mobile menu on link click
+        // Cerrar menú móvil al hacer click en un enlace
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
             });
         });
 
-        // Form Handling (Simulation)
+        // Gestión del formulario de contacto
         const contactForm = document.getElementById('contactForm');
         const formSuccess = document.getElementById('formSuccess');
+        const formError = document.getElementById('formError');
 
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Start Loading state
+            formSuccess.classList.add('hidden');
+            formError.classList.add('hidden');
+
             const btn = contactForm.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
 
-            // Prepare Form Data for FormSubmit
             const formData = new FormData(contactForm);
-            formData.append('_subject', 'Nuevo contacto desde Landing Widdex BDP'); // Asunto del correo
+            formData.append('_subject', 'Nuevo contacto desde Landing Widdex BDP');
 
-            // Send using FormSubmit AJAX so we don't leave the page
             fetch('https://formsubmit.co/ajax/contacto@widdex.com', {
                 method: 'POST',
                 body: formData,
@@ -500,29 +539,32 @@
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 
-                // Hide success message after 5 seconds
                 setTimeout(() => {
                     formSuccess.classList.add('hidden');
-                }, 5000);
+                }, 6000);
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Hubo un error al enviar el mensaje. Inténtalo de nuevo.');
+                formError.classList.remove('hidden');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
+
+                setTimeout(() => {
+                    formError.classList.add('hidden');
+                }, 6000);
             });
         });
 
-        // --- Translation Engine ---
+        // --- Motor de Traducción ---
         const translations = {
             en: {
                 "nav-about": "Value Proposition",
                 "nav-services": "Our Services",
                 "nav-markets": "Markets",
                 "nav-cta": "Let's Talk",
-                "hero-tag": "YOUR LATAM BUSINESS DEVELOPMENT PARTNER",
+                "hero-tag": "YOUR LATAM BUSINESS DEVELOPMENT PARTNER & FRACTIONAL HQ",
                 "hero-title": "From Market Fit to <span class='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400'>Local Revenue.</span> Fast.",
-                "hero-desc": "We help innovative foreign companies successfully enter the Latin American market by providing a hands-on, strategic partnership — from market assessment to first clients and local setup.",
+                "hero-desc": "We help innovative foreign companies successfully enter the Latin American market by providing a hands-on strategic partnership — from market assessment and first clients to local setup and a turn-key Fractional HQ in Chile.",
                 "hero-btn-primary": "Start Your Expansion",
                 "hero-btn-secondary": "Explore Our Process",
                 
@@ -536,7 +578,9 @@
                 "val-3-title": "Powerful Network",
                 "val-3-desc": "Direct access to decision-makers and trusted local partners for legal, tax, and distribution setups in 5 key countries.",
 
-                "srv-title": "Our 5-Step Path to Revenue",
+                "srv-subtitle": "End-to-End Softlanding & Expansion",
+                "srv-title": "Our 6-Step Path to Revenue & Scale",
+                "srv-intro": "From your initial market diagnosis to operating a consolidated regional headquarters in Latin America.",
                 "srv-1-title": "Market Opportunity Assessment",
                 "srv-1-desc": "We evaluate your product's fit with local demand, competitive conditions, and market readiness.",
                 "srv-1-b1": "Competitive & Market sizing", "srv-1-b2": "Regulatory overview", "srv-1-b3": "Demand signals & pain points", "srv-1-b4": "Go/No-go recommendation",
@@ -551,9 +595,20 @@
                 
                 "srv-4-title": "Local Setup & Operations",
                 "srv-4-desc": "Build a lightweight yet solid local presence. We handle legal/tax setup via partners, team/rep selection, and contract localization.",
+                "srv-4-b1": "Legal & tax structuring",
+                "srv-4-b2": "Local commercial representation",
                 
                 "srv-5-title": "Strategic Support Retainer",
                 "srv-5-desc": "Continuous support from a fractional LATAM strategy director. KPI monitoring, tactical adjustments, without building a local team too early.",
+                "srv-5-b1": "Fractional Director oversight",
+                "srv-5-b2": "KPI & revenue tracking",
+
+                "srv-6-tag": "Regional Hub",
+                "srv-6-title": "Fractional HQ in Chile",
+                "srv-6-desc": "Establish your Latin American operational hub in Chile. We provide regional governance, legal representation, corporate banking administration, and multi-country coordination without full corporate overhead.",
+                "srv-6-b1": "Legal domicile & corporate banking",
+                "srv-6-b2": "Treasury & bilateral treaty benefits",
+                "srv-6-b3": "Multi-country LATAM coordination",
 
                 "mkt-subtitle": "Coverage",
                 "mkt-title": "The LATAM Opportunity",
@@ -563,7 +618,8 @@
                 "mkt-co": "Growing middle class; solid logistics hub; booming fintech sector.",
                 "mkt-ar": "High urbanization; extremely strong digital adoption; highly skilled talent.",
                 "mkt-pe": "Young demographic; fast-growing e-commerce; improving national infrastructure.",
-                "mkt-cl": "Most developed digital economy in LATAM; stable institutions; high purchasing power.",
+                "mkt-cl-badge": "Regional HQ",
+                "mkt-cl": "Premier financial hub & legal stability in LATAM. Ideal Fractional HQ platform with extensive international tax treaties.",
 
                 "team-subtitle": "Leadership",
                 "team-role": "Managing Partner & Senior Business Advisor",
@@ -572,7 +628,7 @@
                 "team-li": "Connect on LinkedIn",
 
                 "ctc-title": "Let's Expand Your Business",
-                "ctc-desc": "Fill out the form and we'll schedule a call to discuss your LATAM entry strategy. No commitments, just a strategic conversation.",
+                "ctc-desc": "Fill out the form and we'll schedule a call to discuss your LATAM entry and Fractional HQ strategy. No commitments, just a strategic conversation.",
                 "ctc-hq": "Headquartered in Santiago, Chile <br>Operating across LATAM",
                 "form-title": "Send us a message",
                 "form-name": "Full Name *",
@@ -583,7 +639,7 @@
                 "form-btn": "Send Message",
                 "form-success": "Thank you! Your message has been sent successfully. We will contact you shortly.",
                 
-                "foot-tag": "Business Development Partner – LATAM",
+                "foot-tag": "Business Development Partner & Fractional HQ – LATAM",
                 "foot-copy": "All rights reserved."
             },
             es: {
@@ -591,9 +647,9 @@
                 "nav-services": "Nuestros Servicios",
                 "nav-markets": "Mercados",
                 "nav-cta": "Hablemos",
-                "hero-tag": "TU SOCIO DE DESARROLLO DE NEGOCIOS EN LATAM",
+                "hero-tag": "TU SOCIO DE DESARROLLO DE NEGOCIOS Y FRACTIONAL HQ EN LATAM",
                 "hero-title": "Del Fit de Mercado a <span class='text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400'>Ingresos Locales.</span> Rápido.",
-                "hero-desc": "Ayudamos a empresas extranjeras innovadoras a ingresar con éxito al mercado latinoamericano brindando una asociación estratégica práctica, desde la evaluación del mercado hasta los primeros clientes y la instalación local.",
+                "hero-desc": "Ayudamos a empresas extranjeras innovadoras a ingresar con éxito al mercado latinoamericano brindando una asociación estratégica práctica: desde el diagnóstico de mercado y primeros clientes hasta la instalación local y un Fractional HQ en Chile.",
                 "hero-btn-primary": "Inicia tu Expansión",
                 "hero-btn-secondary": "Explora el Proceso",
                 
@@ -607,7 +663,9 @@
                 "val-3-title": "Poderosa Red",
                 "val-3-desc": "Acceso directo a tomadores de decisiones y socios locales confiables para configuraciones legales, fiscales y de distribución en 5 países clave.",
 
-                "srv-title": "Nuestro Camino de 5 Pasos",
+                "srv-subtitle": "Softlanding y Expansión Integral",
+                "srv-title": "Nuestro Camino de 6 Pasos",
+                "srv-intro": "Desde el diagnóstico inicial hasta la operación de una sede regional consolidada en América Latina.",
                 "srv-1-title": "Evaluación de Oportunidad de Mercado",
                 "srv-1-desc": "Evaluamos el ajuste de tu producto con la demanda local, las condiciones competitivas y la preparación del mercado.",
                 "srv-1-b1": "Tamaño del mercado y competencia", "srv-1-b2": "Panorama regulatorio", "srv-1-b3": "Señales de demanda", "srv-1-b4": "Recomendación Go/No-go",
@@ -622,9 +680,20 @@
                 
                 "srv-4-title": "Instalación y Operaciones Locales",
                 "srv-4-desc": "Construye una presencia local sólida. Gestionamos la configuración legal/fiscal vía partners, selección de equipo/reps y contratos.",
+                "srv-4-b1": "Estructura legal y tributaria",
+                "srv-4-b2": "Representación comercial local",
                 
                 "srv-5-title": "Soporte Estratégico Continuo",
                 "srv-5-desc": "Apoyo continuo de un director de estrategia LATAM fraccional. Monitoreo de KPIs, ajustes tácticos, sin necesidad de construir un equipo local prematuramente.",
+                "srv-5-b1": "Dirección estratégica fraccional",
+                "srv-5-b2": "Monitoreo de KPIs y ventas",
+
+                "srv-6-tag": "Hub Regional",
+                "srv-6-title": "Fractional HQ en Chile",
+                "srv-6-desc": "Establece tu centro de operaciones latinoamericano en Chile. Brindamos gobernanza regional, representación legal, gestión bancaria corporativa y coordinación multipaís sin altos costos de estructura física.",
+                "srv-6-b1": "Domicilio legal y cuentas bancarias",
+                "srv-6-b2": "Tesorería y convenios de doble tributación",
+                "srv-6-b3": "Coordinación de operaciones en LATAM",
 
                 "mkt-subtitle": "Cobertura",
                 "mkt-title": "La Oportunidad en LATAM",
@@ -634,7 +703,8 @@
                 "mkt-co": "Clase media en crecimiento; hub logístico sólido; sector fintech en auge.",
                 "mkt-ar": "Alta urbanización; adopción digital extremadamente fuerte; talento altamente calificado.",
                 "mkt-pe": "Demografía joven; e-commerce de rápido crecimiento; mejora de la infraestructura nacional.",
-                "mkt-cl": "La economía digital más desarrollada de LATAM; instituciones estables; alto poder adquisitivo.",
+                "mkt-cl-badge": "HQ Regional",
+                "mkt-cl": "Principal hub financiero y estabilidad jurídica en LATAM. Plataforma ideal para Fractional HQ con amplia red de tratados de doble tributación.",
 
                 "team-subtitle": "Liderazgo",
                 "team-role": "Socio Director y Asesor de Negocios Senior",
@@ -643,7 +713,7 @@
                 "team-li": "Conectar en LinkedIn",
 
                 "ctc-title": "Expandamos tu Negocio",
-                "ctc-desc": "Completa el formulario y programaremos una llamada para analizar tu estrategia de entrada a LATAM. Sin compromisos, solo una conversación estratégica.",
+                "ctc-desc": "Completa el formulario y programaremos una llamada para analizar tu estrategia de entrada a LATAM y Fractional HQ. Sin compromisos, solo una conversación estratégica.",
                 "ctc-hq": "Sede principal en Santiago, Chile <br>Operando en todo LATAM",
                 "form-title": "Envíanos un mensaje",
                 "form-name": "Nombre Completo *",
@@ -654,50 +724,45 @@
                 "form-btn": "Enviar Mensaje",
                 "form-success": "¡Gracias! Tu mensaje ha sido enviado con éxito. Te contactaremos a la brevedad.",
                 
-                "foot-tag": "Socio de Desarrollo de Negocios – LATAM",
+                "foot-tag": "Socio de Desarrollo de Negocios y Fractional HQ – LATAM",
                 "foot-copy": "Todos los derechos reservados."
             }
         };
 
         function setLang(lang) {
-            // Update UI buttons Desktop
             document.getElementById('btn-en').className = lang === 'en' ? 'font-bold text-widdex-blue' : 'font-medium text-gray-400 hover:text-widdex-blue';
             document.getElementById('btn-es').className = lang === 'es' ? 'font-bold text-widdex-blue' : 'font-medium text-gray-400 hover:text-widdex-blue';
             
-            // Update UI buttons Mobile
             document.getElementById('btn-en-mob').className = lang === 'en' ? 'font-bold text-widdex-blue text-sm' : 'font-medium text-gray-400 text-sm hover:text-widdex-blue';
             document.getElementById('btn-es-mob').className = lang === 'es' ? 'font-bold text-widdex-blue text-sm' : 'font-medium text-gray-400 text-sm hover:text-widdex-blue';
 
-            // Change Text
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
+                if (translations[lang] && translations[lang][key]) {
                     el.innerHTML = translations[lang][key];
                 }
             });
 
-            // Update placeholders if any
             if(lang === 'es') {
                 document.getElementById('name').placeholder = "Ej. Juan Pérez";
                 document.getElementById('email').placeholder = "juan@empresa.com";
                 document.getElementById('company').placeholder = "Tu Empresa Tech";
-                document.getElementById('message').placeholder = "Describe brevemente tus objetivos de expansión o producto...";
+                document.getElementById('message').placeholder = "Describe brevemente tus objetivos de expansión, softlanding o Fractional HQ...";
             } else {
                 document.getElementById('name').placeholder = "John Doe";
                 document.getElementById('email').placeholder = "john@company.com";
                 document.getElementById('company').placeholder = "Your Tech Co.";
-                document.getElementById('message').placeholder = "Briefly describe your expansion goals or product...";
+                document.getElementById('message').placeholder = "Briefly describe your expansion goals, softlanding or Fractional HQ needs...";
             }
         }
 
-        // Initialize with default language based on browser or fallback to english
+        // Detección inicial de idioma
         const userLang = navigator.language || navigator.userLanguage; 
-        if (userLang.toLowerCase().includes('es')) {
+        if (userLang && userLang.toLowerCase().includes('es')) {
             setLang('es');
         } else {
-            setLang('en'); // Default
+            setLang('en');
         }
-
     </script>
 </body>
 </html>
