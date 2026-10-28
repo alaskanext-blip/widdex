@@ -95,6 +95,8 @@ textarea{resize:vertical;min-height:60px}
 .hist{margin-top:14px}
 .hist div{border-left:2px solid var(--line);padding:2px 0 8px 12px;font-size:13px}
 .hist small{color:var(--muted)}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:0 24px 28px}
+.foot b{background:linear-gradient(135deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
 @media (max-width:640px){
   header,main{padding-left:16px;padding-right:16px}
   .grid{grid-template-columns:1fr}
@@ -103,7 +105,7 @@ textarea{resize:vertical;min-height:60px}
 </head>
 <body>
 <header>
-  <div class="logo"><i></i>CRM Comercial</div>
+  <div class="logo"><i></i>CRM Comercial Peipro</div>
   <div class="actions">
     <button class="btn primary" onclick="abrir()">+ Nueva oportunidad</button>
     <button class="btn pdf" onclick="pdf()">Descargar informe PDF</button>
@@ -132,6 +134,7 @@ textarea{resize:vertical;min-height:60px}
     <div class="tablewrap"><table id="tabla"></table></div>
   </section>
 </main>
+<footer class="foot">Powered by <b>Widdex</b></footer>
 
 <dialog id="dlg">
   <form method="dialog" id="frm" onsubmit="guardar(event)">
@@ -401,7 +404,7 @@ function pdf(){
   });
 
   const n=doc.internal.getNumberOfPages();
-  for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(150);doc.text(`Página ${i} de ${n}`,W-40,doc.internal.pageSize.getHeight()-20,{align:'right'});}
+  for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(150);doc.text('Powered by Widdex',40,doc.internal.pageSize.getHeight()-20);doc.text(`Página ${i} de ${n}`,W-40,doc.internal.pageSize.getHeight()-20,{align:'right'});}
   doc.save(`informe-comercial-${h}.pdf`);
 }
 
