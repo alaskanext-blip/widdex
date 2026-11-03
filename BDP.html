@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- jsPDF & autoTable for Client-Side PDF Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -54,16 +57,35 @@
     <nav class="fixed w-full z-50 transition-all duration-300 bg-white shadow-md" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logotipo -->
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                    <div class="w-10 h-10 bg-widdex-blue text-white rounded flex items-center justify-center font-bold text-2xl shadow">w</div>
-                    <span class="font-bold text-2xl text-widdex-blue tracking-tight">widdex<span class="text-widdex-accent text-sm ml-1">BDP</span></span>
+                <!-- Logotipo Oficial Widdex BDP -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer select-none" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <svg class="h-11 w-auto" viewBox="0 0 250 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Widdex BDP Logo">
+                        <!-- Rounded App Icon with Shadow -->
+                        <defs>
+                            <filter id="w-shadow" x="0" y="2" width="68" height="68" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#183B70" flood-opacity="0.32" />
+                            </filter>
+                        </defs>
+                        <g filter="url(#w-shadow)">
+                            <rect x="4" y="4" width="52" height="52" rx="13" fill="#183B70"/>
+                        </g>
+                        <!-- 'w' glyph inside icon -->
+                        <path d="M15.5 22.5L20.2 38.5H23.9L28.1 26.8L32.3 38.5H36.0L40.7 22.5H36.7L34.1 33.2L30.1 22.5H26.1L22.1 33.2L19.5 22.5H15.5Z" fill="#FFFFFF"/>
+                        <!-- 'widdex' text in bold corporate navy (#183B70) -->
+                        <text x="68" y="41.5" font-family="'Inter', sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5px" fill="#183B70">widdex</text>
+                        <!-- 'BDP' text in bright cyan accent (#00A3E0) -->
+                        <text x="180" y="41.5" font-family="'Inter', sans-serif" font-size="25" font-weight="700" letter-spacing="0.2px" fill="#00A3E0">BDP</text>
+                    </svg>
                 </div>
 
-                <!-- Menú de Escritorio -->
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#about" class="text-gray-600 hover:text-widdex-blue font-medium transition" data-i18n="nav-about">Value Proposition</a>
                     <a href="#services" class="text-gray-600 hover:text-widdex-blue font-medium transition" data-i18n="nav-services">Our Services</a>
+                    <a href="#insights" class="text-gray-600 hover:text-widdex-blue font-medium transition flex items-center gap-1.5" data-i18n="nav-insights">
+                        <span class="w-1.5 h-1.5 rounded-full bg-widdex-accent"></span>
+                        Insights & Guides
+                    </a>
                     <a href="#markets" class="text-gray-600 hover:text-widdex-blue font-medium transition" data-i18n="nav-markets">Markets</a>
                     
                     <!-- Selector de Idioma -->
@@ -94,6 +116,7 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-6 space-y-2 shadow-xl">
             <a href="#about" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-widdex-blue hover:bg-gray-50 rounded-md" data-i18n="nav-about">Value Proposition</a>
             <a href="#services" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-widdex-blue hover:bg-gray-50 rounded-md" data-i18n="nav-services">Our Services</a>
+            <a href="#insights" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-widdex-blue hover:bg-gray-50 rounded-md" data-i18n="nav-insights">Insights & Guides</a>
             <a href="#markets" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-widdex-blue hover:bg-gray-50 rounded-md" data-i18n="nav-markets">Markets</a>
             <a href="#contact" class="block px-3 py-2 mt-4 text-center text-base font-medium bg-widdex-blue text-white rounded-md shadow" data-i18n="nav-cta">Let's Talk</a>
         </div>
@@ -108,16 +131,16 @@
                     From Market Fit to <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-300 to-blue-200">Local Revenue.</span> Fast.
                 </h1>
                 <p class="text-lg md:text-xl text-slate-200 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light" data-i18n="hero-desc">
-                    We help innovative foreign companies successfully enter the Latin American market by providing a hands-on strategic partnership — from market assessment and first clients to local setup and a turn-key Fractional HQ in Chile.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <a href="#contact" class="bg-widdex-accent hover:bg-cyan-400 text-slate-900 px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_25px_rgba(0,180,216,0.5)] transition transform hover:-translate-y-1 flex justify-center items-center gap-2">
-                        <span data-i18n="hero-btn-primary">Start Your Expansion</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="#services" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg backdrop-blur-md transition flex justify-center items-center" data-i18n="hero-btn-secondary">
-                        Explore Our Process
-                    </a>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#contact" class="bg-widdex-accent hover:bg-cyan-400 text-slate-900 px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_25px_rgba(0,180,216,0.5)] transition transform hover:-translate-y-1 flex justify-center items-center gap-2">
+                            <span data-i18n="hero-btn-primary">Start Your Expansion</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#insights" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg backdrop-blur-md transition flex justify-center items-center gap-2">
+                            <i class="fas fa-file-pdf text-cyan-300"></i>
+                            <span data-i18n="hero-btn-guides">Download Guides (PDF)</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -290,6 +313,99 @@
                             <li><i class="fas fa-check text-cyan-500 mr-1.5"></i><span data-i18n="srv-6-b3">Multi-country LATAM coordination</span></li>
                         </ul>
                     </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Insights & Descarga de Documentos PDF -->
+    <section id="insights" class="py-20 bg-white border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-14">
+                <div class="max-w-2xl">
+                    <span class="text-xs uppercase tracking-[0.25em] text-widdex-blue font-bold block mb-2" data-i18n="insights-tag">WIDDEX BDP INTELLIGENCE & INSIGHTS</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900" data-i18n="insights-title">Guias Prácticas de Negocios en LATAM</h2>
+                    <p class="text-gray-600 mt-3 text-base leading-relaxed" data-i18n="insights-desc">
+                        Descargue nuestros reportes estratégicos en formato PDF elaborados para empresas internacionales que ingresan a Chile, Perú, Argentina, Colombia y México.
+                    </p>
+                </div>
+                <div class="mt-6 md:mt-0 flex items-center gap-2 text-xs text-gray-500 bg-gray-100 py-2 px-3 rounded-lg border border-gray-200">
+                    <i class="fas fa-file-pdf text-red-500 text-sm"></i>
+                    <span>Descarga directa en PDF (Original Widdex BDP)</span>
+                </div>
+            </div>
+
+            <!-- Grid de Documentos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Guía 01: Culture -->
+                <div class="bg-gray-50 rounded-2xl p-7 border border-gray-200 flex flex-col justify-between hover:border-widdex-blue hover:shadow-lg transition group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-[11px] font-bold tracking-widest uppercase bg-blue-100 text-widdex-blue px-2.5 py-1 rounded">GUIDE 01 | CULTURE</span>
+                            <i class="fas fa-handshake text-widdex-blue text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-widdex-blue transition" data-i18n="guide1-title">Doing Business in Latin America: Culture, Trust and Etiquette</h3>
+                        <p class="text-sm text-gray-600 mb-5 leading-relaxed" data-i18n="guide1-desc">
+                            Los códigos culturales, negociación B2B, construcción de confianza y protocolo que deciden si una primera reunión se convierte en un contrato en 5 países.
+                        </p>
+                        <div class="bg-white rounded-xl p-3 border border-gray-200 text-xs text-gray-500 mb-6 space-y-1.5">
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Playbook de negociación antes, durante y después</div>
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Comparativa país por país de formalidad y jerarquía</div>
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Checklist de preparación cultural</div>
+                        </div>
+                    </div>
+                    <button onclick="downloadGuidePDF(1)" class="w-full py-3 px-4 bg-widdex-blue hover:bg-widdex-dark text-white rounded-xl font-semibold text-sm transition flex items-center justify-center gap-2.5 shadow-sm group-hover:shadow">
+                        <i class="fas fa-download text-xs"></i>
+                        <span data-i18n="btn-dl-1">Descargar Guía 01 (PDF)</span>
+                    </button>
+                </div>
+
+                <!-- Guía 02: Opportunities -->
+                <div class="bg-gray-50 rounded-2xl p-7 border border-gray-200 flex flex-col justify-between hover:border-widdex-blue hover:shadow-lg transition group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-[11px] font-bold tracking-widest uppercase bg-cyan-100 text-cyan-800 px-2.5 py-1 rounded">GUIDE 02 | OPPORTUNITIES</span>
+                            <i class="fas fa-chart-line text-widdex-accent text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-widdex-blue transition" data-i18n="guide2-title">Business Opportunities in Latin America: Where to Grow in 2026-2027</h3>
+                        <p class="text-sm text-gray-600 mb-5 leading-relaxed" data-i18n="guide2-desc">
+                            Panorama macroeconómico FMI, pipeline RIGI de USD 141B, transición energética, minería crítica, nearshoring y matriz de sectores prioritarios.
+                        </p>
+                        <div class="bg-white rounded-xl p-3 border border-gray-200 text-xs text-gray-500 mb-6 space-y-1.5">
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Pronósticos de PIB e inflación 2026-2027</div>
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Matriz de oportunidad sectorial por país</div>
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Lógica de entrada según perfil de empresa</div>
+                        </div>
+                    </div>
+                    <button onclick="downloadGuidePDF(2)" class="w-full py-3 px-4 bg-widdex-blue hover:bg-widdex-dark text-white rounded-xl font-semibold text-sm transition flex items-center justify-center gap-2.5 shadow-sm group-hover:shadow">
+                        <i class="fas fa-download text-xs"></i>
+                        <span data-i18n="btn-dl-2">Descargar Guía 02 (PDF)</span>
+                    </button>
+                </div>
+
+                <!-- Guía 03: Technology -->
+                <div class="bg-gray-50 rounded-2xl p-7 border border-gray-200 flex flex-col justify-between hover:border-widdex-blue hover:shadow-lg transition group">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-[11px] font-bold tracking-widest uppercase bg-indigo-100 text-indigo-800 px-2.5 py-1 rounded">GUIDE 03 | TECHNOLOGY</span>
+                            <i class="fas fa-microchip text-indigo-600 text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-widdex-blue transition" data-i18n="guide3-title">Technology Adoption in Latin America: How Ready Is Each Market?</h3>
+                        <p class="text-sm text-gray-600 mb-5 leading-relaxed" data-i18n="guide3-desc">
+                            Madurez digital empresarial, índice de IA ILIA 2025, centros de datos (1.1 GW), rieles de pagos instantáneos y cumplimiento regulatorio de datos.
+                        </p>
+                        <div class="bg-white rounded-xl p-3 border border-gray-200 text-xs text-gray-500 mb-6 space-y-1.5">
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Heat map de adopción y ranking ILIA</div>
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Rieles de pago: Bre-B, Yape, Mercado Pago, SPEI</div>
+                            <div class="flex items-center gap-2"><i class="fas fa-check text-green-600 text-[10px]"></i> Regulación de datos (Ley 21.719 Chile vs GDPR)</div>
+                        </div>
+                    </div>
+                    <button onclick="downloadGuidePDF(3)" class="w-full py-3 px-4 bg-widdex-blue hover:bg-widdex-dark text-white rounded-xl font-semibold text-sm transition flex items-center justify-center gap-2.5 shadow-sm group-hover:shadow">
+                        <i class="fas fa-download text-xs"></i>
+                        <span data-i18n="btn-dl-3">Descargar Guía 03 (PDF)</span>
+                    </button>
                 </div>
 
             </div>
@@ -563,6 +679,7 @@
             en: {
                 "nav-about": "Value Proposition",
                 "nav-services": "Our Services",
+                "nav-insights": "Insights & Guides",
                 "nav-markets": "Markets",
                 "nav-cta": "Let's Talk",
                 "hero-tag": "YOUR LATAM BUSINESS DEVELOPMENT PARTNER & FRACTIONAL HQ",
@@ -570,7 +687,21 @@
                 "hero-desc": "We help innovative foreign companies successfully enter the Latin American market by providing a hands-on strategic partnership — from market assessment and first clients to local setup and a turn-key Fractional HQ in Chile.",
                 "hero-btn-primary": "Start Your Expansion",
                 "hero-btn-secondary": "Explore Our Process",
+                "hero-btn-guides": "Download Guides (PDF)",
                 
+                "insights-tag": "WIDDEX BDP INTELLIGENCE & INSIGHTS",
+                "insights-title": "Practical LATAM Business Guides",
+                "insights-desc": "Download our comprehensive executive reports in PDF format designed for international companies expanding into Chile, Peru, Argentina, Colombia and Mexico.",
+                "guide1-title": "Doing Business in Latin America: Culture, Trust and Etiquette",
+                "guide1-desc": "Cultural codes, B2B negotiation playbooks, trust building and protocol that decide whether a first meeting turns into a contract.",
+                "guide2-title": "Business Opportunities in Latin America: Where to Grow in 2026-2027",
+                "guide2-desc": "IMF macroeconomic forecast, USD 141B RIGI investment pipeline, energy transition, critical minerals, nearshoring and priority sectors.",
+                "guide3-title": "Technology Adoption in Latin America: How Ready Is Each Market?",
+                "guide3-desc": "Enterprise digital maturity, ILIA 2025 AI Index, data center boom (1.1 GW), instant payment rails and data privacy regulations.",
+                "btn-dl-1": "Download Guide 01 (PDF)",
+                "btn-dl-2": "Download Guide 02 (PDF)",
+                "btn-dl-3": "Download Guide 03 (PDF)",
+
                 "val-subtitle": "Value Proposition",
                 "val-title": "Not just consultants. <br>Your local partners.",
                 "val-desc": "Unlike traditional consultants, we bring real-world experience, a senior executive background, and a powerful network across Latin America to drive actual sales, not just reports.",
@@ -648,6 +779,7 @@
             es: {
                 "nav-about": "Propuesta de Valor",
                 "nav-services": "Nuestros Servicios",
+                "nav-insights": "Insights y Guías",
                 "nav-markets": "Mercados",
                 "nav-cta": "Hablemos",
                 "hero-tag": "TU SOCIO DE DESARROLLO DE NEGOCIOS Y FRACTIONAL HQ EN LATAM",
@@ -655,7 +787,21 @@
                 "hero-desc": "Ayudamos a empresas extranjeras innovadoras a ingresar con éxito al mercado latinoamericano brindando una asociación estratégica práctica: desde el diagnóstico de mercado y primeros clientes hasta la instalación local y un Fractional HQ en Chile.",
                 "hero-btn-primary": "Inicia tu Expansión",
                 "hero-btn-secondary": "Explora el Proceso",
-                
+                "hero-btn-guides": "Descargar Guías (PDF)",
+
+                "insights-tag": "WIDDEX BDP INTELLIGENCE & INSIGHTS",
+                "insights-title": "Guías Prácticas de Negocios en LATAM",
+                "insights-desc": "Descargue nuestros reportes estratégicos en formato PDF elaborados para empresas internacionales que ingresan a Chile, Perú, Argentina, Colombia y México.",
+                "guide1-title": "Doing Business in Latin America: Culture, Trust and Etiquette",
+                "guide1-desc": "Los códigos culturales, negociación B2B, construcción de confianza y protocolo que deciden si una primera reunión se convierte en un contrato en 5 países.",
+                "guide2-title": "Business Opportunities in Latin America: Where to Grow in 2026-2027",
+                "guide2-desc": "Panorama macroeconómico FMI, pipeline RIGI de USD 141B, transición energética, minería crítica, nearshoring y matriz de sectores prioritarios.",
+                "guide3-title": "Technology Adoption in Latin America: How Ready Is Each Market?",
+                "guide3-desc": "Madurez digital empresarial, índice de IA ILIA 2025, centros de datos (1.1 GW), rieles de pagos instantáneos y cumplimiento regulatorio de datos.",
+                "btn-dl-1": "Descargar Guía 01 (PDF)",
+                "btn-dl-2": "Descargar Guía 02 (PDF)",
+                "btn-dl-3": "Descargar Guía 03 (PDF)",
+
                 "val-subtitle": "Propuesta de Valor",
                 "val-title": "No solo consultores. <br>Tus socios locales.",
                 "val-desc": "A diferencia de los consultores tradicionales, aportamos experiencia del mundo real, antecedentes ejecutivos y una poderosa red en América Latina para impulsar ventas reales, no solo informes.",
@@ -765,6 +911,866 @@
             setLang('es');
         } else {
             setLang('en');
+        }
+
+        // ==========================================
+        // PDF GENERATION & DOWNLOAD ENGINE (jsPDF)
+        // ==========================================
+        function addPDFHeader(doc, guideCode, guideTitle, pageNum, totalPages) {
+            doc.setFillColor(29, 66, 125); // #1d427d
+            doc.rect(14, 12, 10, 10, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('w', 17.5, 19);
+
+            doc.setTextColor(29, 66, 125);
+            doc.setFontSize(14);
+            doc.text('widdex', 27, 19);
+            doc.setTextColor(0, 180, 216);
+            doc.setFontSize(9);
+            doc.text('BDP', 44, 16);
+
+            doc.setTextColor(120, 120, 120);
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`LATAM BUSINESS GUIDE ${guideCode} | ${guideTitle}`, 65, 19);
+
+            doc.setDrawColor(220, 220, 220);
+            doc.setLineWidth(0.5);
+            doc.line(14, 25, 196, 25);
+        }
+
+        function addPDFFooter(doc, pageNum, totalPages) {
+            doc.setDrawColor(220, 220, 220);
+            doc.setLineWidth(0.5);
+            doc.line(14, 280, 196, 280);
+
+            doc.setTextColor(29, 66, 125);
+            doc.setFontSize(7.5);
+            doc.setFont('helvetica', 'bold');
+            doc.text('widdexBDP', 14, 285);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(110, 110, 110);
+            doc.text('Your LATAM Business Development Partner & Fractional HQ', 32, 285);
+            doc.text('www.widdex.com', 145, 285);
+            doc.text(`${pageNum}/${totalPages}`, 188, 285);
+        }
+
+        function downloadGuidePDF(guideNumber) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            const totalPages = 4;
+
+            if (guideNumber === 1) {
+                // ==========================================
+                // GUIDE 01: CULTURE, TRUST AND ETIQUETTE
+                // ==========================================
+                // PAGE 1
+                addPDFHeader(doc, '01', 'CULTURE', 1, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(18);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Doing Business in Latin America: Culture, Trust and Etiquette', 14, 34);
+
+                doc.setTextColor(80, 80, 80);
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'italic');
+                const sub = "A practical guide for European and international companies entering Chile, Peru, Argentina, Colombia and Mexico, and the cultural codes that decide whether a first meeting becomes a first contract.";
+                doc.text(doc.splitTextToSize(sub, 182), 14, 41);
+
+                doc.setFont('helvetica', 'normal');
+                const p1 = "Latin America is often presented as one market. It is not. The region shares a language, a strong relationship-driven business culture and a few common rules, but each country has its own pace, communication style and way of making decisions. Companies that treat the region as one homogeneous block usually lose 12 to 18 months before they adjust. Companies that understand the cultural layer early win trust faster, shorten sales cycles and avoid expensive misunderstandings.";
+                doc.text(doc.splitTextToSize(p1, 182), 14, 52);
+
+                // KPI Stat Boxes
+                const stats = [
+                    { num: "5", label: "Key economic hubs covered in this guide" },
+                    { num: "281M+", label: "People across Mexico, Colombia, Argentina, Peru, Chile" },
+                    { num: "1", label: "Language, but five distinct business cultures" },
+                    { num: "Trust First", label: "Relationships come before transactions" }
+                ];
+                stats.forEach((st, idx) => {
+                    const x = 14 + (idx * 46);
+                    doc.setFillColor(242, 246, 252);
+                    doc.roundedRect(x, 68, 43, 20, 2, 2, 'F');
+                    doc.setTextColor(29, 66, 125);
+                    doc.setFontSize(12);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(st.num, x + 4, 76);
+                    doc.setTextColor(90, 90, 90);
+                    doc.setFontSize(7);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(doc.splitTextToSize(st.label, 36), x + 4, 81);
+                });
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ The regional business culture: what is shared', 14, 96);
+
+                const bullets = [
+                    "Relationships before transactions: People buy from people they know and trust. First meetings are about rapport, not closing.",
+                    "Hierarchy matters: Decisions are validated at the top. Reaching the right senior sponsor is decisive.",
+                    "Indirect, polite communication: Direct 'no' is rare. 'Let me check' or 'we will review it' can mean low interest.",
+                    "Spanish is the business language: Proposals, contracts, follow-ups and day-to-day operations happen in Spanish.",
+                    "Presence builds credibility: Video calls work for follow-up, but face-to-face visits and a local partner anchor credibility.",
+                    "WhatsApp is a business channel: Widely used to coordinate meetings, share materials and follow up quickly.",
+                    "Flexibility and patience: Timelines move and approvals take longer than planned. Long-term view is rewarded."
+                ];
+                let curY = 103;
+                bullets.forEach(b => {
+                    doc.setTextColor(40, 40, 40);
+                    doc.setFontSize(8.5);
+                    doc.setFont('helvetica', 'normal');
+                    const lines = doc.splitTextToSize(`•  ${b}`, 180);
+                    doc.text(lines, 14, curY);
+                    curY += (lines.length * 4.2) + 1.5;
+                });
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Common mistakes, and what works instead', 14, curY + 4);
+
+                doc.autoTable({
+                    startY: curY + 7,
+                    head: [['Common mistake', 'What works in Latin America']],
+                    body: [
+                        ['Pitching the product in the first meeting', 'Invest in understanding the client, its people and context; propose next steps, not a price.'],
+                        ['Sending English-only materials', 'Localize decks, proposals and contracts into Spanish with regional references and cases.'],
+                        ['Selling remotely from Europe', 'Combine local presence with remote support; visit key accounts in person at decisive moments.'],
+                        ['Copying European pricing and contract models', 'Adapt payment terms, pilots and pricing to local budgets, currencies and procurement.']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 8 },
+                    bodyStyles: { fontSize: 7.5, cellPadding: 2.5 },
+                    margin: { left: 14, right: 14 }
+                });
+                addPDFFooter(doc, 1, totalPages);
+
+                // PAGE 2
+                doc.addPage();
+                addPDFHeader(doc, '01', 'CULTURE', 2, totalPages);
+                doc.autoTable({
+                    startY: 30,
+                    head: [['Common mistake', 'What works in Latin America']],
+                    body: [
+                        ['Treating the region as one market', 'Prioritize 1 or 2 entry markets, then expand with a regional hub and country playbooks.'],
+                        ['Pushing for a fast "yes"', 'Build the relationship, identify the real decision-maker and let trust drive the timeline.']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 8 },
+                    bodyStyles: { fontSize: 7.5, cellPadding: 2.5 },
+                    margin: { left: 14, right: 14 }
+                });
+
+                let p2Y = doc.lastAutoTable.finalY + 8;
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ The meeting and negotiation playbook', 14, p2Y);
+
+                doc.autoTable({
+                    startY: p2Y + 4,
+                    head: [['Before the meeting', 'During the meeting', 'After the meeting']],
+                    body: [
+                        [
+                            'Secure a warm introduction through a trusted local partner; cold approaches convert far less.\n\nResearch the company group, owners and decision-making structure.\n\nPrepare Spanish materials with local currency and regional cases.',
+                            'Open with personal conversation; let the host set the pace before moving to business.\n\nListen first: ask about challenges before presenting your solution.\n\nRead indirect signals; avoid hard closing tactics in first meeting.',
+                            'Send a short written summary in Spanish within 24 hours confirming next steps.\n\nFollow up consistently by e-mail and WhatsApp.\n\nPropose a low-risk step: pilot, workshop or site visit.'
+                        ]
+                    ],
+                    theme: 'grid',
+                    headStyles: { fillColor: [15, 45, 84], fontSize: 8 },
+                    bodyStyles: { fontSize: 7.5, cellPadding: 3 },
+                    margin: { left: 14, right: 14 }
+                });
+
+                p2Y = doc.lastAutoTable.finalY + 8;
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Country snapshots: Business traits comparison', 14, p2Y);
+
+                doc.autoTable({
+                    startY: p2Y + 4,
+                    head: [['Business trait', 'Chile', 'Peru', 'Argentina', 'Colombia', 'Mexico']],
+                    body: [
+                        ['Punctuality expected', 'High', 'Medium', 'Medium', 'Medium', 'Medium'],
+                        ['Formality in first meetings', 'High', 'High', 'Medium', 'High', 'High'],
+                        ['Directness of communication', 'Medium', 'Low', 'High', 'Low', 'Low'],
+                        ['Weight of hierarchy', 'High', 'High', 'Medium', 'High', 'High'],
+                        ['Typical speed of decision', 'Medium', 'Low', 'Medium', 'Medium', 'Low'],
+                        ['Importance of personal relationship', 'Medium', 'High', 'High', 'High', 'High']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 7.5 },
+                    bodyStyles: { fontSize: 7.2, cellPadding: 2 },
+                    margin: { left: 14, right: 14 }
+                });
+
+                p2Y = doc.lastAutoTable.finalY + 6;
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text('CHILE: Structured, reliable, conservative', 14, p2Y);
+                doc.setTextColor(60, 60, 60);
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                const chDesc = "The most institutional and process-driven market in LATAM. Rules are respected, contracts honored and payments reliable. Formal procurement in large corporates with several layers of approval. References and local track record matter immensely.";
+                doc.text(doc.splitTextToSize(chDesc, 182), 14, p2Y + 4);
+                addPDFFooter(doc, 2, totalPages);
+
+                // PAGE 3
+                doc.addPage();
+                addPDFHeader(doc, '01', 'CULTURE', 3, totalPages);
+                const countries = [
+                    { name: "PERU: Formal, hierarchical, relationship-based", text: "Business is concentrated in Lima and in close family groups. Courteous, indirect communication where titles are important. Centralized decisions; in-person visits and warm intros make a visible difference." },
+                    { name: "ARGENTINA: Sophisticated, direct, debate-driven", text: "Highly educated and cosmopolitan business culture. Expressive and debate-driven. Decisions can be fast once the business case is clear, but macroeconomic volatility shapes budgets and terms. Build rapport over meals." },
+                    { name: "COLOMBIA: Warm, entrepreneurial, courteous", text: "Dynamic business community in Bogotá and Medellín. Exceptionally polite; avoid aggressive selling. Senior executives decide with consensus. Confirm all agreements in writing after meetings." },
+                    { name: "MEXICO: Large, hierarchical, relationship-intensive", text: "The largest Spanish-speaking market with close US ties. Building 'confianza' is essential; long business lunches are where deals advance. Senior sponsor is key. Monterrey has a more direct, US-influenced style." }
+                ];
+                let p3Y = 32;
+                countries.forEach(c => {
+                    doc.setTextColor(29, 66, 125);
+                    doc.setFontSize(9.5);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(c.name, 14, p3Y);
+                    doc.setTextColor(60, 60, 60);
+                    doc.setFontSize(8);
+                    doc.setFont('helvetica', 'normal');
+                    const lines = doc.splitTextToSize(c.text, 182);
+                    doc.text(lines, 14, p3Y + 4);
+                    p3Y += (lines.length * 4) + 6;
+                });
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Etiquette quick reference', 14, p3Y + 2);
+
+                doc.autoTable({
+                    startY: p3Y + 6,
+                    head: [['Topic', 'Chile', 'Peru', 'Argentina', 'Colombia', 'Mexico']],
+                    body: [
+                        ['Greeting', 'Handshake; one cheek kiss once familiar', 'Handshake; formal titles at first', 'Handshake; cheek kiss common even among men', 'Firm handshake, eye contact, warm', 'Handshake; titles like Licenciado/Ingeniero'],
+                        ['Dress code', 'Business formal; smart casual in tech', 'Conservative business formal', 'Elegant business attire; style matters', 'Formal; dark suits in Bogotá', 'Formal in CDMX; lighter in coast/Monterrey'],
+                        ['Business lunch', 'Common (1:00 to 3:00 pm)', 'Long lunches build trust', 'Late lunches and dinners for relationships', 'Key relationship moment', 'Long lunches (2:00 to 5:00 pm) advance deals'],
+                        ['Slow periods', 'Jan-Feb (summer); mid-Sept', 'Late July; late Dec', 'Jan-Feb (summer); late Dec', 'Mid-Dec to mid-Jan; Holy Week', 'Mid-Dec to early Jan; Holy Week']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 7.5 },
+                    bodyStyles: { fontSize: 7.2, cellPadding: 2.5 },
+                    margin: { left: 14, right: 14 }
+                });
+                addPDFFooter(doc, 3, totalPages);
+
+                // PAGE 4
+                doc.addPage();
+                addPDFHeader(doc, '01', 'CULTURE', 4, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Cultural readiness checklist', 14, 32);
+
+                doc.autoTable({
+                    startY: 36,
+                    body: [
+                        ['✓ Do we have Spanish-language materials, proposals and contracts?', '✓ Do we have warm introduction paths to our target accounts?'],
+                        ['✓ Do we know who really makes the decision in each company?', '✓ Can we adapt pricing, currency and payment terms to local practice?'],
+                        ['✓ Can we be physically present at key commercial moments?', '✓ Do we have a local partner who can represent us and follow up daily?'],
+                        ['✓ Have we planned around local holidays and slow periods?', '✓ Do we have a country-by-country plan rather than a generic pitch?']
+                    ],
+                    theme: 'plain',
+                    bodyStyles: { fontSize: 8, cellPadding: 2.8, textColor: [50, 50, 50] },
+                    margin: { left: 14, right: 14 }
+                });
+
+                const boxY = doc.lastAutoTable.finalY + 8;
+                doc.setFillColor(238, 242, 249);
+                doc.roundedRect(14, boxY, 182, 30, 2, 2, 'F');
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Key Takeaway', 18, boxY + 7);
+                doc.setTextColor(60, 60, 60);
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'normal');
+                const kt = "Culture is not a soft topic in Latin America; it is a commercial variable. The same product, at the same price, can win or lose a deal depending on who makes the introduction, how the first meeting is run and how patiently the follow-up is managed. Local guidance shortens the learning curve dramatically.";
+                doc.text(doc.splitTextToSize(kt, 174), 18, boxY + 13);
+
+                // HOW WIDDEX BDP CAN HELP
+                const helpY = boxY + 38;
+                doc.setFillColor(15, 45, 84);
+                doc.roundedRect(14, helpY, 182, 60, 2, 2, 'F');
+                doc.setTextColor(0, 180, 216);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                doc.text('HOW WIDDEX BDP CAN HELP', 20, helpY + 9);
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(13);
+                doc.text('Turn cultural insight into local revenue', 20, helpY + 16);
+
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                const wtext = "Widdex BDP is a Latin American Business Development Partner and Fractional HQ, led by executives with more than 25 years of C-level experience across the region. We act as your local commercial team: we open doors with the right decision-makers, lead sales meetings in Spanish, adapt your messaging and pricing, and support negotiation of your first clients and pilots. We help foreign companies avoid the cultural mistakes that cost 12 to 18 months, validate demand without premature overhead, and scale into a turn-key Fractional HQ in Chile.";
+                doc.text(doc.splitTextToSize(wtext, 170), 20, helpY + 23);
+
+                doc.setTextColor(0, 180, 216);
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text("Let's talk: Francisco Amigo, Managing Partner  |  www.widdex.com  |  linkedin.com/in/franciscoamigog", 20, helpY + 52);
+
+                addPDFFooter(doc, 4, totalPages);
+                doc.save('Widdex_BDP_LATAM_Guide_01_Culture.pdf');
+
+            } else if (guideNumber === 2) {
+                // ==========================================
+                // GUIDE 02: OPPORTUNITIES 2026-2027
+                // ==========================================
+                // PAGE 1
+                addPDFHeader(doc, '02', 'OPPORTUNITIES', 1, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(18);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Business Opportunities in Latin America: 2026-2027', 14, 34);
+
+                doc.setTextColor(80, 80, 80);
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'italic');
+                const sub2 = "A practical view of the region's growth drivers and a country-by-country analysis of Chile, Peru, Argentina, Colombia and Mexico for international B2B companies.";
+                doc.text(doc.splitTextToSize(sub2, 182), 14, 41);
+
+                doc.setFont('helvetica', 'normal');
+                const p2 = "Latin America enters 2027 in a mixed but opportunity-rich position. While exposed to global trade dynamics, the region holds a vast share of world critical minerals, is a natural partner for energy transition, is digitizing rapidly and attracts record investment in infrastructure and data centers. The key question is where to enter, with what offer and with which local partner.";
+                doc.text(doc.splitTextToSize(p2, 182), 14, 52);
+
+                const stats2 = [
+                    { num: "2.3%", label: "IMF growth forecast for LATAM & Caribbean, 2026" },
+                    { num: "2.5%", label: "IMF regional growth forecast for 2027" },
+                    { num: "281M+", label: "People across the five focus markets" },
+                    { num: "US$141B", label: "Investment pipeline under Argentina's RIGI regime" }
+                ];
+                stats2.forEach((st, idx) => {
+                    const x = 14 + (idx * 46);
+                    doc.setFillColor(242, 246, 252);
+                    doc.roundedRect(x, 68, 43, 20, 2, 2, 'F');
+                    doc.setTextColor(29, 66, 125);
+                    doc.setFontSize(12);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(st.num, x + 4, 76);
+                    doc.setTextColor(90, 90, 90);
+                    doc.setFontSize(7);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(doc.splitTextToSize(st.label, 36), x + 4, 81);
+                });
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Regional opportunity drivers', 14, 96);
+
+                const drivers = [
+                    "Energy transition & critical minerals: Chile and Peru lead copper production; Chile and Argentina hold top lithium reserves.",
+                    "Nearshoring & advanced manufacturing: Mexico remains the industrial platform linked to North American supply chains.",
+                    "Digital economy & fintech: Over 3,000 fintechs; instant payments and digital wallets transforming transactions.",
+                    "Data centers & cloud: Colocation capacity grew 20% in 2025 to ~1.1 GW, driving demand for cooling, energy and security.",
+                    "Infrastructure, logistics & ports: Megaprojects like Chancay port and energy grid expansions require imported tech.",
+                    "Agrifood & water: Agro-export, salmon farming and water scarcity demand desalination, precision ag and efficiency tools."
+                ];
+                let curY2 = 103;
+                drivers.forEach(d => {
+                    doc.setTextColor(40, 40, 40);
+                    doc.setFontSize(8.5);
+                    doc.setFont('helvetica', 'normal');
+                    const lines = doc.splitTextToSize(`•  ${d}`, 180);
+                    doc.text(lines, 14, curY2);
+                    curY2 += (lines.length * 4.2) + 1.5;
+                });
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Macroeconomic snapshot (IMF, October 2026)', 14, curY2 + 5);
+
+                doc.autoTable({
+                    startY: curY2 + 8,
+                    head: [['Country', 'Population', 'GDP 2026', 'GDP 2027', 'Context']],
+                    body: [
+                        ['Mexico', '130M', '1.5%', '1.8%', 'Largest Spanish-speaking market; USMCA under annual review'],
+                        ['Colombia', '52M', '2.2%', '2.3%', 'New government since August 2026; inflation near 6%'],
+                        ['Argentina', '46M', '2.1%', '3.5%', 'Pro-investment reforms (RIGI); inflation easing toward 32.5%'],
+                        ['Peru', '34M', '3.0%', '2.9%', 'Fastest-growing of the five; low inflation; new administration'],
+                        ['Chile', '19M', '0.6%', '2.6%', 'Pro-investment tax and permitting reform approved; institutional anchor']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 7.5 },
+                    bodyStyles: { fontSize: 7.2, cellPadding: 2.2 },
+                    margin: { left: 14, right: 14 }
+                });
+                addPDFFooter(doc, 1, totalPages);
+
+                // PAGE 2
+                doc.addPage();
+                addPDFHeader(doc, '02', 'OPPORTUNITIES', 2, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Country analysis: Outlook, Policy & Opportunities', 14, 32);
+
+                const cAnaly = [
+                    {
+                        name: "CHILE: Stable regional hub, reform-driven rebound",
+                        outlook: "IMF expects 0.6% in 2026 and 2.6% in 2027. Inflation forecast at 3.7%.",
+                        policy: "Kast reform (Aug 2026) cuts corporate tax to 23%, freezes conditions for 20 yrs for >US$350M investments.",
+                        opps: "Copper/lithium tech, green hydrogen, Santiago data center hub, aquaculture, water/desalination, B2B SaaS.",
+                        why: "Institutional anchor and treaty network make Chile the natural Fractional HQ & launchpad."
+                    },
+                    {
+                        name: "PERU: Steady growth, mining and Asia gateway",
+                        outlook: "IMF forecast of 3.0% (2026) and 2.9% (2027) with the lowest inflation among the five.",
+                        policy: "Keiko Fujimori administration focused on mining approvals, Chancay port hub and investment protection.",
+                        opps: "Mining services, agro-export tech, Chancay logistics, infrastructure, and fintech (Yape has 16.4M users).",
+                        why: "Fastest-growing economy with massive cash flows in mining and agro-export."
+                    },
+                    {
+                        name: "ARGENTINA: High upside, high investment wave",
+                        outlook: "2.1% (2026) accelerating to 3.5% (2027); inflation forecast at 32.5%.",
+                        policy: "RIGI approved 16 projects worth US$29.9B by June 2026 (pipeline of US$141B) in mining, oil & gas.",
+                        opps: "Vaca Muerta suppliers, lithium/copper projects, energy infrastructure, tech talent partnerships.",
+                        why: "Major capital wave; early positioning unlocks long-term contracts."
+                    }
+                ];
+
+                let cY = 37;
+                cAnaly.forEach(item => {
+                    doc.setTextColor(29, 66, 125);
+                    doc.setFontSize(9.5);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(item.name, 14, cY);
+                    doc.setFontSize(8);
+                    doc.setFont('helvetica', 'normal');
+                    doc.setTextColor(50, 50, 50);
+                    doc.text(`• Outlook: ${item.outlook}`, 14, cY + 4.5);
+                    doc.text(`• Policy: ${item.policy}`, 14, cY + 9);
+                    doc.text(`• Key Opportunities: ${item.opps}`, 14, cY + 13.5);
+                    doc.setTextColor(15, 45, 84);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(`• Strategic Role: ${item.why}`, 14, cY + 18);
+                    cY += 24;
+                });
+                addPDFFooter(doc, 2, totalPages);
+
+                // PAGE 3
+                doc.addPage();
+                addPDFHeader(doc, '02', 'OPPORTUNITIES', 3, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Country analysis (continued) & Sector heat map', 14, 32);
+
+                const cAnaly2 = [
+                    {
+                        name: "COLOMBIA: Digital & services hub in transition",
+                        text: "Growth 2.2% (2026), 2.3% (2027). Abelardo de la Espriella in office since Aug 2026. Opportunities in fintech (Bre-B instant payments moved COP 262T with 36M users), BPO, healthcare and energy transition."
+                    },
+                    {
+                        name: "MEXICO: Scale, manufacturing and North America link",
+                        text: "Growth 1.5% (2026), 1.8% (2027). Annual USMCA reviews create scrutiny, but unmatched scale. Opportunities in industrial automation, Querétaro data centers, medical devices, automotive supply chains and e-commerce."
+                    }
+                ];
+                let cY2 = 38;
+                cAnaly2.forEach(item => {
+                    doc.setTextColor(29, 66, 125);
+                    doc.setFontSize(9);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(item.name, 14, cY2);
+                    doc.setTextColor(50, 50, 50);
+                    doc.setFontSize(7.8);
+                    doc.setFont('helvetica', 'normal');
+                    const lines = doc.splitTextToSize(item.text, 182);
+                    doc.text(lines, 14, cY2 + 4);
+                    cY2 += (lines.length * 3.8) + 6;
+                });
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Opportunity map by sector (Relative attractiveness)', 14, cY2 + 2);
+
+                doc.autoTable({
+                    startY: cY2 + 5,
+                    head: [['Sector', 'Chile', 'Peru', 'Argentina', 'Colombia', 'Mexico']],
+                    body: [
+                        ['Mining & critical minerals tech', 'High', 'High', 'High', 'Low', 'Medium'],
+                        ['Energy transition & renewables', 'High', 'Medium', 'High', 'Medium', 'Medium'],
+                        ['Manufacturing & Industry 4.0', 'Low', 'Low', 'Medium', 'Medium', 'High'],
+                        ['Fintech & digital payments', 'Medium', 'Medium', 'Medium', 'High', 'High'],
+                        ['Data centers & cloud services', 'High', 'Low', 'Low', 'Medium', 'High'],
+                        ['Agrifood, aquaculture & water', 'High', 'High', 'Medium', 'Medium', 'Medium'],
+                        ['Logistics & infrastructure', 'Medium', 'High', 'Medium', 'Medium', 'High']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 7.5 },
+                    bodyStyles: { fontSize: 7.2, cellPadding: 2 },
+                    margin: { left: 14, right: 14 }
+                });
+
+                const entryY = doc.lastAutoTable.finalY + 6;
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Which market first? Entry logic by company profile', 14, entryY);
+
+                doc.autoTable({
+                    startY: entryY + 4,
+                    head: [['If your company offers...', 'Recommended entry', 'Why']],
+                    body: [
+                        ['Mining, water or decarbonization', 'Chile & Peru', 'Concentration of copper/lithium operators; regional HQs in Santiago & Lima.'],
+                        ['Oil & gas, energy infrastructure', 'Argentina', 'RIGI projects moving from approval to construction; active procurement.'],
+                        ['Industrial automation, Industry 4.0', 'Mexico', 'Largest manufacturing base, linked to North American supply chains.'],
+                        ['Fintech, payments, SaaS, B2B software', 'Colombia or Mexico (Chile as test)', 'Fast digital adoption, massive user bases, financial modernization.'],
+                        ['Agritech, aquaculture, food technology', 'Chile & Peru', 'World-class export orientation and openness to imported innovation.']
+                    ],
+                    theme: 'grid',
+                    headStyles: { fillColor: [15, 45, 84], fontSize: 7 },
+                    bodyStyles: { fontSize: 6.8, cellPadding: 2 },
+                    margin: { left: 14, right: 14 }
+                });
+                addPDFFooter(doc, 3, totalPages);
+
+                // PAGE 4
+                doc.addPage();
+                addPDFHeader(doc, '02', 'OPPORTUNITIES', 4, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Signals to watch in 2027 & Risk management', 14, 32);
+
+                doc.autoTable({
+                    startY: 36,
+                    head: [['Market', 'What to monitor', 'Why it matters for foreign companies']],
+                    body: [
+                        ['Chile', 'Implementation of 2026 tax and permit reform', 'Faster permits and lower taxes unlock delayed mining/energy projects.'],
+                        ['Peru', 'Mining project approvals under new government', 'Approvals translate directly into equipment and services procurement.'],
+                        ['Argentina', 'RIGI projects construction; inflation path', 'Construction opens supplier contracts; disinflation stabilizes pricing.'],
+                        ['Colombia', 'Fiscal plan and energy policy of new administration', 'Sets the tone for public and private investments in energy and digital.'],
+                        ['Mexico', 'Annual USMCA review (July 2027) & nearshoring', 'Determines manufacturing pace and supply chain investments.']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 7.5 },
+                    bodyStyles: { fontSize: 7.2, cellPadding: 2.5 },
+                    margin: { left: 14, right: 14 }
+                });
+
+                const bBoxY = doc.lastAutoTable.finalY + 8;
+                doc.setFillColor(238, 242, 249);
+                doc.roundedRect(14, bBoxY, 182, 28, 2, 2, 'F');
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Key Takeaway', 18, bBoxY + 7);
+                doc.setTextColor(60, 60, 60);
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'normal');
+                const kt2 = "Each market offers a distinct logic: Chile as a stable test market and regional hub, Peru for mining and steady growth, Argentina for the RIGI investment wave, Colombia for digital and services, and Mexico for industrial scale. The winning strategy is to enter one or two markets first and expand from a regional base.";
+                doc.text(doc.splitTextToSize(kt2, 174), 18, bBoxY + 13);
+
+                const helpY2 = bBoxY + 36;
+                doc.setFillColor(15, 45, 84);
+                doc.roundedRect(14, helpY2, 182, 60, 2, 2, 'F');
+                doc.setTextColor(0, 180, 216);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                doc.text('HOW WIDDEX BDP CAN HELP', 20, helpY2 + 9);
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(13);
+                doc.text('From opportunity to first revenue in Latin America', 20, helpY2 + 16);
+
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                const wtext2 = "Widdex BDP helps innovative foreign companies turn Latin American opportunities into real revenue through our hands-on 6-step path: market assessment, GTM design, first clients & pilots, local setup, fractional strategy director, and turn-key Fractional HQ in Chile. Our senior C-level team gives you immediate credibility and direct access to decision-makers across Chile, Peru, Argentina, Colombia and Mexico.";
+                doc.text(doc.splitTextToSize(wtext2, 170), 20, helpY2 + 23);
+
+                doc.setTextColor(0, 180, 216);
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text("Let's talk: Francisco Amigo, Managing Partner  |  www.widdex.com  |  linkedin.com/in/franciscoamigog", 20, helpY2 + 52);
+
+                addPDFFooter(doc, 4, totalPages);
+                doc.save('Widdex_BDP_LATAM_Guide_02_Opportunities.pdf');
+
+            } else if (guideNumber === 3) {
+                // ==========================================
+                // GUIDE 03: TECHNOLOGY ADOPTION
+                // ==========================================
+                // PAGE 1
+                addPDFHeader(doc, '03', 'TECHNOLOGY', 1, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(18);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Technology Adoption in Latin America: How Ready Is Each Market?', 14, 34);
+
+                doc.setTextColor(80, 80, 80);
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'italic');
+                const sub3 = "A country-by-country view of digital connectivity, payments, AI, cloud infrastructure and enterprise maturity in Chile, Peru, Argentina, Colombia and Mexico.";
+                doc.text(doc.splitTextToSize(sub3, 182), 14, 41);
+
+                doc.setFont('helvetica', 'normal');
+                const p3 = "Latin America is one of the fastest-digitizing regions globally, but adoption is uneven. While consumers adopt mobile apps and digital wallets instantly, many enterprise segments remain in early stages. Matching product maturity to market readiness determines sales cycle duration and educational effort.";
+                doc.text(doc.splitTextToSize(p3, 182), 14, 52);
+
+                const stats3 = [
+                    { num: "1.1 GW", label: "Data center colocation capacity in LATAM (+20% in 2025)" },
+                    { num: "3,000+", label: "Fintech companies active across Latin America" },
+                    { num: "53%", label: "Mobile connections expected on 5G by 2030 (GSMA)" },
+                    { num: "#1", label: "Chile's rank in the Latin American AI Index (ILIA 2025)" }
+                ];
+                stats3.forEach((st, idx) => {
+                    const x = 14 + (idx * 46);
+                    doc.setFillColor(242, 246, 252);
+                    doc.roundedRect(x, 68, 43, 20, 2, 2, 'F');
+                    doc.setTextColor(29, 66, 125);
+                    doc.setFontSize(12);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(st.num, x + 4, 76);
+                    doc.setTextColor(90, 90, 90);
+                    doc.setFontSize(7);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(doc.splitTextToSize(st.label, 36), x + 4, 81);
+                });
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Technology adoption heat map', 14, 96);
+
+                doc.autoTable({
+                    startY: 100,
+                    head: [['Dimension', 'Chile', 'Peru', 'Argentina', 'Colombia', 'Mexico']],
+                    body: [
+                        ['Connectivity & internet use', 'Leader', 'Adopter', 'Advanced', 'Adopter', 'Advanced'],
+                        ['Digital payments & fintech', 'Advanced', 'Advanced', 'Advanced', 'Leader', 'Advanced'],
+                        ['AI readiness (ILIA 2025)', 'Leader', 'Adopter', 'Adopter', 'Advanced', 'Adopter'],
+                        ['Cloud & data center infrastructure', 'Advanced', 'Emerging', 'Adopter', 'Adopter', 'Advanced'],
+                        ['Enterprise digital maturity', 'Advanced', 'Adopter', 'Advanced', 'Adopter', 'Advanced'],
+                        ['SME digital maturity', 'Adopter', 'Emerging', 'Adopter', 'Adopter', 'Emerging']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 8 },
+                    bodyStyles: { fontSize: 7.5, cellPadding: 2.5 },
+                    margin: { left: 14, right: 14 }
+                });
+
+                let curY3 = doc.lastAutoTable.finalY + 8;
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Artificial Intelligence Readiness: ILIA 2025 (ECLAC & CENIA)', 14, curY3);
+
+                doc.autoTable({
+                    startY: curY3 + 4,
+                    head: [['Country', 'ILIA 2025 Score', 'Regional Position', 'Category']],
+                    body: [
+                        ['Chile', '70.6 / 100', '1st of 19', 'Pioneer'],
+                        ['Colombia', '55.8 / 100', '4th', 'Adopter'],
+                        ['Argentina', '53.0 / 100', '6th', 'Adopter'],
+                        ['Peru', '51.9 / 100', '7th', 'Adopter'],
+                        ['Mexico', '47.0 / 100', '8th', 'Adopter'],
+                        ['Reference: Brazil / Uruguay', '67.4 / 62.3', '2nd / 3rd', 'Pioneer']
+                    ],
+                    theme: 'grid',
+                    headStyles: { fillColor: [15, 45, 84], fontSize: 7.5 },
+                    bodyStyles: { fontSize: 7.2, cellPadding: 2 },
+                    margin: { left: 14, right: 14 }
+                });
+                addPDFFooter(doc, 1, totalPages);
+
+                // PAGE 2
+                doc.addPage();
+                addPDFHeader(doc, '03', 'TECHNOLOGY', 2, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Country digital profiles', 14, 32);
+
+                const techProfiles = [
+                    {
+                        name: "CHILE: Regional leader & the natural test market",
+                        kpi: "~91% internet penetration (highest in LATAM); ranked 1st in ILIA AI index; Santiago data center hub holds 10% of LATAM capacity under construction.",
+                        profile: "Large corporates in mining, banking, utilities and retail are sophisticated tech buyers. Open finance framework under Fintech Law driving innovation.",
+                        fit: "AI & analytics, cybersecurity, mining automation, cloud services, B2B SaaS, fintech."
+                    },
+                    {
+                        name: "COLOMBIA: Fintech & instant payments frontrunner",
+                        kpi: "Bre-B instant payments moved COP 262T with 36M users in year 1; 13% of region's fintechs; ranked 4th in ILIA 2025.",
+                        profile: "Fast adoption of digital financial services; active startup hubs in Bogotá and Medellín; mid-market actively modernizing.",
+                        fit: "Payments, open finance, digital banking infrastructure, customer experience, BPO tech."
+                    },
+                    {
+                        name: "MEXICO: Scale with a two-speed digital economy",
+                        kpi: "86.1% internet usage (104.9M people); Querétaro leading data center hub; 37% buy online; ranked 8th in ILIA 2025.",
+                        profile: "Two speeds: northern exporters adopt Industry 4.0 and cloud rapidly, while many domestic SMEs remain cash-based.",
+                        fit: "Industrial automation, supply chain software, e-commerce enablement, data center infra."
+                    }
+                ];
+
+                let tY = 38;
+                techProfiles.forEach(tp => {
+                    doc.setTextColor(29, 66, 125);
+                    doc.setFontSize(9.5);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(tp.name, 14, tY);
+                    doc.setTextColor(50, 50, 50);
+                    doc.setFontSize(7.8);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(`• Indicators: ${tp.kpi}`, 14, tY + 4.5);
+                    doc.text(`• Profile: ${tp.profile}`, 14, tY + 9);
+                    doc.setTextColor(15, 45, 84);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(`• Best fit for: ${tp.fit}`, 14, tY + 13.5);
+                    tY += 21;
+                });
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text("ARGENTINA: Digital talent and sophisticated users", 14, tY + 2);
+                doc.setTextColor(50, 50, 50);
+                doc.setFontSize(7.8);
+                doc.setFont('helvetica', 'normal');
+                doc.text("• Indicators: ~86% internet penetration; top software engineering talent; home to LATAM tech unicorns.", 14, tY + 6.5);
+                doc.text("• Profile: High digital consumer adoption; enterprise budgets constrained by macro; decisions accelerate on clear ROI.", 14, tY + 11);
+                doc.setTextColor(15, 45, 84);
+                doc.setFont('helvetica', 'bold');
+                doc.text("• Best fit for: Energy/mining tech for RIGI projects, agtech, cost-reduction software, software co-development.", 14, tY + 15.5);
+
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(9.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text("PERU: Mobile-first and fast-moving consumers", 14, tY + 22);
+                doc.setTextColor(50, 50, 50);
+                doc.setFontSize(7.8);
+                doc.setFont('helvetica', 'normal');
+                doc.text("• Indicators: ~72% internet; Yape wallet reports 16.4M monthly active users averaging 67 tx/month.", 14, tY + 26.5);
+                doc.text("• Profile: Consumers leapfrogged to mobile wallets; corporate demand concentrated in Lima mining and banking groups.", 14, tY + 31);
+                doc.setTextColor(15, 45, 84);
+                doc.setFont('helvetica', 'bold');
+                doc.text("• Best fit for: Mining tech & safety, digital financial services, logistics, SME formalization.", 14, tY + 35.5);
+
+                addPDFFooter(doc, 2, totalPages);
+
+                // PAGE 3
+                doc.addPage();
+                addPDFHeader(doc, '03', 'TECHNOLOGY', 3, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Payments and data regulation checkpoints', 14, 32);
+
+                doc.autoTable({
+                    startY: 36,
+                    head: [['Market', 'Leading digital payment rails', 'Data protection framework']],
+                    body: [
+                        ['Chile', 'Cards, bank transfers, wallets; Open Finance under Fintech Law', 'New Personal Data Protection Law (Law 21.719) with new agency (Dec 2026); Cybersecurity Law.'],
+                        ['Peru', 'Yape and Plin wallets, interoperable with bank transfers', 'Personal Data Protection Law 29733 with updated regulations.'],
+                        ['Argentina', 'Mercado Pago & interoperable QR rails; bank transfers', 'Law 25.326; recognized by EU with adequacy status (simplifies data transfers).'],
+                        ['Colombia', 'Bre-B instant payments, Nequi and Daviplata', 'Law 1581 of 2012 enforced by Superintendence of Industry & Commerce.'],
+                        ['Mexico', 'SPEI interbank transfers, cards, Mercado Pago', 'New Federal Law on Protection of Personal Data (enacted 2025).']
+                    ],
+                    theme: 'striped',
+                    headStyles: { fillColor: [29, 66, 125], fontSize: 7.5 },
+                    bodyStyles: { fontSize: 7.2, cellPadding: 2.5 },
+                    margin: { left: 14, right: 14 }
+                });
+
+                let p3YTech = doc.lastAutoTable.finalY + 8;
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Where technology demand is heading (Next 12-24 Months)', 14, p3YTech);
+
+                doc.autoTable({
+                    startY: p3YTech + 4,
+                    head: [['Market', 'Top technology priorities for buyers', 'Main buyers']],
+                    body: [
+                        ['Chile', 'AI & advanced analytics, cybersecurity, mining decarbonization, energy mgmt', 'Mining, banking, utilities, retail, public sector'],
+                        ['Mexico', 'Industrial IoT & automation, supply chain visibility, cloud migration, SME payments', 'Manufacturers, logistics, retail, financial services'],
+                        ['Colombia', 'Open finance on Bre-B, digital banking, customer experience & AI for services', 'Banks, fintechs, BPO, retail, telecom'],
+                        ['Argentina', 'Cost-reduction SaaS, energy and mining tech for RIGI projects, agtech', 'Energy, mining, agribusiness, tech firms'],
+                        ['Peru', 'Mining safety and automation, digital financial services, logistics digitization', 'Mining, financial groups, agro-exporters']
+                    ],
+                    theme: 'grid',
+                    headStyles: { fillColor: [15, 45, 84], fontSize: 7.5 },
+                    bodyStyles: { fontSize: 7.2, cellPadding: 2.5 },
+                    margin: { left: 14, right: 14 }
+                });
+                addPDFFooter(doc, 3, totalPages);
+
+                // PAGE 4
+                doc.addPage();
+                addPDFHeader(doc, '03', 'TECHNOLOGY', 4, totalPages);
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(11);
+                doc.setFont('helvetica', 'bold');
+                doc.text('■ Go-to-market implications for foreign technology vendors', 14, 32);
+
+                const gtmTips = [
+                    "Start where adoption matches your maturity: Advanced AI/cloud solutions find faster traction in Chile and large Mexican firms; payments and fintech in Colombia and Mexico.",
+                    "Use Chile as a reference market: A successful proof point with a Chilean corporate travels seamlessly to Peru, Colombia and beyond.",
+                    "Adapt business models to readiness: For less digitized segments, simpler packages, local currency pricing and onboarding support are non-negotiable.",
+                    "Invest in education and proof: In Adopter markets, pilots, workshops and ROI cases outperform feature lists.",
+                    "Plan local support from day one: Spanish-language SLA commitments and local points of contact are decisive in vendor selection."
+                ];
+                let gtmY = 38;
+                gtmTips.forEach(tip => {
+                    doc.setTextColor(40, 40, 40);
+                    doc.setFontSize(8.5);
+                    doc.setFont('helvetica', 'normal');
+                    const lines = doc.splitTextToSize(`•  ${tip}`, 180);
+                    doc.text(lines, 14, gtmY);
+                    gtmY += (lines.length * 4.2) + 2;
+                });
+
+                const bBoxY3 = gtmY + 6;
+                doc.setFillColor(238, 242, 249);
+                doc.roundedRect(14, bBoxY3, 182, 28, 2, 2, 'F');
+                doc.setTextColor(29, 66, 125);
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Key Takeaway', 18, bBoxY3 + 7);
+                doc.setTextColor(60, 60, 60);
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'normal');
+                const kt3 = "Technology adoption in Latin America is high among consumers and uneven among companies. Chile leads overall and is the best testbed, Colombia leads in payments, Mexico offers industrial scale, Argentina combines software talent with macro volatility, and Peru is mobile-first. Matching the product to adoption level is the key.";
+                doc.text(doc.splitTextToSize(kt3, 174), 18, bBoxY3 + 13);
+
+                const helpY3 = bBoxY3 + 36;
+                doc.setFillColor(15, 45, 84);
+                doc.roundedRect(14, helpY3, 182, 60, 2, 2, 'F');
+                doc.setTextColor(0, 180, 216);
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                doc.text('HOW WIDDEX BDP CAN HELP', 20, helpY3 + 9);
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(13);
+                doc.text('Bring your technology to the right market, faster', 20, helpY3 + 16);
+
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                const wtext3 = "Widdex BDP helps innovative technology companies enter Latin America through hands-on business development, not just reports. We assess product-market fit, design localized GTM strategies, open doors with technology decision-makers across Chile, Peru, Colombia, Argentina and Mexico, and lead pilot execution that delivers your first regional reference clients and Fractional HQ setup.";
+                doc.text(doc.splitTextToSize(wtext3, 170), 20, helpY3 + 23);
+
+                doc.setTextColor(0, 180, 216);
+                doc.setFontSize(8.5);
+                doc.setFont('helvetica', 'bold');
+                doc.text("Let's talk: Francisco Amigo, Managing Partner  |  www.widdex.com  |  linkedin.com/in/franciscoamigog", 20, helpY3 + 52);
+
+                addPDFFooter(doc, 4, totalPages);
+                doc.save('Widdex_BDP_LATAM_Guide_03_Technology.pdf');
+            }
         }
     </script>
 </body>
